@@ -1,5 +1,6 @@
 package cellsociety_team06;
 
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -10,16 +11,22 @@ import javafx.stage.Stage;
 
 public abstract class Model {
 	
-	private CellSociety cs = new CellSociety();
-	
 	private Unit[][] currentGrid = new Unit[10][10];
 	private Unit[][] nextGrid = new Unit[10][10];
+	private Stage myStage;
+	private Timeline animation;
+	
+	//constructor
+	public Model (Stage s, Timeline t){
+		myStage = s;
+		animation = t;
+	}
+	
+	//methods
 	
 	public abstract Scene getNextScene(); //creates the scene with the new units
 	
 	public abstract void setNextScene(); //within the subclasses, there will be a current scene and next scene
-	
-	public abstract void getRules();
 	
 	private Unit[][] getCurrentGrid(){
 		return currentGrid;
@@ -27,6 +34,10 @@ public abstract class Model {
 	
 	private Unit[][] getNextGrid(){
 		return nextGrid;
+	}
+	
+	public void step(){
+		getNextScene();
 	}
 	
 	public Button createHowToPlayBtn(String instr){ //instructions for this game read in by a scanner
@@ -47,7 +58,7 @@ public abstract class Model {
 				Label lb_instr = new Label(instr);
 				Group root = new Group();
 				root.getChildren().add(lb_instr);
-				cs.myStage.setScene(new Scene(root));
+				myStage.setScene(new Scene(root));
 
 			}
 		});
