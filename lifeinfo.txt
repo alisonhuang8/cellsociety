@@ -1,0 +1,5 @@
+The Game of Life is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves, or, for advanced players, by creating patterns with particular properties.
+
+The universe of the Game of Life is a two-dimensional grid filled with one of two possible states, alive or dead. Every cell interacts according to specific rules with its eight neighbors, which are the cells that are horizontally, vertically, or diagonally adjacent.
+
+The first generation is created by applying the above rules simultaneously to every cell simultaneously. The rules continue to be applied repeatedly to create further generations.
