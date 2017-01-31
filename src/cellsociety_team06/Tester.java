@@ -113,7 +113,7 @@ public class Tester extends Application{
 		
 		for(int x = 0; x < move1.length; x++){
 			int newI = i + move1[x];
-			int newJ = j + move2[x];
+int newJ = j + move2[x];
 			if(newI >= 0 && newI < 10 && newJ >= 0 && newJ < 10 && curGrid[newI][newJ].isBurning()){
 				alive++;
 			}
