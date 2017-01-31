@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class CellSociety extends Application {
@@ -26,9 +27,8 @@ public class CellSociety extends Application {
 	private Button myFireButton;
 	private Button myWatorButton;
 	private Button mySegregationButton;
-	private Button simButton;
 	private Pane layout;
-	private String fileName;
+	private String fileName = "a";
 	private String lifeFile = "lifeinfo.txt";
 	
 	
@@ -60,12 +60,19 @@ public class CellSociety extends Application {
 	
 	private Scene infoScene(int width, int height, Paint background) {
 		Pane root = new Pane();
-		try (Scanner scanner = new Scanner(fileName)) {
-			
+		Text simulationInfo = new Text(SIZE,SIZE,"");
+		Scanner scanner = new Scanner(fileName);
+		while (scanner.hasNextLine()) {
+			System.out.println(fileName);
+			String line = scanner.nextLine();
+			System.out.println(line);
+			simulationInfo.setText(line);
 		}
+		root.getChildren().add(simulationInfo);
 		return myInfoScene;
 	}
 	private void setInfoScene() {
+		myInfoScene = infoScene(SIZE,SIZE, BACKGROUND);
 		myStage.setScene(myInfoScene);
 		myStage.setTitle("Info Screen");
 		myStage.show();
@@ -78,11 +85,12 @@ public class CellSociety extends Application {
     	return simButton;
 	}
 	
-    public void ButtonClicked(ActionEvent e, String nextFile)
-    {
-        if (e.getSource() == simButton)
+    public void ButtonClicked(ActionEvent e, String nextFile) {
+        if (e.getSource() == myLifeButton || e.getSource() == myFireButton || 
+        	e.getSource() == myWatorButton || e.getSource() == mySegregationButton) {
     		fileName = nextFile;
         	setInfoScene();
+        }
     }
     
 	public static void main (String[] args) {
