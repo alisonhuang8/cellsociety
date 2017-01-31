@@ -50,6 +50,8 @@ public class CellSociety extends Application {
 	
 	
 	
+	
+	
 	public void start(Stage s) throws Exception {
 		myStage = s;
 		myHomeScene = homeScene(SIZE,SIZE,BACKGROUND);
