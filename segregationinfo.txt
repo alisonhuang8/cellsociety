@@ -1,0 +1,5 @@
+In the Segregation Simulation, suppose there are two types of agents: X and O. The two types of agents might represent different races, ethnicity, economic status, etc. The two agent types are randomly placed throughout a two dimensional board, with some spaces left blank.
+
+A satisfied agent is one that is surrounded by a certain percent of agents that are like itself. This threshold, which will be set by the player, is one that will apply to all agents in the model.
+
+When an agent is not satisfied, it can be moved to any vacant location in the grid. All dissatisfied agents must be moved in the same round. After the round is complete, a new round begins and these rounds continue until all agents are satisfied with their location.
