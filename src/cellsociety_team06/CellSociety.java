@@ -1,4 +1,5 @@
 package cellsociety_team06;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
@@ -60,15 +61,18 @@ public class CellSociety extends Application {
 	
 	private Scene infoScene(int width, int height, Paint background) {
 		Pane root = new Pane();
-		Text simulationInfo = new Text(SIZE,SIZE,"");
-		Scanner scanner = new Scanner(fileName);
-		while (scanner.hasNextLine()) {
-			System.out.println(fileName);
-			String line = scanner.nextLine();
-			System.out.println(line);
-			simulationInfo.setText(line);
+		Text simulationInfo = new Text();
+		try (Scanner scanner = new Scanner(new File(fileName))){
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine() + "\n";
+				simulationInfo.setText(simulationInfo.getText()+ line);
+			}
+			root.getChildren().add(simulationInfo);
+			System.out.print(simulationInfo);
+			return myInfoScene;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
-		root.getChildren().add(simulationInfo);
 		return myInfoScene;
 	}
 	private void setInfoScene() {
