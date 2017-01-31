@@ -47,14 +47,9 @@ public class CellSociety extends Application {
 	private String segregationFile = "segregationinfo.txt";
 	
 	
-	
-	
-	
-	
-	
 	public void start(Stage s) throws Exception {
 		myStage = s;
-		myHomeScene = homeScene(SIZE,SIZE,BACKGROUND);
+		myHomeScene = homeScene(SIZE, SIZE, BACKGROUND);
 		myStage.setScene(myHomeScene);
         myStage.setTitle("Home Screen");
         myStage.show();
