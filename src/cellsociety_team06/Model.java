@@ -18,12 +18,6 @@ import subUnits.Blank;
 
 public abstract class Model {
 	
-<<<<<<< HEAD
-	private CellSociety cs = new CellSociety();
-	
-	public Scene myScene;
-=======
->>>>>>> master
 	private Unit[][] currentGrid = new Unit[10][10];
 	private Unit[][] nextGrid = new Unit[10][10];
 	private Stage myStage;
@@ -43,10 +37,6 @@ public abstract class Model {
 	
 	public abstract void setNextScene(); //within the subclasses, there will be a current scene and next scene
 	
-<<<<<<< HEAD
-	
-=======
->>>>>>> master
 	private Unit[][] getCurrentGrid(){
 		return currentGrid;
 	}
@@ -102,7 +92,7 @@ public abstract class Model {
 		Button btn_start = new Button("Start Simulation");
 		btn_start.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
-				//animation.play();
+				animation.play();
 			}
 		});
 		
