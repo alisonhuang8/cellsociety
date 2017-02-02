@@ -18,12 +18,10 @@ import subUnits.Blank;
 
 public abstract class Model {
 	
-<<<<<<< HEAD
 	private CellSociety cs = new CellSociety();
 	
 	public Scene myScene;
-=======
->>>>>>> master
+
 	private Unit[][] currentGrid = new Unit[10][10];
 	private Unit[][] nextGrid = new Unit[10][10];
 	private Stage myStage;
@@ -43,10 +41,6 @@ public abstract class Model {
 	
 	public abstract void setNextScene(); //within the subclasses, there will be a current scene and next scene
 	
-<<<<<<< HEAD
-	
-=======
->>>>>>> master
 	private Unit[][] getCurrentGrid(){
 		return currentGrid;
 	}
