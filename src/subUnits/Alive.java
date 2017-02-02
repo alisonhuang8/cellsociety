@@ -9,6 +9,12 @@ public class Alive extends Unit{
 		super(x, y, width, height);
 		setFill(COLOR);
 	}
+	
+	public Alive(double x, double y, double width, double height) {
+		super(x, y, width, height);
+		setFill(COLOR);
+	}
+	
 	@Override
 	public boolean isBurning() {
 		// TODO Auto-generated method stub

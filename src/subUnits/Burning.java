@@ -10,6 +10,11 @@ public class Burning extends Unit{
 		// TODO Auto-generated constructor stub
 		setFill(COLOR);
 	}
+	
+	public Burning(double x, double y, double width, double height) {
+		super(x, y, width, height);
+		setFill(COLOR);
+	}
 	@Override
 	public boolean isBurning() {
 		// TODO Auto-generated method stub

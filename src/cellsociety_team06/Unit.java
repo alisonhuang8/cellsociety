@@ -5,6 +5,10 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class Unit extends Rectangle{
 	
+	public Unit(double x, double y, double width, double height){
+		this((int) x, (int) y, (int) width, (int) height);
+	}
+	
 	public Unit(int x, int y, int width, int height){
 		setX(x);
 		setY(y);
