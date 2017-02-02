@@ -10,6 +10,11 @@ public class Type2 extends Unit{
 		// TODO Auto-generated constructor stub
 		setFill(COLOR);
 	}
+	
+	public Type2(double x, double y, double width, double height) {
+		super(x, y, width, height);
+		setFill(COLOR);
+	}
 	@Override
 	public boolean isBurning() {
 		// TODO Auto-generated method stub
