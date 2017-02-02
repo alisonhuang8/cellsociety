@@ -1,0 +1,5 @@
+In the Spreading Fire Simulation, a two dimensional grid is filled with either trees or blank ground.  
+
+The player can choose the probability that a tree which neighbors a burning tree will catch on fire.  The player also chooses the first tree to catch fire.
+
+By varying these parameters, the player can observe the spread of a forest fire under different conditions.

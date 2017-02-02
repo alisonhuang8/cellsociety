@@ -1,0 +1,7 @@
+In a stable ecosystem, the number of predators and the number of prey fluctuate, but remain relatively constant. Three factors can affect the cycling of predator and prey numbers:
+
+1. The reproductive rate of the prey.
+2. The death rate of the predator.
+3. The initial ratio of predator to prey.
+ 
+In the Predator Prey Simulation, the player manipulates these variables to determine how they affect the overall predator and prey populations.
