@@ -24,7 +24,7 @@ public class ReadXMLFile {
 
 		try {
 
-			File fXmlFile = new File("/Users/AlisonHuang/Documents/workspace/cellsociety_team06/inputs.xml");
+			File fXmlFile = new File("inputs.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
