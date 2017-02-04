@@ -13,18 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadXMLFile {
+	private Map<String, List<List<Character>>> inputs = new HashMap<String, List<List<Character>>>();
 
-	static Map<String, List<List<Character>>> inputs = new HashMap<String, List<List<Character>>>();
-	
-	public static void main(String argv[]){
-		returnMap();
+
+	public ReadXMLFile(){
+		
 	}
-
-	public static Map<String, List<List<Character>>> returnMap() {
+	
+	public Map<String, List<List<Character>>> returnMap(){
 
 		try {
 
-			File fXmlFile = new File("/Users/AlisonHuang/Documents/workspace/cellsociety_team06/inputs.xml");
+			File fXmlFile = new File("inputs.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
@@ -32,14 +32,11 @@ public class ReadXMLFile {
 			//optional, but recommended
 			//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 			doc.getDocumentElement().normalize();
-
-			System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
 			
 			NodeList nList = doc.getElementsByTagName("model");
 			
 			Element e = (Element) nList.item(0);
 			
-			System.out.println("Node list: " + e.getAttribute("id"));
 
 			for (int i = 0; i < nList.getLength(); i++) {
 				
@@ -65,30 +62,13 @@ public class ReadXMLFile {
 
 			}
 			
-			for (String name : inputs.keySet()){
-				List<List<Character>> grid = inputs.get(name);
-				
-				for (int i=0; i<grid.size(); i++){
-					List<Character> row = grid.get(i);
-					
-					for (int j=0; j<row.size(); j++){
-						System.out.print(row.get(j));
-					}
-					System.out.println();
-				}
-				
-				System.out.println();
-				System.out.println();
-			
-			}
+			return inputs;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		return inputs;
+		System.out.println("Error");
+		return null;
 	}
 
 }
