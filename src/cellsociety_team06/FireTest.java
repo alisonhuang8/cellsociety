@@ -1,6 +1,8 @@
 package cellsociety_team06;
 
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -8,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import subUnits.Alive;
-import subUnits.Blank;
 import subUnits.Burning;
 import subUnits.Burnt;
 
@@ -23,7 +24,7 @@ public class FireTest extends Application{
 	private int width = 500;
 	private int height = 500;
 	private Group root = new Group();
-	private double catchChance = 0.6;
+	private double catchChance = 0.7;
 	
 	public static void main(String[] args){
 		launch(args);
