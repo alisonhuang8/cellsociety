@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 
+import XMLReads.segReads;
+import XMLReads.watorReads;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -35,6 +37,7 @@ public class watorTest extends Application{
 	private List<List<Integer>> availableBlank = new ArrayList<>();
 	private int startingEnergy = 5;
 	int counter = 0;
+	watorReads reads;
 
 	
 	private int height = 500;
@@ -47,6 +50,9 @@ public class watorTest extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		reads = new watorReads();
+		down = reads.height();
+		across = reads.width();
 		window = primaryStage;
 		window.setResizable(false);
 		window.setScene(getWatorScene());
@@ -61,11 +67,10 @@ public class watorTest extends Application{
 			curGrid.add(startList);
 			nextGrid.add(blankList);
 			for(int j = 0; j < across; j++){
-				int r = rand.nextInt(100);
-				if(r < (preypct * 100)){
+				if(reads.get(i, j) == 'R'){
 					startList.add(new Prey((width * i)/down, (height * j)/across, width/down, height/across, 0));
 				}
-				else if(r < (preypct + predpct) * 100){
+				else if(reads.get(i, j) == 'Y'){
 					startList.add(new Predator((width * i)/down, (height * j)/across,
 							width/down, height/across, startingEnergy, 0));
 				}

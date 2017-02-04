@@ -2,6 +2,7 @@ package cellsociety_team06;
 
 import java.util.Random;
 
+import XMLReads.lifeReads;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -9,8 +10,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import subUnits.Alive;
 import subUnits.Blank;
-import subUnits.Burning;
-import subUnits.Burnt;
+
 
 public class Tester extends Application{
 
@@ -23,7 +23,7 @@ public class Tester extends Application{
 	private int width = 500;
 	private int height = 500;
 	private Group root = new Group();
-	private double catchChance = 0.4;
+	lifeReads reads;
 	
 	public static void main(String[] args){
 		launch(args);
@@ -31,6 +31,9 @@ public class Tester extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		reads = new lifeReads();
+		down = reads.height();
+		across = reads.width();
 		window = primaryStage;
 		window.setResizable(false);
 		window.setScene(getLifeScene());
@@ -41,8 +44,7 @@ public class Tester extends Application{
 	private Scene getLifeScene(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				int r = rand.nextInt(4);
-				if(r < 2){
+				if(reads.get(i, j) == '0'){
 					curGrid[i][j] = new Blank((width * i)/down, (height * j)/across, width/down, height/across);
 				}
 				else{

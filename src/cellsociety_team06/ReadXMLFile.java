@@ -13,14 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadXMLFile {
-	private Map<String, List<List<Character>>> inputs = new HashMap<String, List<List<Character>>>();
 
+	static Map<String, List<List<Character>>> inputs = new HashMap<String, List<List<Character>>>();
 
-	public ReadXMLFile(){
-		
-	}
-	
-	public Map<String, List<List<Character>>> returnMap(){
+	public static Map<String, List<List<Character>>> returnMap() {
 
 		try {
 
@@ -37,7 +33,6 @@ public class ReadXMLFile {
 			
 			Element e = (Element) nList.item(0);
 			
-
 			for (int i = 0; i < nList.getLength(); i++) {
 				
 				List<List<Character>> tempGrid = new ArrayList<List<Character>>();
@@ -58,17 +53,19 @@ public class ReadXMLFile {
 				
 				
 				
+				
 				inputs.put(tempModel.getAttribute("id"), tempGrid);
 
 			}
 			
 			return inputs;
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Error");
-		return null;
+		
+		
+		
+		return inputs;
 	}
 
 }
