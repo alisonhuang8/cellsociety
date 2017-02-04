@@ -35,7 +35,7 @@ public abstract class Model {
 	
 	public abstract Scene getNextScene(); //creates the scene with the new units
 	
-	public abstract void setNextScene(); //within the subclasses, there will be a current scene and next scene
+	public abstract Pane setNextScene(); //within the subclasses, there will be a current scene and next scene
 	
 	private Unit[][] getCurrentGrid(){
 		return currentGrid;
