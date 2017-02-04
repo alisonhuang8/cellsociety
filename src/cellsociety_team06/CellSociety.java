@@ -22,14 +22,13 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class CellSociety extends Application {
-	public static final int SIZE = 500;
-	public static final Paint BACKGROUND = Color.WHITE;
+	private int SIZE = 500;
+	public Paint BACKGROUND = Color.WHITE;
 	
 	private Stage myStage;
 	private Timeline animation;
 	private Model currentModel;
-	
-	
+		
 	private Scene myHomeScene;
 	
 	private int FRAMES_PER_SECOND = 240;
@@ -73,6 +72,27 @@ public class CellSociety extends Application {
 		return myHomeScene;
 	}
 	
+	private Button createSimButton(Pane root, String label, String nextFile) {
+		Button simButton = new Button(label); 
+    	simButton.setOnAction(e-> ButtonClicked(e, nextFile));
+    	root.getChildren().add(simButton);
+    	return simButton;
+	}
+	
+    public void ButtonClicked(ActionEvent e, String nextFile) {
+        if (e.getSource() == myLifeButton || e.getSource() == myFireButton || 
+        	e.getSource() == myWatorButton || e.getSource() == mySegregationButton) {
+    		fileName = nextFile;
+        	setInfoScene();
+        }
+    }
+	
+	private void setInfoScene() {
+		Scene myInfoScene = infoScene(SIZE,SIZE, BACKGROUND);
+		myStage.setTitle("Info Screen");
+		myStage.show();
+	}
+	
 	private Scene infoScene(int width, int height, Paint background) {
 		Pane infoRoot = new Pane();
 		Scene myInfoScene = new Scene(infoRoot, SIZE, SIZE, background);
@@ -81,6 +101,20 @@ public class CellSociety extends Application {
 		buttonSetup(infoRoot);
 		myStage.setScene(myInfoScene);
 		return myInfoScene;
+	}
+	
+	private void readFile(Pane infoRoot) {
+		Text simulationInfo = new Text(SIZE/20, SIZE/20, "");	
+		simulationInfo.setWrappingWidth(SIZE*9/10);
+		try (Scanner scanner = new Scanner(new File(fileName))){
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine() + "\n";
+				simulationInfo.setText(simulationInfo.getText()+ line);
+			}
+			infoRoot.getChildren().add(simulationInfo);	
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void buttonSetup(Pane infoRoot) {
@@ -108,20 +142,6 @@ public class CellSociety extends Application {
 		btn_back.setLayoutY(4*SIZE/5);
 		infoRoot.getChildren().add(btn_back);
 	}
-
-	private void readFile(Pane infoRoot) {
-		Text simulationInfo = new Text(SIZE/20, SIZE/20, "");	
-		simulationInfo.setWrappingWidth(SIZE*9/10);
-		try (Scanner scanner = new Scanner(new File(fileName))){
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine() + "\n";
-				simulationInfo.setText(simulationInfo.getText()+ line);
-			}
-			infoRoot.getChildren().add(simulationInfo);	
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	private void createModelAndFrames(){
 		if (fileName.equals(lifeFile)){
@@ -134,39 +154,29 @@ public class CellSociety extends Application {
 			currentModel = new segregationModel(myStage, animation);
 		}
 		
+		simulationSetup(currentModel);
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 				e -> step(SECOND_DELAY, myStage));
-		if (animation != null){
-			animation.stop();
+		if (animation == null){
+			animation = new Timeline();
 		}
+		animation.stop();
 		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
+		animation.getKeyFrames().add(frame);		
 	}
 	
+	private void simulationSetup(Model model) {
+		Pane simRoot = new Pane();
+		Scene simulationScene = new Scene(simRoot, SIZE, SIZE, BACKGROUND);
+		Pane toAddRoot = currentModel.setNextScene();
+		if (toAddRoot != null) simRoot.getChildren().add(toAddRoot);
+		myStage.setTitle("Simulation");
+		myStage.setScene(simulationScene);
+		
+	}
 	private void step (double elapsedTime, Stage stage) { 
 		currentModel.step();
 	}
-	
-	private void setInfoScene() {
-		Scene myInfoScene = infoScene(SIZE,SIZE, BACKGROUND);
-		myStage.setTitle("Info Screen");
-		myStage.show();
-	}
-	
-	private Button createSimButton(Pane root, String label, String nextFile) {
-		Button simButton = new Button(label); 
-    	simButton.setOnAction(e-> ButtonClicked(e, nextFile));
-    	root.getChildren().add(simButton);
-    	return simButton;
-	}
-	
-    public void ButtonClicked(ActionEvent e, String nextFile) {
-        if (e.getSource() == myLifeButton || e.getSource() == myFireButton || 
-        	e.getSource() == myWatorButton || e.getSource() == mySegregationButton) {
-    		fileName = nextFile;
-        	setInfoScene();
-        }
-    }
     
 	public static void main (String[] args) {
 	        launch(args);
