@@ -15,8 +15,8 @@ import subUnits.Burnt;
 public class Tester extends Application{
 
 	private Stage window;
-	private int down = 20;
-	private int across = 20;
+	private int down = 10;
+	private int across = 10;
 	private Unit[][] curGrid = new Unit[down][across];
 	private Unit[][] nextGrid = new Unit[down][across];
 	Random rand = new Random();
