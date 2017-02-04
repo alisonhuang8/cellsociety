@@ -31,7 +31,7 @@ public class SegregationTest extends Application{
 	
 	private int height = 500;
 	private Group root = new Group();
-	private double satisfactionConstant = 0.5;
+	private double satisfactionConstant = 0.8;
 	Stack<Integer> myStack = new Stack();
 	
 	
