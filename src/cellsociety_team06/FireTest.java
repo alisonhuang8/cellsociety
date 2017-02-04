@@ -1,6 +1,10 @@
 package cellsociety_team06;
 
 import java.util.Random;
+
+import XMLReads.fireReads;
+import XMLReads.segReads;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -25,6 +29,7 @@ public class FireTest extends Application{
 	private int height = 500;
 	private Group root = new Group();
 	private double catchChance = 0.7;
+	fireReads reads;
 	
 	public static void main(String[] args){
 		launch(args);
@@ -32,6 +37,9 @@ public class FireTest extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		reads = new fireReads();
+		down = reads.height();
+		across = reads.width();
 		window = primaryStage;
 		window.setResizable(false);
 		window.setScene(getFireScene());
@@ -42,11 +50,11 @@ public class FireTest extends Application{
 	private Scene getFireScene(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				if(i == down/2 && j == across/2){
-					curGrid[i][j] = new Burning((width * i)/down, (height * j)/across, width/down, height/across);
-				}
-				else{
+				if(reads.get(i, j) == 'G'){
 					curGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
+				}
+				if(i == 0 && j == 0){
+					curGrid[i][j] = new Burning((width * i)/down, (height * j)/across, width/down, height/across);
 				}
 				root.getChildren().add(curGrid[i][j]);
 			}
