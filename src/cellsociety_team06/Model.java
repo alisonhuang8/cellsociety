@@ -18,10 +18,6 @@ import subUnits.Blank;
 
 public abstract class Model {
 	
-	private CellSociety cs = new CellSociety();
-	
-	public Scene myScene;
-
 	private Unit[][] currentGrid = new Unit[10][10];
 	private Unit[][] nextGrid = new Unit[10][10];
 	private Stage myStage;
@@ -96,7 +92,7 @@ public abstract class Model {
 		Button btn_start = new Button("Start Simulation");
 		btn_start.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
-				//animation.play();
+				animation.play();
 			}
 		});
 		

@@ -3,18 +3,18 @@ package subUnits;
 import cellsociety_team06.Unit;
 import javafx.scene.paint.Color;
 
-public class Burnt extends Unit{
-	private static final Color COLOR = Color.DIMGRAY;
-	public Burnt(int x, int y, int width, int height) {
+public class Alive extends Unit{
+	private static final Color COLOR = Color.CHARTREUSE;
+	public Alive(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		// TODO Auto-generated constructor stub
 		setFill(COLOR);
 	}
 	
-	public Burnt(double x, double y, double width, double height) {
+	public Alive(double x, double y, double width, double height) {
 		super(x, y, width, height);
 		setFill(COLOR);
 	}
+	
 	@Override
 	public boolean isBurning() {
 		// TODO Auto-generated method stub
@@ -23,12 +23,12 @@ public class Burnt extends Unit{
 	@Override
 	public boolean isBurnt() {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 	@Override
 	public boolean isBlank() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	@Override
 	public boolean isPredator() {
@@ -43,7 +43,7 @@ public class Burnt extends Unit{
 	@Override
 	public boolean isAlive() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	@Override
 	public boolean isType1() {
@@ -55,5 +55,5 @@ public class Burnt extends Unit{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 }
