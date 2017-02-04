@@ -2,6 +2,7 @@ package cellsociety_team06;
 
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class lifeModel extends Model {
@@ -17,9 +18,9 @@ public class lifeModel extends Model {
 	}
 
 	@Override
-	public void setNextScene() {
+	public Pane setNextScene() {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 	
 	

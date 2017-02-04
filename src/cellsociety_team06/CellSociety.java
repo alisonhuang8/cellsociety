@@ -26,7 +26,7 @@ public class CellSociety extends Application {
 	public Paint BACKGROUND = Color.WHITE;
 	
 	private Stage myStage;
-	private Timeline animation;
+	private Timeline animation = new Timeline();
 	private Model currentModel;
 		
 	private Scene myHomeScene;
@@ -95,8 +95,7 @@ public class CellSociety extends Application {
 	
 	private Scene infoScene(int width, int height, Paint background) {
 		Pane infoRoot = new Pane();
-		Scene myInfoScene = new Scene(infoRoot, SIZE, SIZE, background);
-			
+		Scene myInfoScene = new Scene(infoRoot, SIZE, SIZE, background);			
 		readFile(infoRoot);
 		buttonSetup(infoRoot);
 		myStage.setScene(myInfoScene);
