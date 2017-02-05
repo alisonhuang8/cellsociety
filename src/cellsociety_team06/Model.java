@@ -32,7 +32,7 @@ public abstract class Model {
 	
 	public abstract Group getRoot(); //creates the scene with the new units
 	
-	public abstract Pane setNextScene(); //within the subclasses, there will be a current scene and next scene
+	public abstract void setNextScene(); //within the subclasses, there will be a current scene and next scene
 	
 	public abstract void reset();
 	
