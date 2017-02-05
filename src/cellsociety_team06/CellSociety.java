@@ -9,10 +9,14 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -34,7 +38,7 @@ public class CellSociety extends Application {
 	
 	private int FRAMES_PER_SECOND = 1;
 	private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-	private double SECOND_DELAY = .75 / FRAMES_PER_SECOND;
+	private double SECOND_DELAY = 1 / FRAMES_PER_SECOND;
 
 	private Button myLifeButton;
 	private Button myFireButton;
@@ -45,6 +49,11 @@ public class CellSociety extends Application {
 	private String fireFile = "fireinfo.txt";
 	private String watorFile = "watorinfo.txt";
 	private String segregationFile = "segregationinfo.txt";
+	
+	private BorderPane bp = new BorderPane();
+	private HBox panel = new HBox();
+	
+	private String fireInstr = "fireinstr.txt";
 	
 	
 	public void start(Stage s) throws Exception {
@@ -123,9 +132,7 @@ public class CellSociety extends Application {
 	}
 	
 	private void createModelAndFrames(){
-		System.out.print("here1");
 		if (fileName.equals(lifeFile)){
-			System.out.print("here2");
 			currentModel = new lifeModel(myStage, animation, SIZE, SIZE);
 		} else if (fileName.equals(fireFile)){
 			System.out.print("here3");
@@ -149,13 +156,28 @@ public class CellSociety extends Application {
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
+		
+		Scene newScene = new Scene(currentModel.getRoot(), SIZE, SIZE, Color.WHITE);
+		myStage.setScene(newScene);
+		myStage.show();
+		
+		
+		Group r = currentModel.getRoot();
+		r.getChildren().addAll(panel, bp);
+		
+		setButtons();
+		
 	}
 	
 	private void step (double elapsedTime, Stage stage) { 
 		currentModel.step();
-		Scene newScene = new Scene(currentModel.getRoot(), SIZE, SIZE, Color.WHITE);
-		myStage.setScene(newScene);
-		myStage.show();
+		
+	}
+	
+	private void setButtons(){
+		panel.getChildren().addAll(currentModel.createPauseBtn(), currentModel.createStartSimBtn(), 
+				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn());
+		bp.setTop(panel);
 	}
 	
 	private void setInfoScene() {

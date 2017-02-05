@@ -20,6 +20,7 @@ public abstract class Model {
 	
 	private Stage myStage;
 	private Timeline animation;
+	private Group root;
 	
 	//constructor
 	public Model (Stage s, Timeline t){
@@ -111,6 +112,18 @@ public abstract class Model {
 		
 		return btn_pause;
 		
+	}
+	
+	public Button createHomeBtn(Scene homeScene){
+		
+		Button btn_home = new Button("Return Home");
+		btn_home.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent arg){
+				myStage.setScene(homeScene);
+			}
+		});
+		
+		return btn_home;
 	}
 	
 }
