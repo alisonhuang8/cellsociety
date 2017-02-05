@@ -9,10 +9,14 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -31,9 +35,9 @@ public class CellSociety extends Application {
 		
 	private Scene myHomeScene;
 	
-	private int FRAMES_PER_SECOND = 240;
+	private int FRAMES_PER_SECOND = 1;
 	private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-	private double SECOND_DELAY = .75 / FRAMES_PER_SECOND;
+	private double SECOND_DELAY = 1 / FRAMES_PER_SECOND;
 
 	private Button myLifeButton;
 	private Button myFireButton;
@@ -44,6 +48,11 @@ public class CellSociety extends Application {
 	private String fireFile = "fireinfo.txt";
 	private String watorFile = "watorinfo.txt";
 	private String segregationFile = "segregationinfo.txt";
+	
+	private BorderPane bp = new BorderPane();
+	private HBox panel = new HBox();
+	
+	private String fireInstr = "fireinstr.txt";
 	
 	
 	public void start(Stage s) throws Exception {
@@ -144,24 +153,40 @@ public class CellSociety extends Application {
 	
 	private void createModelAndFrames(){
 		if (fileName.equals(lifeFile)){
-			currentModel = new lifeModel(myStage, animation);
+			currentModel = new lifeModel(myStage, animation, SIZE, SIZE);
 		} else if (fileName.equals(fireFile)){
-			currentModel = new fireModel(myStage, animation);
+			System.out.print("here3");
+			currentModel = new fireModel(myStage, animation, SIZE, SIZE);
 		} else if (fileName.equals(watorFile)){
-			currentModel = new watorModel(myStage, animation);
+			System.out.print("here4");
+			currentModel = new watorModel(myStage, animation, SIZE, SIZE);
 		} else if (fileName.equals(segregationFile)){
-			currentModel = new segregationModel(myStage, animation);
+			FRAMES_PER_SECOND = 8;
+			System.out.print("here5");
+			currentModel = new segregationModel(myStage, animation, SIZE, SIZE);
 		}
 		
 		simulationSetup(currentModel);
-		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+		
+		KeyFrame frame = new KeyFrame(Duration.millis(1000/FRAMES_PER_SECOND),
 				e -> step(SECOND_DELAY, myStage));
 		if (animation == null){
 			animation = new Timeline();
 		}
 		animation.stop();
 		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);		
+		animation.getKeyFrames().add(frame);
+		animation.play();
+		
+		Scene newScene = new Scene(currentModel.getRoot(), SIZE, SIZE, Color.WHITE);
+		myStage.setScene(newScene);
+		myStage.show();
+		
+		
+		Group r = currentModel.getRoot();
+		r.getChildren().addAll(panel, bp);
+		
+		setButtons();
 	}
 	
 	private void simulationSetup(Model model) {
@@ -175,6 +200,13 @@ public class CellSociety extends Application {
 	}
 	private void step (double elapsedTime, Stage stage) { 
 		currentModel.step();
+		
+	}
+	
+	private void setButtons(){
+		panel.getChildren().addAll(currentModel.createPauseBtn(), currentModel.createStartSimBtn(), 
+				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn());
+		bp.setTop(panel);
 	}
     
 	public static void main (String[] args) {

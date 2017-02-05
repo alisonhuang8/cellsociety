@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 
+import XMLReads.segReads;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -20,8 +21,8 @@ import subUnits.Type2;
 public class SegregationTest extends Application{
 
 	private Stage window;
-	private int across = 30;
-	private int down = 30;
+	private int across;
+	private int down;
 	private List<List<Unit>> curGrid = new ArrayList<>();
 	private List<List<Unit>> nextGrid =  new ArrayList<>();
 	Random rand = new Random();
@@ -37,6 +38,7 @@ public class SegregationTest extends Application{
 	private double satisfactionConstant = 0.7;
 	Stack<Integer> myStack = new Stack();
 	private double totalBlank = 0.0;
+	segReads reads;
 	
 	
 	public static void main(String[] args){
@@ -45,6 +47,9 @@ public class SegregationTest extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		reads = new segReads();
+		down = reads.height();
+		across = reads.width();
 		window = primaryStage;
 		window.setResizable(false);
 		window.setScene(getSegScene());
@@ -61,12 +66,11 @@ public class SegregationTest extends Application{
 			nextGrid.add(blank);
 			for(int j = 0; j < across; j++){
 				
-				int r = rand.nextInt(100);
-				if(r < blankpct * 100){
+				if(reads.get(i, j) == '0'){
 					start.add(new Blank((width * i)/down, (height * j)/across, width/down, height/across));
 					totalBlank++;
 				}
-				else if(r < (t1pct + blankpct) * 100){
+				else if(reads.get(i, j) == 'A'){
 					start.add(new Type1((width * i)/down, (height * j)/across, width/down, height/across));
 				}
 				else{

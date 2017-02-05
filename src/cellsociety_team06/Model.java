@@ -18,12 +18,9 @@ import subUnits.Blank;
 
 public abstract class Model {
 	
-	private Unit[][] currentGrid = new Unit[10][10];
-	private Unit[][] nextGrid = new Unit[10][10];
 	private Stage myStage;
 	private Timeline animation;
-	private int width = 500;
-	private int height = 500;
+	private Group root;
 	
 	//constructor
 	public Model (Stage s, Timeline t){
@@ -33,20 +30,14 @@ public abstract class Model {
 	
 	//methods
 	
-	public abstract Scene getNextScene(); //creates the scene with the new units
+	public abstract Group getRoot(); //creates the scene with the new units
 	
 	public abstract Pane setNextScene(); //within the subclasses, there will be a current scene and next scene
 	
-	private Unit[][] getCurrentGrid(){
-		return currentGrid;
-	}
-	
-	private Unit[][] getNextGrid(){
-		return nextGrid;
-	}
+	public abstract void reset();
 	
 	public void step(){
-		getNextScene();
+		setNextScene();
 	}
 	
 	public Button createHowToPlayBtn(String instr, Scene lastScene){ //pass in the text file of the rules and current scene to go back to
@@ -87,6 +78,17 @@ public abstract class Model {
 		return btn_howToPlay;
 	}
 	
+	public Button createResetBtn(){
+		
+		Button btn_reset = new Button("Reset");
+		btn_reset.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent arg){
+				reset();
+			}
+		});
+		return btn_reset;
+	}
+	
 	public Button createStartSimBtn(){
 		
 		Button btn_start = new Button("Start Simulation");
@@ -112,21 +114,16 @@ public abstract class Model {
 		
 	}
 	
-	public Button createResetBtn(){
+	public Button createHomeBtn(Scene homeScene){
 		
-		Button btn_reset = new Button("Reset");
-		btn_reset.setOnAction(new EventHandler<ActionEvent>() {
+		Button btn_home = new Button("Return Home");
+		btn_home.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
-				for (int i=0; i<currentGrid.length; i++){
-					for (int j=0; j<currentGrid[i].length; j++){
-						nextGrid[i][j] = new Blank((width * i)/10, (height * j)/10, width/10, height/10);
-					}
-				}
-				setNextScene();
+				myStage.setScene(homeScene);
 			}
 		});
 		
-		return btn_reset;
+		return btn_home;
 	}
 	
 }
