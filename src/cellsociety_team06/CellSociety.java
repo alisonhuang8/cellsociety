@@ -144,14 +144,11 @@ public class CellSociety extends Application {
 		if (fileName.equals(lifeFile)){
 			currentModel = new lifeModel(myStage, animation, SIZE - 50, SIZE - 50);
 		} else if (fileName.equals(fireFile)){
-			System.out.print("here3");
 			currentModel = new fireModel(myStage, animation, SIZE - 50, SIZE - 50);
 		} else if (fileName.equals(watorFile)){
-			System.out.print("here4");
 			currentModel = new watorModel(myStage, animation, SIZE - 50, SIZE - 50);
 		} else if (fileName.equals(segregationFile)){
 			FRAMES_PER_SECOND = 8;
-			System.out.print("here5");
 			currentModel = new segregationModel(myStage, animation, SIZE - 50, SIZE - 50);
 		}
 		
@@ -171,6 +168,7 @@ public class CellSociety extends Application {
 		
 		myStage.setScene(myScene);
 		myStage.show();
+		myStage.setTitle("Simulation");
 
 
 			setButtons();
@@ -178,11 +176,7 @@ public class CellSociety extends Application {
 			
 			Group rt = currentModel.getRoot();
 			bp.setCenter(rt);
-			
-			
 
-		
-	
 		
 	}
 	
