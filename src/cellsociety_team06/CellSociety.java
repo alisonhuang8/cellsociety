@@ -199,12 +199,7 @@ public class CellSociety extends Application {
 			
 			Group rt = currentModel.getRoot();
 			bp.setCenter(rt);
-			
-			
-
-		
 	
-		
 	}
 	
 	private void simulationSetup(Model model) {
