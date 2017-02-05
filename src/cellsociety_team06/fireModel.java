@@ -22,6 +22,7 @@ public class fireModel extends Model {
 	private Group root = new Group();
 	private double catchChance = 0.7;
 	fireReads reads;
+	private String instr = "fireinstr.txt";
 	
 	
 	public fireModel(Stage s, Timeline t, int width, int height){
@@ -50,7 +51,10 @@ public class fireModel extends Model {
 		}
 	}
 	
-	
+//	private void setUpButtons(){
+//		createHowToPlayBtn(instr,)
+//	}
+//	
 	
 	private void updateGrid(){
 		fire();
