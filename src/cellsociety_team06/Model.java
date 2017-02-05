@@ -77,6 +77,17 @@ public abstract class Model {
 		return btn_howToPlay;
 	}
 	
+	public Button createResetBtn(){
+		
+		Button btn_reset = new Button("Reset");
+		btn_reset.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent arg){
+				reset();
+			}
+		});
+		return btn_reset;
+	}
+	
 	public Button createStartSimBtn(){
 		
 		Button btn_start = new Button("Start Simulation");
