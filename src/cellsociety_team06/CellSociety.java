@@ -38,7 +38,7 @@ public class CellSociety extends Application {
 	
 	private int FRAMES_PER_SECOND = 1;
 	private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-	private double SECOND_DELAY = 1 / FRAMES_PER_SECOND;
+	private double SECOND_DELAY = 0.75 / FRAMES_PER_SECOND;
 
 	private Button myLifeButton;
 	private Button myFireButton;
@@ -52,6 +52,10 @@ public class CellSociety extends Application {
 	
 	private BorderPane bp = new BorderPane();
 	private HBox panel = new HBox();
+	private Group root = new Group();
+	private Scene myScene = new Scene(root, SIZE, SIZE, Color.WHITE);
+	
+	private Boolean hasBegun = false;
 	
 	private String fireInstr = "fireinstr.txt";
 	
@@ -132,18 +136,23 @@ public class CellSociety extends Application {
 	}
 	
 	private void createModelAndFrames(){
+		Group r = (Group) myScene.getRoot();
+		r.getChildren().clear();
+		bp.getChildren().clear();
+		panel.getChildren().clear();
+		
 		if (fileName.equals(lifeFile)){
-			currentModel = new lifeModel(myStage, animation, SIZE, SIZE);
+			currentModel = new lifeModel(myStage, animation, SIZE - 50, SIZE - 50);
 		} else if (fileName.equals(fireFile)){
 			System.out.print("here3");
-			currentModel = new fireModel(myStage, animation, SIZE, SIZE);
+			currentModel = new fireModel(myStage, animation, SIZE - 50, SIZE - 50);
 		} else if (fileName.equals(watorFile)){
 			System.out.print("here4");
-			currentModel = new watorModel(myStage, animation, SIZE, SIZE);
+			currentModel = new watorModel(myStage, animation, SIZE - 50, SIZE - 50);
 		} else if (fileName.equals(segregationFile)){
 			FRAMES_PER_SECOND = 8;
 			System.out.print("here5");
-			currentModel = new segregationModel(myStage, animation, SIZE, SIZE);
+			currentModel = new segregationModel(myStage, animation, SIZE - 50, SIZE - 50);
 		}
 		
 		currentModel.reset();
@@ -152,20 +161,28 @@ public class CellSociety extends Application {
 				e -> step(SECOND_DELAY, myStage));
 		if (animation != null){
 			animation.stop();
+			
 		}
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
 		
-		Scene newScene = new Scene(currentModel.getRoot(), SIZE, SIZE, Color.WHITE);
-		myStage.setScene(newScene);
+		
+		
+		myStage.setScene(myScene);
 		myStage.show();
+
+
+			setButtons();
+			root.getChildren().add(bp);
+			
+			Group rt = currentModel.getRoot();
+			bp.setCenter(rt);
+			
+			
+
 		
-		
-		Group r = currentModel.getRoot();
-		r.getChildren().addAll(panel, bp);
-		
-		setButtons();
+	
 		
 	}
 	

@@ -83,7 +83,9 @@ public abstract class Model {
 		Button btn_reset = new Button("Reset");
 		btn_reset.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
+				animation.pause();
 				reset();
+				animation.play();
 			}
 		});
 		return btn_reset;
@@ -119,6 +121,8 @@ public abstract class Model {
 		Button btn_home = new Button("Return Home");
 		btn_home.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
+				animation.stop();
+				reset();
 				myStage.setScene(homeScene);
 			}
 		});
