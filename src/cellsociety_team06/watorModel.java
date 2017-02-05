@@ -45,7 +45,7 @@ public class watorModel extends Model {
 		getWatorScene();
 	}
 	
-	private Scene getWatorScene(){
+	private void getWatorScene(){
 		for(int i = 0; i < down; i++){
 			List<Unit> startList = new ArrayList<Unit>();
 			List<Unit> blankList = new ArrayList<Unit>();
@@ -66,9 +66,6 @@ public class watorModel extends Model {
 				root.getChildren().add(startList.get(j));
 			}
 		}
-		Scene scene = new Scene(root, width, height);
-		scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-		return scene;
 	}
 	
 	private void handleKeyInput(KeyCode code){
@@ -308,7 +305,7 @@ public class watorModel extends Model {
 		curGrid.clear();
 		nextGrid.clear();
 		root.getChildren().clear();
-		
+		getWatorScene();
 	}
 
 }

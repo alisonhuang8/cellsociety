@@ -112,5 +112,4 @@ public class FireTest extends Application{
 		}
 		return burning;
 	}
-	
 }
