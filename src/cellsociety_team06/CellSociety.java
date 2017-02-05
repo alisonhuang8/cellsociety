@@ -32,7 +32,7 @@ public class CellSociety extends Application {
 	
 	private Scene myHomeScene;
 	
-	private int FRAMES_PER_SECOND = 240;
+	private int FRAMES_PER_SECOND = 1;
 	private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private double SECOND_DELAY = .75 / FRAMES_PER_SECOND;
 
@@ -123,27 +123,39 @@ public class CellSociety extends Application {
 	}
 	
 	private void createModelAndFrames(){
+		System.out.print("here1");
 		if (fileName.equals(lifeFile)){
-			currentModel = new lifeModel(myStage, animation);
+			System.out.print("here2");
+			currentModel = new lifeModel(myStage, animation, SIZE, SIZE);
 		} else if (fileName.equals(fireFile)){
-			currentModel = new fireModel(myStage, animation);
+			System.out.print("here3");
+			currentModel = new fireModel(myStage, animation, SIZE, SIZE);
 		} else if (fileName.equals(watorFile)){
-			currentModel = new watorModel(myStage, animation);
+			System.out.print("here4");
+			currentModel = new watorModel(myStage, animation, SIZE, SIZE);
 		} else if (fileName.equals(segregationFile)){
-			currentModel = new segregationModel(myStage, animation);
+			FRAMES_PER_SECOND = 8;
+			System.out.print("here5");
+			currentModel = new segregationModel(myStage, animation, SIZE, SIZE);
 		}
 		
-		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+		currentModel.reset();
+		
+		KeyFrame frame = new KeyFrame(Duration.millis(1000/FRAMES_PER_SECOND),
 				e -> step(SECOND_DELAY, myStage));
 		if (animation != null){
 			animation.stop();
 		}
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
+		animation.play();
 	}
 	
 	private void step (double elapsedTime, Stage stage) { 
 		currentModel.step();
+		Scene newScene = new Scene(currentModel.getRoot(), SIZE, SIZE, Color.WHITE);
+		myStage.setScene(newScene);
+		myStage.show();
 	}
 	
 	private void setInfoScene() {

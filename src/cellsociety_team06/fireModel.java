@@ -107,6 +107,7 @@ public class fireModel extends Model {
 
 	@Override
 	public void reset() {
+		
 		root.getChildren().clear();
 		getFireScene();
 	}
