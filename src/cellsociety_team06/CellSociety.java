@@ -151,7 +151,8 @@ public class CellSociety extends Application {
 			FRAMES_PER_SECOND = 8;
 			currentModel = new segregationModel(myStage, animation, SIZE - 50, SIZE - 50);
 		}
-
+		
+		animation.pause();
 		currentModel.reset();
 		myStage.setScene(myScene);
 		myStage.show();
