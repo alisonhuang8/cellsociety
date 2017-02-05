@@ -166,24 +166,15 @@ public class CellSociety extends Application {
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
-		
-		
-		
 		myStage.setScene(myScene);
 		myStage.show();
-
+		myStage.setTitle("Simulation");
 
 			setButtons();
 			root.getChildren().add(bp);
 			
 			Group rt = currentModel.getRoot();
 			bp.setCenter(rt);
-			
-			
-
-		
-	
-		
 	}
 	
 	private void step (double elapsedTime, Stage stage) { 
