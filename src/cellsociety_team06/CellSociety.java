@@ -178,12 +178,7 @@ public class CellSociety extends Application {
 			
 			Group rt = currentModel.getRoot();
 			bp.setCenter(rt);
-			
-			
-
-		
 	
-		
 	}
 	
 	private void step (double elapsedTime, Stage stage) { 
