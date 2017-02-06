@@ -85,7 +85,6 @@ public abstract class Model {
 			public void handle(ActionEvent arg){
 				animation.pause();
 				reset();
-				animation.play();
 			}
 		});
 		return btn_reset;
