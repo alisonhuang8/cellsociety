@@ -2,6 +2,7 @@ package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import javafx.animation.KeyFrame;
@@ -55,6 +56,7 @@ public class CellSociety extends Application {
 	private String fireFile = "fireinfo.txt";
 	private String watorFile = "watorinfo.txt";
 	private String segregationFile = "segregationinfo.txt";
+	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
 
 	private BorderPane bp = new BorderPane();
 	private HBox panel = new HBox();

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import XMLReads.watorReads;
 import javafx.animation.Timeline;
@@ -35,8 +36,8 @@ public class watorModel extends Model {
 	private int size;
 	
 	
-	public watorModel(Stage s, Timeline t, int height, int width, int sze){
-		super(s,t);
+	public watorModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int sze){
+		super(s,t,r);
 		size = sze;   
 		this.height = height;
 		this.width = width;

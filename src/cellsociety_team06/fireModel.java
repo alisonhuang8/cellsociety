@@ -1,7 +1,7 @@
 package cellsociety_team06;
 
 import java.util.Random;
-
+import java.util.ResourceBundle;
 
 import XMLReads.fireReads;
 import javafx.animation.Timeline;
