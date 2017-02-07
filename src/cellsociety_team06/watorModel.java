@@ -73,8 +73,9 @@ public class watorModel extends Model {
 			updateGrid();
 		}
 	}
-
-	private void updateGrid(){
+	
+	@Override
+	public void updateGrid(){
 //		counter++;
 //		if(counter % 2 ==0) updatePred();
 //		else updatePrey();
