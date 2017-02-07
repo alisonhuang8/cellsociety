@@ -23,21 +23,16 @@ public class SegregationTest extends Application{
 	private Stage window;
 	private int across;
 	private int down;
-	private List<List<Unit>> curGrid = new ArrayList<>();
-	private List<List<Unit>> nextGrid =  new ArrayList<>();
+	private List<List<Unit>> curGrid;
+	private List<List<Unit>> nextGrid;
+	private List<Integer[]> available;
+	Stack<Integer> myStack;
+	private double totalBlank;
 	Random rand = new Random();
-	private double blankpct = 0.1;
-	private double t1pct = 0.425;
-	private double t2pct = 0.475;
 	private int width = 500;
-	private List<Integer[]> available = new ArrayList<>();
-	
 	private int height = 500;
-	private Group root = new Group();
-
+	private Group root;
 	private double satisfactionConstant = 0.7;
-	Stack<Integer> myStack = new Stack();
-	private double totalBlank = 0.0;
 	segReads reads;
 	
 	
@@ -47,14 +42,24 @@ public class SegregationTest extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		window = primaryStage;
+		window.setResizable(false);
+		window.show();
+		start();
+	}
+	
+	private void start(){
+		root = new Group();
+		curGrid = new ArrayList<>();
+		nextGrid =  new ArrayList<>();
+		available = new ArrayList<>();
+		myStack = new Stack();
 		reads = new segReads();
 		down = reads.height();
 		across = reads.width();
-		window = primaryStage;
-		window.setResizable(false);
-		window.setScene(getSegScene());
-		window.show();
+		totalBlank = 0.0;
 		myStack.push(across * down);
+		window.setScene(getSegScene());
 	}
 	
 	
@@ -65,7 +70,6 @@ public class SegregationTest extends Application{
 			curGrid.add(start);
 			nextGrid.add(blank);
 			for(int j = 0; j < across; j++){
-				
 				if(reads.get(i, j) == '0'){
 					start.add(new Blank((width * i)/down, (height * j)/across, width/down, height/across));
 					totalBlank++;
@@ -88,6 +92,9 @@ public class SegregationTest extends Application{
 	private void handleKeyInput(KeyCode code){
 		if(code == KeyCode.SPACE){
 			updateGrid();
+		}
+		if(code == KeyCode.R){
+			reset();
 		}
 	}
 
@@ -202,5 +209,9 @@ public class SegregationTest extends Application{
 		}
 		if(same + diff < 1) return true; 
 		return (same / (same + diff)) >= satisfactionConstant;
+	}
+	
+	public void reset() {
+		start();
 	}
 }
