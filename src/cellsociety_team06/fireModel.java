@@ -1,6 +1,7 @@
 package cellsociety_team06;
 
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import XMLReads.fireReads;
 import javafx.animation.Timeline;
@@ -24,8 +25,8 @@ public class fireModel extends Model {
 	fireReads reads;
 	
 	
-	public fireModel(Stage s, Timeline t, int width, int height){
-		super(s,t);
+	public fireModel(Stage s, Timeline t, ResourceBundle r, int width, int height){
+		super(s,t,r);
 		reads = new fireReads();
 		down = reads.height();
 		across = reads.width();

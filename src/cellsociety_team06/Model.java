@@ -2,6 +2,7 @@ package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import javafx.animation.Timeline;
@@ -26,14 +27,16 @@ public abstract class Model {
 	private Group root;
 	private double initialRate;
 	private Slider speedSlide;
+	private ResourceBundle myResources;
 	
 	private final double minSimSpeed = 1;
 	private final double maxSimSpeed = 35;
 	//constructor
-	public Model (Stage s, Timeline t){
+	public Model (Stage s, Timeline t, ResourceBundle r){
 		myStage = s;
 		animation = t;
 		initialRate = animation.getCurrentRate();
+		myResources = r;
 	}
 	
 	//methods
@@ -55,7 +58,7 @@ public abstract class Model {
 		Pane rulesRoot = new Pane();
 		Scene rulesScene = new Scene(rulesRoot);
 		
-		Button btn_howToPlay = new Button("How to play");
+		Button btn_howToPlay = new Button(myResources.getString("InstructionsButton"));
 		btn_howToPlay.setOnAction(new EventHandler<ActionEvent>() { 
 			public void handle(ActionEvent arg){
 				
@@ -90,7 +93,7 @@ public abstract class Model {
 	
 	public Button createResetBtn(){
 		
-		Button btn_reset = new Button("Reset");
+		Button btn_reset = new Button(myResources.getString("ResetButton"));
 		btn_reset.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
 				animation.setRate(initialRate);
@@ -104,7 +107,7 @@ public abstract class Model {
 	
 	public Button createStartSimBtn(){
 		
-		Button btn_start = new Button("Start");
+		Button btn_start = new Button(myResources.getString("StartButton"));
 		btn_start.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
 				animation.play();
@@ -116,7 +119,7 @@ public abstract class Model {
 	
 	public Button createPauseBtn(){
 		
-		Button btn_pause = new Button("Pause");
+		Button btn_pause = new Button(myResources.getString("PauseButton"));
 		btn_pause.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
 				animation.pause();
@@ -129,7 +132,7 @@ public abstract class Model {
 	
 	public Button createHomeBtn(Scene homeScene){
 		
-		Button btn_home = new Button("Return Home");
+		Button btn_home = new Button(myResources.getString("HomeButton"));
 		btn_home.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
 				animation.setRate(initialRate);
@@ -143,7 +146,7 @@ public abstract class Model {
 	}
 	
 	public Button createStepBtn() {
-		Button btn_step = new Button("Step Through");
+		Button btn_step = new Button(myResources.getString("StepButton"));
 		btn_step.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg) {
 				animation.pause();
