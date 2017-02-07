@@ -35,9 +35,9 @@ public class watorModel extends Model {
 	private Group root = new Group();
 	
 	
-	public watorModel(Stage s, Timeline t, int height, int width){
+	public watorModel(Stage s, Timeline t, int height, int width, int size){
 		super(s,t);
-		reads = new watorReads();
+		reads = new watorReads(size);
 		down = reads.height();
 		across = reads.width();
 		this.height = height;

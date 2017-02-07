@@ -13,8 +13,8 @@ public class XMLGenerator {
 	static Random rand;
 	
 	public static void main(String[] args){
-		rows = 10; // change the number of rows and columns
-		cols = 10;
+		rows = 20; // change the number of rows and columns
+		cols = 20;
 		rand = new Random();
 		populate();
 	}
@@ -23,14 +23,14 @@ public class XMLGenerator {
 		for(int i = 0; i < rows; i++){
 			System.out.print("<Row>");
 			for(int j = 0; j < cols; j++){
-				if(rand.nextInt(100) < 20){ //percent chance of this block
+				if(rand.nextInt(100) < 30){ //percent chance of this block
+					System.out.print("L"); //block ID
+				}
+				else if(rand.nextInt(100) < 200){ //percent chance of this block
 					System.out.print("0"); //block ID
 				}
-				else if(rand.nextInt(100) < 40){ //percent chance of this block
-					System.out.print("A"); //block ID
-				}
 				else{
-					System.out.print("B"); //block ID
+					System.out.print("0"); //block ID
 				}
 			}
 			System.out.println("</Row>");

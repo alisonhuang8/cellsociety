@@ -32,9 +32,9 @@ public class segregationModel extends Model {
 	private double totalBlank = 0.0;
 	segReads reads;
 	
-	public segregationModel(Stage s, Timeline t, int height, int width){
+	public segregationModel(Stage s, Timeline t, int height, int width, int size){
 		super(s,t);
-		reads = new segReads();
+		reads = new segReads(size);
 		down = reads.height();
 		across = reads.width();
 		myStack.push(across * down);
@@ -73,7 +73,7 @@ public class segregationModel extends Model {
 		}
 	}
 
-	private void updateGrid(){
+	public void updateGrid(){
 		double visited = 0;
 		int last = myStack.pop();
 		resetAvailable(curGrid);

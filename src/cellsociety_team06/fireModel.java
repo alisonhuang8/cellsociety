@@ -24,9 +24,9 @@ public class fireModel extends Model {
 	fireReads reads;
 	
 	
-	public fireModel(Stage s, Timeline t, int width, int height){
+	public fireModel(Stage s, Timeline t, int width, int height, int size){
 		super(s,t);
-		reads = new fireReads();
+		reads = new fireReads(size);
 		down = reads.height();
 		across = reads.width();
 		this.width = width;
@@ -52,7 +52,7 @@ public class fireModel extends Model {
 	
 	
 	
-	private void updateGrid(){
+	public void updateGrid(){
 		fire();
 	}
 

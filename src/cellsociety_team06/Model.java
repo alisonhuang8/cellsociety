@@ -11,6 +11,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -22,10 +24,18 @@ public abstract class Model {
 	private Timeline animation;
 	private Group root;
 	
+	private double initialRate;
+	private Slider speedSlide;
+	
+	private final double minSimSpeed = 1;
+	private final double maxSimSpeed = 35;
+	
+	
 	//constructor
 	public Model (Stage s, Timeline t){
 		myStage = s;
 		animation = t;
+		initialRate = animation.getCurrentRate();
 	}
 	
 	//methods
@@ -35,6 +45,8 @@ public abstract class Model {
 	public abstract void setNextScene(); //within the subclasses, there will be a current scene and next scene
 	
 	public abstract void reset();
+	
+	public abstract void updateGrid();
 	
 	public void step(){
 		setNextScene();
@@ -92,7 +104,7 @@ public abstract class Model {
 	
 	public Button createStartSimBtn(){
 		
-		Button btn_start = new Button("Start Simulation");
+		Button btn_start = new Button("Start");
 		btn_start.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
 				animation.play();
@@ -127,6 +139,39 @@ public abstract class Model {
 		});
 		
 		return btn_home;
+	}
+	
+	public Button createStepBtn() {
+		Button btn_step = new Button("Step Through");
+		btn_step.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent arg) {
+				animation.pause();
+				btn_step.setOnKeyPressed(new EventHandler<KeyEvent>() {
+					public void handle(KeyEvent code) {
+						//if(code == KeyCode.SPACE){
+							updateGrid();
+						//}
+					}
+				});
+			}
+		});
+		return btn_step;
+	}
+	
+	private void stepMode() {
+		animation.pause();
+		
+	}
+	
+	public Slider createSpeedSlider() {
+		double currentRate = animation.getCurrentRate();
+		speedSlide = new Slider();
+		speedSlide.setMin(minSimSpeed);
+		speedSlide.setMax(maxSimSpeed);
+		speedSlide.valueProperty().addListener(e -> {
+			animation.setRate(speedSlide.getValue());
+		});
+		return speedSlide;
 	}
 	
 }

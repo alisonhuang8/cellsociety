@@ -25,9 +25,9 @@ public class lifeModel extends Model {
 	private Group root = new Group();
 	lifeReads reads;
 	
-	public lifeModel(Stage s, Timeline t, int height, int width){
+	public lifeModel(Stage s, Timeline t, int height, int width, int size){
 		super(s,t);
-		reads = new lifeReads();
+		reads = new lifeReads(size);
 		down = reads.height();
 		across = reads.width();
 		this.height = height;
@@ -51,7 +51,7 @@ public class lifeModel extends Model {
 		}
 	}
 	
-	private void updateGrid(){
+	public void updateGrid(){
 		life();
 	}
 
