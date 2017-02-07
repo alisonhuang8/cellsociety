@@ -187,7 +187,7 @@ public class CellSociety extends Application {
 	
 	private void setButtons(){
 		panel.getChildren().addAll(currentModel.createPauseBtn(), currentModel.createStartSimBtn(), 
-				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn());
+				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn(), currentModel.createSpeedSlider());
 		bp.setTop(panel);
 	}
 	
