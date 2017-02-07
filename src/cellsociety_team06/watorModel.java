@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.ResourceBundle;
 
 import XMLReads.watorReads;
 import javafx.animation.Timeline;
@@ -34,10 +33,20 @@ public class watorModel extends Model {
 	watorReads reads;
 	private int height;
 	private Group root;
+	private int size;
 	
 	
-	public watorModel(Stage s, Timeline t, int height, int width, int size){
+	public watorModel(Stage s, Timeline t, int height, int width, int sz){
 		super(s,t);
+		size = sz;
+		this.height = height;
+		this.width = width;
+		root = new Group();
+		start();
+	}
+	
+	private void start(){
+		rand = new Random();
 		reads = new watorReads(size);
 		down = reads.height();
 		across = reads.width();
@@ -78,8 +87,7 @@ public class watorModel extends Model {
 			updateGrid();
 		}
 	}
-	
-	@Override
+
 	public void updateGrid(){
 //		counter++;
 //		if(counter % 2 ==0) updatePred();
@@ -308,8 +316,9 @@ public class watorModel extends Model {
 
 	@Override
 	public void reset() {
-		root.getChildren().clear();
-		getWatorScene();
+		start();
 	}
 
 }
+
+
