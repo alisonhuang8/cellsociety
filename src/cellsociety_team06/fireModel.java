@@ -13,8 +13,9 @@ import subUnits.Burnt;
 
 public class fireModel extends Model {
 	
-	int across;
-	int down;
+	
+	private int across;
+	private int down;
 	private Unit[][] curGrid;
 	private Unit[][] nextGrid;
 	Random rand = new Random();
