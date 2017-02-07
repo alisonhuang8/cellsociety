@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import XMLReads.watorReads;
 import javafx.animation.Timeline;
@@ -20,19 +21,19 @@ import subUnits.Prey;
 
 public class watorModel extends Model {
 	
-	private int across = 10;
-	private int down = 10;
-	private List<List<Unit>> curGrid = new ArrayList<>();
-	private List<List<Unit>> nextGrid = new ArrayList<>();
-	Random rand = new Random();
-	private int width = 500;
-	private List<List<Integer>> availablePrey = new ArrayList<>();
-	private List<List<Integer>> availableBlank = new ArrayList<>();
+	private int across;
+	private int down;
+	private List<List<Unit>> curGrid;
+	private List<List<Unit>> nextGrid;
+	Random rand;
+	private int width;
+	private List<List<Integer>> availablePrey;
+	private List<List<Integer>> availableBlank;
 	private int startingEnergy = 5;
 	int counter = 0;
 	watorReads reads;
-	private int height = 500;
-	private Group root = new Group();
+	private int height;
+	private Group root;
 	
 	
 	public watorModel(Stage s, Timeline t, int height, int width, int size){
@@ -40,8 +41,12 @@ public class watorModel extends Model {
 		reads = new watorReads(size);
 		down = reads.height();
 		across = reads.width();
-		this.height = height;
-		this.width = width;
+		curGrid = new ArrayList<>();
+		nextGrid = new ArrayList<>();
+		availablePrey = new ArrayList<>();
+		availableBlank = new ArrayList<>();
+		counter = 0;
+		int startingEnergy = 5;
 		getWatorScene();
 	}
 	
@@ -73,8 +78,9 @@ public class watorModel extends Model {
 			updateGrid();
 		}
 	}
-
-	private void updateGrid(){
+	
+	@Override
+	public void updateGrid(){
 //		counter++;
 //		if(counter % 2 ==0) updatePred();
 //		else updatePrey();
@@ -302,10 +308,7 @@ public class watorModel extends Model {
 
 	@Override
 	public void reset() {
-		curGrid.clear();
-		nextGrid.clear();
-		root.getChildren().clear();
-		getWatorScene();
+		start();
 	}
 
 }
