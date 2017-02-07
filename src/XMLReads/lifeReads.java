@@ -1,8 +1,8 @@
 package XMLReads;
 
 public class lifeReads extends Reads {
-	public lifeReads() {
-		super("Life");
+	public lifeReads(int size) {
+		super("Life", size);
 	}
 }
 

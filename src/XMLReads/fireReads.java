@@ -1,8 +1,8 @@
 package XMLReads;
 
 public class fireReads extends Reads {
-	public fireReads() {
-		super("Fire");
+	public fireReads(int size) {
+		super("Fire", size);
 	}
 }
 
