@@ -154,34 +154,15 @@ public class CellSociety extends Application {
 		
 		animation.pause();
 		currentModel.reset();
-
-		KeyFrame frame = new KeyFrame(Duration.millis(1000/FRAMES_PER_SECOND),
-				e -> step(SECOND_DELAY, myStage));
-		if (animation != null){
-			animation.stop();
-			
-		}
-		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
-		myStage.setScene(myScene);
-		myStage.show();
-		myStage.setTitle("Simulation");
-
-			setButtons();
-			root.getChildren().add(bp);
-			
-			
 		myStage.setScene(myScene);
 		myStage.show();
 		myStage.setTitle("Simulation");
 
 		setButtons();
 		root.getChildren().add(bp);
-
+			
 		Group rt = currentModel.getRoot();
 		bp.setCenter(rt);
-
 
 	}
 
@@ -200,7 +181,7 @@ public class CellSociety extends Application {
 
 	private void setButtons() {
 		panel.getChildren().addAll(currentModel.createPauseBtn(), currentModel.createStartSimBtn(),
-				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn());
+				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn(), currentModel.createSpeedSlider());
 		bp.setTop(panel);
 	}
 

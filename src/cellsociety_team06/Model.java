@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -21,11 +22,16 @@ public abstract class Model {
 	private Stage myStage;
 	private Timeline animation;
 	private Group root;
+	private double initialRate;
+	private Slider speedSlide;
 	
+	private final double minSimSpeed = 1;
+	private final double maxSimSpeed = 35;
 	//constructor
 	public Model (Stage s, Timeline t){
 		myStage = s;
 		animation = t;
+		initialRate = animation.getCurrentRate();
 	}
 	
 	//methods
@@ -83,6 +89,8 @@ public abstract class Model {
 		Button btn_reset = new Button("Reset");
 		btn_reset.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
+				animation.setRate(initialRate);
+				speedSlide.setValue(minSimSpeed);
 				animation.pause();
 				reset();
 			}
@@ -120,6 +128,7 @@ public abstract class Model {
 		Button btn_home = new Button("Return Home");
 		btn_home.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
+				animation.setRate(initialRate);
 				animation.stop();
 				reset();
 				myStage.setScene(homeScene);
@@ -127,6 +136,17 @@ public abstract class Model {
 		});
 		
 		return btn_home;
+	}
+	
+	public Slider createSpeedSlider() {
+		double currentRate = animation.getCurrentRate();
+		speedSlide = new Slider();
+		speedSlide.setMin(minSimSpeed);
+		speedSlide.setMax(maxSimSpeed);
+		speedSlide.valueProperty().addListener(e -> {
+			animation.setRate(speedSlide.getValue());
+		});
+		return speedSlide;
 	}
 	
 }
