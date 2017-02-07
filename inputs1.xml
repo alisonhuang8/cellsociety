@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<input>
+	<model id="Segregation">
+
+		<Row>AB0BBB0AAB</Row>
+		<Row>0AB0A0BABA</Row>
+		<Row>000B0B0AAB</Row>
+		<Row>B00AA0BBAB</Row>
+		<Row>BAAB00ABBB</Row>
+		<Row>BBBBB0ABB0</Row>
+		<Row>0A0AAAABAA</Row>
+		<Row>BBB0BAAABB</Row>
+		<Row>BB0B0B0AA0</Row>
+		<Row>0BA0B0BAAA</Row>
+
+
+	</model>
+
+	<model id="Fire">
+
+		<Row>GGGGGGGGGG</Row>
+		<Row>GGGGGGGGGG</Row>
+		<Row>GGGGGGGGGG</Row>
+		<Row>GGGGGGGGGG</Row>
+		<Row>GGGGGGGGGG</Row>
+		<Row>GGGGGGGGGG</Row>
+		<Row>GGGGGGGGGG</Row>
+		<Row>GGGGGGGGGG</Row>
+		<Row>GGGGGGGGGG</Row>
+		<Row>GGGGGGGGGG</Row>
+
+	</model>
+
+	<model id="Wator">
+
+		<Row>00R000R0R0</Row>
+		<Row>Y0000R0YY0</Row>
+		<Row>0Y0R000000</Row>
+		<Row>00000000Y0</Row>
+		<Row>00R00RRR00</Row>
+		<Row>0Y00R00000</Row>
+		<Row>0Y0R0RY0R0</Row>
+		<Row>000R0Y0Y00</Row>
+		<Row>0RRYYY0000</Row>
+		<Row>0RR0Y00000</Row>
+
+	</model>
+
+	<model id="Life">
+
+		<Row>00000LLL0L</Row>
+		<Row>000L0LL000</Row>
+		<Row>L0L0L0000L</Row>
+		<Row>L0L00L0LLL</Row>
+		<Row>0000000000</Row>
+		<Row>0000000L00</Row>
+		<Row>L00000LL0L</Row>
+		<Row>0L0L00LLL0</Row>
+		<Row>L0LLL00000</Row>
+		<Row>L0L00000LL</Row>
+
+	</model>
+
+</input>
+
