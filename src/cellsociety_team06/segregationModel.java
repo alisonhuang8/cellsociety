@@ -28,7 +28,7 @@ public class segregationModel extends Model {
 	private int height = 500;
 	private Group root = new Group();
 	private double satisfactionConstant = 0.7;
-	Stack<Integer> myStack = new Stack();
+	Stack<Integer> myStack;
 	private double totalBlank = 0.0;
 	segReads reads;
 	private int size;
