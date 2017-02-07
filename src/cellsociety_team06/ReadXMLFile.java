@@ -20,7 +20,7 @@ public class ReadXMLFile {
 
 		try {
 
-			File fXmlFile = new File("inputs.xml");
+			File fXmlFile = new File("inputs1.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);

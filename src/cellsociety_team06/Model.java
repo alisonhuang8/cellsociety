@@ -146,6 +146,7 @@ public abstract class Model {
 		Button btn_step = new Button("Step Through");
 		btn_step.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg) {
+				animation.pause();
 				btn_step.setOnKeyPressed(new EventHandler<KeyEvent>() {
 					public void handle(KeyEvent code) {
 						//if(code == KeyCode.SPACE){
