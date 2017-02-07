@@ -13,8 +13,8 @@ public class XMLGenerator {
 	static Random rand;
 	
 	public static void main(String[] args){
-		rows = 10; // change the number of rows and columns
-		cols = 10;
+		rows = 30; // change the number of rows and columns
+		cols = 30;
 		rand = new Random();
 		populate();
 	}
