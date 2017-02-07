@@ -140,7 +140,7 @@ public abstract class Model {
 				reset();
 				myStage.setScene(homeScene);
 			}
-		});
+		}); 
 		
 		return btn_home;
 	}
