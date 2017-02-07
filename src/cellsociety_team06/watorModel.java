@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import XMLReads.watorReads;
 import javafx.animation.Timeline;
@@ -35,17 +36,9 @@ public class watorModel extends Model {
 	private Group root;
 	
 	
-	public watorModel(Stage s, Timeline t, int height, int width){
-		super(s,t);
-		this.height = height;
-		this.width = width;
-		root = new Group();
-		start();
-	}
-	
-	private void start(){
-		rand = new Random();
-		reads = new watorReads();
+	public watorModel(Stage s, Timeline t, ResourceBundle r,int height, int width, int size){
+		super(s,t,r);
+		reads = new watorReads(size);
 		down = reads.height();
 		across = reads.width();
 		curGrid = new ArrayList<>();
@@ -79,7 +72,7 @@ public class watorModel extends Model {
 			}
 		}
 	}
-	
+
 
 
 	@Override

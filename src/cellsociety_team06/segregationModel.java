@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.Stack;
 import XMLReads.segReads;
 import javafx.animation.Timeline;
@@ -32,19 +33,9 @@ public class segregationModel extends Model {
 	private double totalBlank = 0.0;
 	segReads reads;
 	
-	public segregationModel(Stage s, Timeline t, int height, int width){
-		super(s,t);
-		this.height = height;
-		this.width = width;
-		start();
-	}
-	
-	private void start(){
-		curGrid = new ArrayList<>();
-		nextGrid =  new ArrayList<>();
-		available = new ArrayList<>();
-		myStack = new Stack();
-		reads = new segReads();
+	public segregationModel(Stage s, Timeline t, ResourceBundle r,int height, int width, int size){
+		super(s,t,r);
+		reads = new segReads(size);
 		down = reads.height();
 		across = reads.width();
 		totalBlank = 0.0;
@@ -73,12 +64,6 @@ public class segregationModel extends Model {
 				blank.add(new Blank((width * i)/down, (height * j)/across, width/down, height/across));
 				root.getChildren().add(start.get(j));
 			}
-		}
-	}
-	
-	private void handleKeyInput(KeyCode code){
-		if(code == KeyCode.SPACE){
-			updateGrid();
 		}
 	}
 

@@ -1,6 +1,7 @@
 package cellsociety_team06;
 
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import XMLReads.fireReads;
 import javafx.animation.Timeline;
@@ -21,12 +22,12 @@ public class fireModel extends Model {
 	private int height;
 	private Group root = new Group();
 	private double catchChance = 0.7;
-	fireReads reads;
+	private fireReads reads;
+	private ResourceBundle myResources;
 	
-	
-	public fireModel(Stage s, Timeline t, int width, int height){
-		super(s,t);
-		reads = new fireReads();
+	public fireModel(Stage s, Timeline t, ResourceBundle r, int width, int height, int size){
+		super(s,t,r);
+		reads = new fireReads(size);
 		down = reads.height();
 		across = reads.width();
 		this.width = width;
@@ -50,8 +51,6 @@ public class fireModel extends Model {
 		}
 	}
 	
-	
-	@Override
 	public void updateGrid(){
 		fire();
 	}
