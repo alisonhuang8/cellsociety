@@ -26,8 +26,8 @@ public class lifeModel extends Model {
 	private Group root = new Group();
 	lifeReads reads;
 	
-	public lifeModel(Stage s, Timeline t, int height, int width, int size){
-		super(s,t);
+	public lifeModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int size){
+		super(s,t,r);
 		reads = new lifeReads(size);
 		down = reads.height();
 		across = reads.width();
@@ -51,7 +51,7 @@ public class lifeModel extends Model {
 			}
 		}
 	}
-	
+
 	public void updateGrid(){
 		life();
 	}

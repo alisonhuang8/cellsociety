@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -35,6 +36,7 @@ public abstract class Model {
 	public Model (Stage s, Timeline t){
 		myStage = s;
 		animation = t;
+		myResources = r;
 		initialRate = animation.getCurrentRate();
 	}
 	
@@ -162,9 +164,8 @@ public abstract class Model {
 		animation.pause();
 		
 	}
-	
+
 	public Slider createSpeedSlider() {
-		double currentRate = animation.getCurrentRate();
 		speedSlide = new Slider();
 		speedSlide.setMin(minSimSpeed);
 		speedSlide.setMax(maxSimSpeed);

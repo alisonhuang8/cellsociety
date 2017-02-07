@@ -22,11 +22,11 @@ public class fireModel extends Model {
 	private int height;
 	private Group root = new Group();
 	private double catchChance = 0.7;
-	fireReads reads;
+	private fireReads reads;
+	private ResourceBundle myResources;
 	
-	
-	public fireModel(Stage s, Timeline t, int width, int height, int size){
-		super(s,t);
+	public fireModel(Stage s, Timeline t, ResourceBundle r, int width, int height, int size){
+		super(s,t,r);
 		reads = new fireReads(size);
 		down = reads.height();
 		across = reads.width();
@@ -50,8 +50,6 @@ public class fireModel extends Model {
 			}
 		}
 	}
-	
-	
 	
 	public void updateGrid(){
 		fire();

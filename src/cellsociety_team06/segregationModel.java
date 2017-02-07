@@ -77,13 +77,8 @@ public class segregationModel extends Model {
 			}
 		}
 	}
-	
-	private void handleKeyInput(KeyCode code){
-		if(code == KeyCode.SPACE){
-			updateGrid();
-		}
-	}
 
+	@Override
 	public void updateGrid(){
 		double visited = 0;
 		int last = myStack.pop();
@@ -213,5 +208,4 @@ public class segregationModel extends Model {
 	}
 
 }
-
 

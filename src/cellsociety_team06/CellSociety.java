@@ -62,6 +62,7 @@ public class CellSociety extends Application {
 	private Group root = new Group();
 	private Scene myScene = new Scene(root, SIZE, SIZE, Color.WHITE);
 
+	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 	private Boolean hasBegun = false;
 
 	public void start(Stage s) throws Exception {
@@ -178,14 +179,14 @@ public class CellSociety extends Application {
 		panel.getChildren().clear();
 
 		if (fileName.equals(lifeFile)) {
-			currentModel = new lifeModel(myStage, animation, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new lifeModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(fireFile)) {
-			currentModel = new fireModel(myStage, animation, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new fireModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(watorFile)) {
-			currentModel = new watorModel(myStage, animation, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new watorModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(segregationFile)) {
 			FRAMES_PER_SECOND = 8;
-			currentModel = new segregationModel(myStage, animation, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new segregationModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
 		}
 		
 
@@ -197,7 +198,6 @@ public class CellSociety extends Application {
 
 		setButtons();
 		root.getChildren().add(bp);
-		
 
 		Group rt = currentModel.getRoot();
 		bp.setCenter(rt);
@@ -217,9 +217,12 @@ public class CellSociety extends Application {
 		}
 	}
 
+
+
 	private void setButtons() {
-		panel.getChildren().addAll(currentModel.createPauseBtn(), currentModel.createStartSimBtn(), currentModel.createStepBtn(), 
+		panel.getChildren().addAll(currentModel.createStartSimBtn(), currentModel.createPauseBtn(), currentModel.createStepBtn(), 
 				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn(), currentModel.createSpeedSlider());
+
 		bp.setTop(panel);
 	}
 

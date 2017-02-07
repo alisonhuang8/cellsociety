@@ -89,9 +89,6 @@ public class watorModel extends Model {
 	}
 
 	public void updateGrid(){
-//		counter++;
-//		if(counter % 2 ==0) updatePred();
-//		else updatePrey();
 		updatePred();
 		updatePrey();
 	}
@@ -320,5 +317,4 @@ public class watorModel extends Model {
 	}
 
 }
-
 
