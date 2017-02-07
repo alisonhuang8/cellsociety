@@ -34,12 +34,21 @@ public class segregationModel extends Model {
 	
 	public segregationModel(Stage s, Timeline t, int height, int width){
 		super(s,t);
+		this.height = height;
+		this.width = width;
+		start();
+	}
+	
+	private void start(){
+		curGrid = new ArrayList<>();
+		nextGrid =  new ArrayList<>();
+		available = new ArrayList<>();
+		myStack = new Stack();
 		reads = new segReads();
 		down = reads.height();
 		across = reads.width();
+		totalBlank = 0.0;
 		myStack.push(across * down);
-		this.height = height;
-		this.width = width;
 		getSegScene();
 	}
 	
@@ -198,10 +207,7 @@ public class segregationModel extends Model {
 
 	@Override
 	public void reset() {
-		curGrid.clear();
-		nextGrid.clear();
-		root.getChildren().clear();
-		getSegScene();
+		start();
 	}
 
 }
