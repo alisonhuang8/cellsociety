@@ -178,10 +178,10 @@ public class CellSociety extends Application {
 			currentModel.step();
 		}
 	}
-
-	private void setButtons() {
-		panel.getChildren().addAll(currentModel.createPauseBtn(), currentModel.createStartSimBtn(),
-				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn());
+	
+	private void setButtons(){
+		panel.getChildren().addAll(currentModel.createPauseBtn(), currentModel.createStartSimBtn(), 
+				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn(), currentModel.createSpeedSlider());
 		bp.setTop(panel);
 	}
 
