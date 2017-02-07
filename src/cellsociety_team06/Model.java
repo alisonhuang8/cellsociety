@@ -76,7 +76,7 @@ public abstract class Model {
 					e.printStackTrace();
 				}
 				
-				Button btn_done = new Button("Done");
+				Button btn_done = new Button("Done!");
 				btn_howToPlay.setOnAction(new EventHandler<ActionEvent>() { 
 					public void handle(ActionEvent arg){
 						myStage.setScene(lastScene);

@@ -51,7 +51,7 @@ public class CellSociety extends Application {
 	private Button btn_medium;
 	private Button btn_large;
 	
-	private String fileName = "a";
+	private String fileName = "b";
 	private String lifeFile = "lifeinfo.txt";
 	private String fireFile = "fireinfo.txt";
 	private String watorFile = "watorinfo.txt";

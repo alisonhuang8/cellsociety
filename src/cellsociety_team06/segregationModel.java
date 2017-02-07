@@ -33,9 +33,9 @@ public class segregationModel extends Model {
 	segReads reads;
 	private int size;
 	
-	public segregationModel(Stage s, Timeline t, int height, int width, int sz){
+	public segregationModel(Stage s, Timeline t, int height, int width, int sze){
 		super(s,t);
-		size = sz;
+		size = sze;
 		this.height = height;
 		this.width = width;
 		start();
@@ -80,7 +80,7 @@ public class segregationModel extends Model {
 
 	@Override
 	public void updateGrid(){
-		double visited = 0;
+		double visited = 0;   
 		int last = myStack.pop();
 		resetAvailable(curGrid);
 		double av = available.size()/((double) (across * down));

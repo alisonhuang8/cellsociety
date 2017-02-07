@@ -15,7 +15,7 @@ import subUnits.Blank;
 
 public class lifeModel extends Model {
 	
-	private Stage window;
+
 	private int down;
 	private int across;
 	private Unit[][] curGrid;
