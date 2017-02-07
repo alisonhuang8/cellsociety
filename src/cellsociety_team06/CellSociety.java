@@ -36,7 +36,7 @@ public class CellSociety extends Application {
 
 	private Scene myHomeScene;
 
-	private int FRAMES_PER_SECOND = 1;
+	private int FRAMES_PER_SECOND = 10;
 	private int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private double SECOND_DELAY = 0.75 / FRAMES_PER_SECOND;
 

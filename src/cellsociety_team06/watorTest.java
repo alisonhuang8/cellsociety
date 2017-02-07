@@ -24,24 +24,19 @@ import subUnits.Prey;
 public class watorTest extends Application{
 
 	private Stage window;
-	private int across = 10;
-	private int down = 10;
-	private List<List<Unit>> curGrid = new ArrayList<>();
-	private List<List<Unit>> nextGrid = new ArrayList<>();
-	Random rand = new Random();
-	private double blankpct = 0.1;
-	private double predpct = 0.001;
-	private double preypct = 0.1;
+	private int across;
+	private int down;
+	private List<List<Unit>> curGrid;
+	private List<List<Unit>> nextGrid;
+	private List<List<Integer>> availablePrey;
+	private List<List<Integer>> availableBlank;
+	private Group root;
+	private int counter;
+	private int startingEnergy;
+	private Random rand = new Random();
 	private int width = 500;
-	private List<List<Integer>> availablePrey = new ArrayList<>();
-	private List<List<Integer>> availableBlank = new ArrayList<>();
-	private int startingEnergy = 5;
-	int counter = 0;
-	watorReads reads;
-
-	
 	private int height = 500;
-	private Group root = new Group();
+	watorReads reads;
 	
 	
 	public static void main(String[] args){
@@ -50,13 +45,24 @@ public class watorTest extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		window = primaryStage;
+		window.setResizable(false);
+		window.show();
+		start();
+	}
+	
+	private void start(){
 		reads = new watorReads();
 		down = reads.height();
 		across = reads.width();
-		window = primaryStage;
-		window.setResizable(false);
+		curGrid = new ArrayList<>();
+		nextGrid = new ArrayList<>();
+		availablePrey = new ArrayList<>();
+		availableBlank = new ArrayList<>();
+		root = new Group();
+		counter = 0;
+		int startingEnergy = 5;
 		window.setScene(getWatorScene());
-		window.show();
 	}
 	
 	
@@ -89,6 +95,9 @@ public class watorTest extends Application{
 	private void handleKeyInput(KeyCode code){
 		if(code == KeyCode.SPACE){
 			updateGrid();
+		}
+		if(code == KeyCode.R){
+			reset();
 		}
 	}
 
@@ -305,6 +314,10 @@ public class watorTest extends Application{
 		List<Integer> picked = list.get(rand.nextInt(list.size()));
 		availableBlank.remove(picked);
 		return picked;
+	}
+	
+	public void reset() {
+		start();
 	}
 	
 	
