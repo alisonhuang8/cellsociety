@@ -6,14 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.ResourceBundle;
 
 import XMLReads.watorReads;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import subUnits.Blank;
 import subUnits.Predator;
@@ -34,10 +32,12 @@ public class watorModel extends Model {
 	watorReads reads;
 	private int height;
 	private Group root;
+	private int size;
 	
 	
-	public watorModel(Stage s, Timeline t, ResourceBundle r, int height, int width){
-		super(s,t,r);
+	public watorModel(Stage s, Timeline t, int height, int width, int sze){
+		super(s,t);
+		size = sze;   
 		this.height = height;
 		this.width = width;
 		root = new Group();
@@ -46,7 +46,7 @@ public class watorModel extends Model {
 	
 	private void start(){
 		rand = new Random();
-		reads = new watorReads();
+		reads = new watorReads(size);
 		down = reads.height();
 		across = reads.width();
 		curGrid = new ArrayList<>();
@@ -86,12 +86,8 @@ public class watorModel extends Model {
 			updateGrid();
 		}
 	}
-	
-	@Override
+
 	public void updateGrid(){
-//		counter++;
-//		if(counter % 2 ==0) updatePred();
-//		else updatePrey();
 		updatePred();
 		updatePrey();
 	}
@@ -320,3 +316,4 @@ public class watorModel extends Model {
 	}
 
 }
+

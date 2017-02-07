@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.ResourceBundle;
 import java.util.Stack;
 import XMLReads.segReads;
 import javafx.animation.Timeline;
@@ -29,12 +28,14 @@ public class segregationModel extends Model {
 	private int height = 500;
 	private Group root = new Group();
 	private double satisfactionConstant = 0.7;
-	Stack<Integer> myStack = new Stack();
+	Stack<Integer> myStack;
 	private double totalBlank = 0.0;
 	segReads reads;
+	private int size;
 	
-	public segregationModel(Stage s, Timeline t, ResourceBundle r, int height, int width){
-		super(s,t, r);
+	public segregationModel(Stage s, Timeline t, int height, int width, int sze){
+		super(s,t);
+		size = sze;
 		this.height = height;
 		this.width = width;
 		start();
@@ -45,7 +46,7 @@ public class segregationModel extends Model {
 		nextGrid =  new ArrayList<>();
 		available = new ArrayList<>();
 		myStack = new Stack();
-		reads = new segReads();
+		reads = new segReads(size);
 		down = reads.height();
 		across = reads.width();
 		totalBlank = 0.0;
@@ -76,15 +77,10 @@ public class segregationModel extends Model {
 			}
 		}
 	}
-	
-	private void handleKeyInput(KeyCode code){
-		if(code == KeyCode.SPACE){
-			updateGrid();
-		}
-	}
+
 	@Override
 	public void updateGrid(){
-		double visited = 0;
+		double visited = 0;   
 		int last = myStack.pop();
 		resetAvailable(curGrid);
 		double av = available.size()/((double) (across * down));
@@ -212,4 +208,3 @@ public class segregationModel extends Model {
 	}
 
 }
- 

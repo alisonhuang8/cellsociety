@@ -1,7 +1,6 @@
 package cellsociety_team06;
 
 import java.util.Random;
-import java.util.ResourceBundle;
 
 import XMLReads.lifeReads;
 import javafx.animation.Timeline;
@@ -15,7 +14,7 @@ import subUnits.Blank;
 
 public class lifeModel extends Model {
 	
-	private Stage window;
+
 	private int down;
 	private int across;
 	private Unit[][] curGrid;
@@ -26,9 +25,9 @@ public class lifeModel extends Model {
 	private Group root = new Group();
 	lifeReads reads;
 	
-	public lifeModel(Stage s, Timeline t, ResourceBundle r, int height, int width){
+	public lifeModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int size){
 		super(s,t,r);
-		reads = new lifeReads();
+		reads = new lifeReads(size);
 		down = reads.height();
 		across = reads.width();
 		this.height = height;
@@ -51,7 +50,7 @@ public class lifeModel extends Model {
 			}
 		}
 	}
-	@Override
+
 	public void updateGrid(){
 		life();
 	}
