@@ -51,7 +51,8 @@ public class lifeModel extends Model {
 		}
 	}
 	
-	private void updateGrid(){
+	@Override
+	public void updateGrid(){
 		life();
 	}
 

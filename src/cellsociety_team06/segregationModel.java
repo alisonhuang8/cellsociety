@@ -82,7 +82,8 @@ public class segregationModel extends Model {
 		}
 	}
 
-	private void updateGrid(){
+	@Override
+	public void updateGrid(){
 		double visited = 0;
 		int last = myStack.pop();
 		resetAvailable(curGrid);

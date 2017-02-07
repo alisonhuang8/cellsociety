@@ -80,16 +80,10 @@ public class watorModel extends Model {
 		}
 	}
 	
-	private void handleKeyInput(KeyCode code){
-		if(code == KeyCode.SPACE){
-			updateGrid();
-		}
-	}
 
-	private void updateGrid(){
-//		counter++;
-//		if(counter % 2 ==0) updatePred();
-//		else updatePrey();
+
+	@Override
+	public void updateGrid(){
 		updatePred();
 		updatePrey();
 	}
