@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.Stack;
 import XMLReads.segReads;
 import javafx.animation.Timeline;
@@ -32,8 +33,8 @@ public class segregationModel extends Model {
 	private double totalBlank = 0.0;
 	segReads reads;
 	
-	public segregationModel(Stage s, Timeline t, int height, int width){
-		super(s,t);
+	public segregationModel(Stage s, Timeline t, ResourceBundle r, int height, int width){
+		super(s,t, r);
 		this.height = height;
 		this.width = width;
 		start();

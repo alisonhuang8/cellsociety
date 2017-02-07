@@ -2,6 +2,7 @@ package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import javafx.animation.KeyFrame;
@@ -49,6 +50,7 @@ public class CellSociety extends Application {
 	private String fireFile = "fireinfo.txt";
 	private String watorFile = "watorinfo.txt";
 	private String segregationFile = "segregationinfo.txt";
+	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
 
 	private BorderPane bp = new BorderPane();
 	private HBox panel = new HBox();
@@ -58,12 +60,14 @@ public class CellSociety extends Application {
 	private Boolean hasBegun = false;
 
 	private String fireInstr = "fireinstr.txt";
+	
+	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 
 	public void start(Stage s) throws Exception {
 		myStage = s;
 		myHomeScene = homeScene(SIZE, SIZE, BACKGROUND);
 		myStage.setScene(myHomeScene);
-		myStage.setTitle("Home Screen");
+		myStage.setTitle(myResources.getString("HomeTitle"));
 		myStage.show();
 		setAnimation();
 	}
@@ -71,15 +75,15 @@ public class CellSociety extends Application {
 	private Scene homeScene(int width, int height, Paint background) {
 		Pane homeSceneRoot = new StackPane();
 
-		myLifeButton = createSimButton(homeSceneRoot, "Game of Life Simulation", lifeFile);
+		myLifeButton = createSimButton(homeSceneRoot, myResources.getString("GameOfLifeSimulation"), lifeFile);
 		myLifeButton.setTranslateY(-SIZE / 4);
 
-		myFireButton = createSimButton(homeSceneRoot, "Spreading Fire Simulation", fireFile);
+		myFireButton = createSimButton(homeSceneRoot, myResources.getString("SpreadingFireSimulation"), fireFile);
 		myFireButton.setTranslateY(-SIZE / 8);
 
-		myWatorButton = createSimButton(homeSceneRoot, "Predator Prey Simulation", watorFile);
+		myWatorButton = createSimButton(homeSceneRoot, myResources.getString("PredatorPreySimulation"), watorFile);
 
-		mySegregationButton = createSimButton(homeSceneRoot, "Segregation Simulation", segregationFile);
+		mySegregationButton = createSimButton(homeSceneRoot, myResources.getString("SegregationSimulation"), segregationFile);
 		mySegregationButton.setTranslateY(SIZE / 8);
 
 		myHomeScene = new Scene(homeSceneRoot, width, height, background);
@@ -96,7 +100,7 @@ public class CellSociety extends Application {
 	}
 
 	private void buttonSetup(Pane infoRoot) {
-		Button btn_play = new Button("Let's Play");
+		Button btn_play = new Button(myResources.getString("GoToSimulation"));
 		btn_play.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg) {
 				createModelAndFrames();
@@ -106,7 +110,7 @@ public class CellSociety extends Application {
 		btn_play.setLayoutY(4 * SIZE / 5);
 		infoRoot.getChildren().add(btn_play);
 
-		Button btn_back = new Button("Go Back");
+		Button btn_back = new Button(myResources.getString("BackToHome"));
 		btn_back.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg) {
 				try {
@@ -142,21 +146,21 @@ public class CellSociety extends Application {
 		panel.getChildren().clear();
 
 		if (fileName.equals(lifeFile)) {
-			currentModel = new lifeModel(myStage, animation, SIZE - 50, SIZE - 50);
+			currentModel = new lifeModel(myStage, animation, myResources, SIZE - 50, SIZE - 50);
 		} else if (fileName.equals(fireFile)) {
-			currentModel = new fireModel(myStage, animation, SIZE - 50, SIZE - 50);
+			currentModel = new fireModel(myStage, animation, myResources, SIZE - 50, SIZE - 50);
 		} else if (fileName.equals(watorFile)) {
-			currentModel = new watorModel(myStage, animation, SIZE - 50, SIZE - 50);
+			currentModel = new watorModel(myStage, animation, myResources, SIZE - 50, SIZE - 50);
 		} else if (fileName.equals(segregationFile)) {
 			FRAMES_PER_SECOND = 8;
-			currentModel = new segregationModel(myStage, animation, SIZE - 50, SIZE - 50);
+			currentModel = new segregationModel(myStage, animation, myResources, SIZE - 50, SIZE - 50);
 		}
 		
 		animation.pause();
 		currentModel.reset();
 		myStage.setScene(myScene);
 		myStage.show();
-		myStage.setTitle("Simulation");
+		myStage.setTitle(myResources.getString("SimulationTitle"));
 
 		setButtons();
 		root.getChildren().add(bp);
@@ -180,7 +184,7 @@ public class CellSociety extends Application {
 	}
 
 	private void setButtons(){
-		panel.getChildren().addAll(currentModel.createPauseBtn(), currentModel.createStartSimBtn(), 
+		panel.getChildren().addAll(currentModel.createStartSimBtn(), currentModel.createPauseBtn(), 
 				currentModel.createStepBtn(), currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn(), 
 				currentModel.createSpeedSlider());
 		bp.setTop(panel);
@@ -188,7 +192,7 @@ public class CellSociety extends Application {
 
 	private void setInfoScene() {
 		Scene myInfoScene = infoScene(SIZE, SIZE, BACKGROUND);
-		myStage.setTitle("Info Screen");
+		myStage.setTitle(myResources.getString("InfoTitle"));
 		myStage.show();
 	}
 
