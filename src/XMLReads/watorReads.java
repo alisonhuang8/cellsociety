@@ -1,8 +1,8 @@
 package XMLReads;
 
 public class watorReads extends Reads {
-	public watorReads() {
-		super("Wator");
+	public watorReads(int size) {
+		super("Wator", size);
 	}
 }
 
