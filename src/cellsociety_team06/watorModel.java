@@ -36,17 +36,9 @@ public class watorModel extends Model {
 	private Group root;
 	
 	
-	public watorModel(Stage s, Timeline t, ResourceBundle r, int height, int width){
-		super(s,t,r);
-		this.height = height;
-		this.width = width;
-		root = new Group();
-		start();
-	}
-	
-	private void start(){
-		rand = new Random();
-		reads = new watorReads();
+	public watorModel(Stage s, Timeline t, int height, int width, int size){
+		super(s,t);
+		reads = new watorReads(size);
 		down = reads.height();
 		across = reads.width();
 		curGrid = new ArrayList<>();

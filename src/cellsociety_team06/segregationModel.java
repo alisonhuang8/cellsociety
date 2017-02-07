@@ -33,19 +33,9 @@ public class segregationModel extends Model {
 	private double totalBlank = 0.0;
 	segReads reads;
 	
-	public segregationModel(Stage s, Timeline t, ResourceBundle r, int height, int width){
-		super(s,t, r);
-		this.height = height;
-		this.width = width;
-		start();
-	}
-	
-	private void start(){
-		curGrid = new ArrayList<>();
-		nextGrid =  new ArrayList<>();
-		available = new ArrayList<>();
-		myStack = new Stack();
-		reads = new segReads();
+	public segregationModel(Stage s, Timeline t, int height, int width, int size){
+		super(s,t);
+		reads = new segReads(size);
 		down = reads.height();
 		across = reads.width();
 		totalBlank = 0.0;
@@ -82,7 +72,7 @@ public class segregationModel extends Model {
 			updateGrid();
 		}
 	}
-	@Override
+
 	public void updateGrid(){
 		double visited = 0;
 		int last = myStack.pop();

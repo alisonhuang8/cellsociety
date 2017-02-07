@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -29,14 +28,18 @@ public abstract class Model {
 	private Slider speedSlide;
 	private ResourceBundle myResources;
 	
+	private double initialRate;
+	private Slider speedSlide;
+	
 	private final double minSimSpeed = 1;
 	private final double maxSimSpeed = 35;
+	
+	
 	//constructor
 	public Model (Stage s, Timeline t, ResourceBundle r){
 		myStage = s;
 		animation = t;
 		initialRate = animation.getCurrentRate();
-		myResources = r;
 	}
 	
 	//methods
@@ -107,7 +110,7 @@ public abstract class Model {
 	
 	public Button createStartSimBtn(){
 		
-		Button btn_start = new Button(myResources.getString("StartButton"));
+		Button btn_start = new Button("Start");
 		btn_start.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
 				animation.play();
@@ -146,7 +149,7 @@ public abstract class Model {
 	}
 	
 	public Button createStepBtn() {
-		Button btn_step = new Button(myResources.getString("StepButton"));
+		Button btn_step = new Button("Step Through");
 		btn_step.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg) {
 				animation.pause();
