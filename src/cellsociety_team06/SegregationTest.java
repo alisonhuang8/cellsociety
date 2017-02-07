@@ -28,7 +28,7 @@ public class SegregationTest extends Application{
 	Random rand = new Random();
 	private double blankpct = 0.1;
 	private double t1pct = 0.425;
-	private double t2pct = 0.475              ;
+	private double t2pct = 0.475;
 	private int width = 500;
 	private List<Integer[]> available = new ArrayList<>();
 	
