@@ -198,7 +198,8 @@ public class segregationModel extends Model {
 
 	@Override
 	public void reset() {
-		start();
+		root.getChildren().clear();
+		getSegScene();
 	}
 
 }

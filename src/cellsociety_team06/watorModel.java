@@ -308,7 +308,8 @@ public class watorModel extends Model {
 
 	@Override
 	public void reset() {
-		start();
+		root.getChildren().clear();
+		getWatorScene();
 	}
 
 }
