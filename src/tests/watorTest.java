@@ -1,4 +1,4 @@
-package cellsociety_team06;
+package tests;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +10,7 @@ import java.util.Stack;
 
 import XMLReads.segReads;
 import XMLReads.watorReads;
+import cellsociety_team06.Unit;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -52,7 +53,7 @@ public class watorTest extends Application{
 	}
 	
 	private void start(){
-		reads = new watorReads();
+		reads = new watorReads(3);
 		down = reads.height();
 		across = reads.width();
 		curGrid = new ArrayList<>();

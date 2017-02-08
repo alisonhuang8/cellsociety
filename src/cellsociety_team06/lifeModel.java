@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import simUnits.LifeUnits;
 import subUnits.Alive;
 import subUnits.Blank;
 
@@ -18,8 +19,8 @@ public class lifeModel extends Model {
 
 	private int down;
 	private int across;
-	private Unit[][] curGrid;
-	private Unit[][] nextGrid;
+	private LifeUnits[][] curGrid;
+	private LifeUnits[][] nextGrid;
 	Random rand = new Random();
 	private int width = 500;
 	private int height = 500;
@@ -33,25 +34,26 @@ public class lifeModel extends Model {
 		across = reads.width();
 		this.height = height;
 		this. width = width;
-		curGrid = new Unit[down][across];
-		nextGrid = new Unit[down][across];
+		curGrid = new LifeUnits[down][across];
+		nextGrid = new LifeUnits[down][across];
 		getLifeScene();
 	}
-
+		
 	private void getLifeScene(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
+				curGrid[i][j] = new LifeUnits((width * i)/down, (height * j)/across, width/down, height/across);
 				if(reads.get(i, j) == '0'){
-					curGrid[i][j] = new Blank((width * i)/down, (height * j)/across, width/down, height/across);
+					curGrid[i][j].setDead();
 				}
 				else{
-					curGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
+					curGrid[i][j].setAlive();
 				}
 				root.getChildren().add(curGrid[i][j]);
 			}
 		}
 	}
-
+	
 	public void updateGrid(){
 		life();
 	}
@@ -61,27 +63,22 @@ public class lifeModel extends Model {
 			for(int j = 0; j < across; j++){
 				root.getChildren().remove(curGrid[i][j]);
 				int n = getAliveNeighbors(i, j);
+				nextGrid[i][j] = curGrid[i][j].copy();
 				if(curGrid[i][j].isAlive()){
 					if(n < 2 || n > 3){
-						nextGrid[i][j] = new Blank((width * i)/down, (height * j)/across, width/down, height/across);
-					}
-					else{
-						nextGrid[i][j] = curGrid[i][j];
+						nextGrid[i][j].setDead();
 					}
 				}
 				else{
 					if(n == 3){
-						nextGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
-					}
-					else{
-						nextGrid[i][j] = new Blank((width * i)/down, (height * j)/across, width/down, height/across);
+						nextGrid[i][j].setAlive();
 					}
 				}
 				root.getChildren().add(nextGrid[i][j]);
 			}
 		}
 		curGrid = nextGrid;
-		nextGrid = new Unit[down][across];
+		nextGrid = new LifeUnits[down][across];
 	}
 	
 	private int getAliveNeighbors(int i, int j){

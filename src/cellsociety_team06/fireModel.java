@@ -1,12 +1,17 @@
 package cellsociety_team06;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 
 import XMLReads.fireReads;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import simUnits.FireUnits;
 import subUnits.Alive;
 import subUnits.Burning;
 import subUnits.Burnt;
@@ -16,8 +21,8 @@ public class fireModel extends Model {
 	
 	private int across;
 	private int down;
-	private Unit[][] curGrid;
-	private Unit[][] nextGrid;
+	private FireUnits[][] curGrid;
+	private FireUnits[][] nextGrid;
 	Random rand = new Random();
 	private int width;
 	private int height;
@@ -25,28 +30,30 @@ public class fireModel extends Model {
 	private double catchChance = 0.7;
 	private fireReads reads;
 	private ResourceBundle myResources;
+	List<Color> colors;
 	
 	public fireModel(Stage s, Timeline t, ResourceBundle r, int width, int height, int size){
 		super(s,t,r);
+		colors = new ArrayList<>();
+		colors.add(Color.GREEN);
+		colors.add(Color.RED);
+		colors.add(Color.GRAY);
 		reads = new fireReads(size);
 		down = reads.height();
 		across = reads.width();
 		this.width = width;
 		this.height = height;
-		curGrid = new Unit[down][across];
-		nextGrid = new Unit[down][across];
-		getFireScene();
+		curGrid = new FireUnits[down][across];
+		nextGrid = new FireUnits[down][across];
+		getFireScene(colors);
 	}
 
-	private void getFireScene(){
+	private void getFireScene(List<Color> list){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == 'G'){
-					curGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
-				}
-				if(i == 0 && j == 0){
-					curGrid[i][j] = new Burning((width * i)/down, (height * j)/across, width/down, height/across);
-				}
+				curGrid[i][j] = new FireUnits((width * i)/down, (height * j)/across, width/down, height/across, list);
+				if(reads.get(i, j) == 'G') curGrid[i][j].setAlive();
+				if(i == 0 && j == 0) curGrid[i][j].setBurning();
 				root.getChildren().add(curGrid[i][j]);
 			}
 		}
@@ -61,23 +68,24 @@ public class fireModel extends Model {
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
 				root.getChildren().remove(curGrid[i][j]);
+				nextGrid[i][j] = curGrid[i][j].copy();
 				int n = getBurningNeighbors(i, j);
 				if(curGrid[i][j].isAlive()){
 					if(((1.0 - (Math.pow(1.0 - catchChance, n))) * 100.0) > rand.nextInt(100)){
-						nextGrid[i][j] = new Burning((width * i)/down, (height * j)/across, width/down, height/across);
+						nextGrid[i][j].setBurning();
 					}
 					else{
-						nextGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
+						nextGrid[i][j].setAlive();
 					}
 				}
-				if(curGrid[i][j].isBurning() || curGrid[i][j].isBurnt()){
-					nextGrid[i][j] = new Burnt((width * i)/down, (height * j)/across, width/down, height/across);
+				else if(curGrid[i][j].isBurning() || curGrid[i][j].isBurnt()){
+					nextGrid[i][j].setBurnt();
 				}
 				root.getChildren().add(nextGrid[i][j]);
 			}
 		}
 		curGrid = nextGrid;
-		nextGrid = new Unit[down][across];
+		nextGrid = new FireUnits[down][across];
 	}
 	
 	private int getBurningNeighbors(int i, int j){
@@ -107,9 +115,8 @@ public class fireModel extends Model {
 
 	@Override
 	public void reset() {
-		
 		root.getChildren().clear();
-		getFireScene();
+		getFireScene(colors);
 	}
 	
 }
