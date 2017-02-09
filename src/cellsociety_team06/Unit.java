@@ -4,10 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Unit extends Rectangle{
-	
-	public Unit(double x, double y, double width, double height){
-		this((int) x, (int) y, (int) width, (int) height);
-	}
+	protected int state;
 	
 	public Unit(int x, int y, int width, int height){
 		setX(x);
@@ -17,19 +14,35 @@ public abstract class Unit extends Rectangle{
 		setStroke(Color.BLACK);
 	}
 	
-	public abstract boolean isBurning();
+	public boolean isBurning(){
+		return state == 0;
+	}
 	
-	public abstract boolean isBurnt();
+	public boolean isBurnt(){
+		return state == 1;
+	}
 	
-	public abstract boolean isBlank();
+	public boolean isBlank(){
+		return state == 2;
+	}
 	
-	public abstract boolean isPredator();
+	public boolean isPredator(){
+		return state == 3;
+	}
 	
-	public abstract boolean isPrey();
+	public boolean isPrey(){
+		return state == 4;
+	}
 	
-	public abstract boolean isAlive();
+	public boolean isAlive(){
+		return state == 5;
+	}
 	
-	public abstract boolean isType1();
+	public boolean isType1(){
+		return state == 6;
+	}
 	
-	public abstract boolean isType2();
+	public boolean isType2(){
+		return state == 7;
+	}
 }

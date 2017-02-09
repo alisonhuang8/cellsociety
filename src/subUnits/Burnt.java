@@ -9,51 +9,10 @@ public class Burnt extends Unit{
 		super(x, y, width, height);
 		// TODO Auto-generated constructor stub
 		setFill(COLOR);
+		state = 1;
 	}
 	
 	public Burnt(double x, double y, double width, double height) {
-		super(x, y, width, height);
-		setFill(COLOR);
+		this((int) x, (int) y, (int) width, (int) height);
 	}
-	@Override
-	public boolean isBurning() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isBurnt() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-	@Override
-	public boolean isBlank() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isPredator() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isPrey() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isAlive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isType1() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isType2() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
