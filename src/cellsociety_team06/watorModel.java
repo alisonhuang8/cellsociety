@@ -55,7 +55,6 @@ public class watorModel extends Model {
 		availablePrey = new ArrayList<>();
 		availableBlank = new ArrayList<>();
 		counter = 0;
-		int startingEnergy = 5;
 		getWatorScene();
 	}
 	

@@ -21,8 +21,8 @@ public class fireModel extends Model {
 	
 	private int across;
 	private int down;
-	private FireUnits[][] curGrid;
-	private FireUnits[][] nextGrid;
+	private List<List<Unit>> curGrid;
+	private List<List<Unit>> nextGrid;
 	Random rand = new Random();
 	private int width;
 	private int height;
@@ -43,19 +43,25 @@ public class fireModel extends Model {
 		across = reads.width();
 		this.width = width;
 		this.height = height;
-		curGrid = new FireUnits[down][across];
-		nextGrid = new FireUnits[down][across];
+		curGrid = new ArrayList<>();
+		nextGrid = new ArrayList<>();
 		getFireScene(colors);
 	}
 
 	private void getFireScene(List<Color> list){
 		for(int i = 0; i < down; i++){
+			List<Unit> cols = new ArrayList<>();
 			for(int j = 0; j < across; j++){
-				curGrid[i][j] = new FireUnits((width * i)/down, (height * j)/across, width/down, height/across, list);
-				if(reads.get(i, j) == 'G') curGrid[i][j].setAlive();
-				if(i == 0 && j == 0) curGrid[i][j].setBurning();
-				root.getChildren().add(curGrid[i][j]);
+				if(reads.get(i, j) == 'G'){
+					cols.add(new Alive((width * i)/down, (height * j)/across, width/down, height/across));
+				}
+				if(i == 0 && j == 0){
+					cols.add(new Burning((width * i)/down, (height * j)/across, width/down, height/across));
+				}
+				root.getChildren().add(cols.get(j));
 			}
+			curGrid.add(cols);
+			nextGrid.add(cols);
 		}
 	}
 	
@@ -67,25 +73,24 @@ public class fireModel extends Model {
 	private void fire(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				root.getChildren().remove(curGrid[i][j]);
-				nextGrid[i][j] = curGrid[i][j].copy();
+				Unit u = curGrid.get(i).get(j);
+				root.getChildren().remove(u);
 				int n = getBurningNeighbors(i, j);
-				if(curGrid[i][j].isAlive()){
+				if(u.isAlive()){
 					if(((1.0 - (Math.pow(1.0 - catchChance, n))) * 100.0) > rand.nextInt(100)){
-						nextGrid[i][j].setBurning();
+						nextGrid.get(i).set(j, new Burning((width * i)/down, (height * j)/across, width/down, height/across));
 					}
 					else{
-						nextGrid[i][j].setAlive();
+						nextGrid.get(i).set(j, new Alive((width * i)/down, (height * j)/across, width/down, height/across));
 					}
 				}
-				else if(curGrid[i][j].isBurning() || curGrid[i][j].isBurnt()){
-					nextGrid[i][j].setBurnt();
+				else if(u.isBurning() || u.isBurnt()){
+					nextGrid.get(i).set(j, new Burnt((width * i)/down, (height * j)/across, width/down, height/across));
 				}
-				root.getChildren().add(nextGrid[i][j]);
+				root.getChildren().add(nextGrid.get(i).get(j));
 			}
 		}
-		curGrid = nextGrid;
-		nextGrid = new FireUnits[down][across];
+		curGrid = new ArrayList<>(nextGrid);
 	}
 	
 	private int getBurningNeighbors(int i, int j){
@@ -96,7 +101,7 @@ public class fireModel extends Model {
 		for(int x = 0; x < move1.length; x++){
 			int newI = i + move1[x];
 			int newJ = j + move2[x];
-			if(newI >= 0 && newI < down && newJ >= 0 && newJ < across && curGrid[newI][newJ].isBurning()){
+			if(newI >= 0 && newI < down && newJ >= 0 && newJ < across && curGrid.get(newI).get(newJ).isBurning()){
 				burning++;
 			}
 		}

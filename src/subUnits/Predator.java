@@ -4,9 +4,10 @@ import cellsociety_team06.Unit;
 import javafx.scene.paint.Color;
 
 public class Predator extends Unit{
-	private int walkedThresh = 6;
+	private static final int PREDATOR_STATE = 3;
+	private static final int WALKED_THRESH = 6;
+	private static final int BONUS_ENERGY = 5;
 	private int energy;
-	private int bonusEnergy = 5;
 	private int walked;
 	
 	private static final Color COLOR = Color.GREEN;
@@ -15,7 +16,7 @@ public class Predator extends Unit{
 		this.energy = energy;
 		this.walked = walked;
 		setFill(COLOR);
-		state = 3;
+		state = PREDATOR_STATE;
 	}
 	
 	public Predator(double x, double y, double width, double height,  int energy, int walked) {
@@ -33,11 +34,11 @@ public class Predator extends Unit{
 	}
 	
 	public void energyUp(){
-		energy += bonusEnergy;
+		energy += BONUS_ENERGY;
 	}
 	
 	public int ePerEat(){
-		return bonusEnergy;
+		return BONUS_ENERGY;
 	}
 	
 	public int getWalked(){
@@ -45,7 +46,7 @@ public class Predator extends Unit{
 	}
 	
 	public boolean canBirth(){
-		return walked > walkedThresh;
+		return walked > WALKED_THRESH;
 	}
 
 
