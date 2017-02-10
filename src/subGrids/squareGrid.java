@@ -16,8 +16,8 @@ public class squareGrid extends Grid {
 
 	public squareGrid(int rows, int cols, int heightSquare, int widthSquare) {
 		super(rows, cols);
-		rowMove = new int[] {-1, 0, 0, 1};
-		colMove = new int[] {0, 1, -1, 0};
+		rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
+		colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
 		rectWidth = widthSquare;
 		rectHeight = heightSquare;
 		fillGrid();

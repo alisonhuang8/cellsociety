@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,13 +11,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import subUnits.Alive;
-import subUnits.Blank;
+
 import subUnits.Burning;
 import subUnits.Burnt;
 
@@ -26,8 +24,7 @@ public abstract class Model {
 	
 	private Stage myStage;
 	private Timeline animation;
-	private Group root;
-	
+	protected Group root;
 	private double initialRate;
 	private Slider speedSlide;
 	private ResourceBundle myResources;
@@ -43,6 +40,7 @@ public abstract class Model {
 		animation = t;
 		myResources = r;
 		initialRate = animation.getCurrentRate();
+		root = new Group();
 	}
 	
 	//methods
@@ -59,20 +57,11 @@ public abstract class Model {
 		setNextScene();
 	}
 	
-	private void resetCur(){
-		for(int i = 0; i < curGrid.rows(); i++){
-			for(int j = 0; j < curGrid.cols(); j++){
-				if(nextGrid.getUnit(i, j).isAlive()){
-					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
-				}
-				else if(nextGrid.getUnit(i, j).isBurning()){
-					curGrid.setUnit(i, j, new Burning(curGrid.getUnit(i, j)));
-				}
-				else{
-					curGrid.setUnit(i, j, new Burnt(curGrid.getUnit(i, j)));
-				}
-			}
-		}
+	protected abstract void resetCur();
+	
+	protected void resetRoot(){
+		root.getChildren().clear();
+		root.getChildren().addAll(curGrid.getChildren());
 	}
 	
 	public Button createHowToPlayBtn(String instr, Scene lastScene){ //pass in the text file of the rules and current scene to go back to

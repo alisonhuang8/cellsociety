@@ -1,18 +1,15 @@
 package Models;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
-
 import XMLReads.fireReads;
 import cellsociety_team06.Model;
 import cellsociety_team06.Unit;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import subGrids.squareGrid;
+import subGrids.hexGrid;
 import subUnits.Alive;
 import subUnits.Burning;
 import subUnits.Burnt;
@@ -21,8 +18,7 @@ public class fireModel extends Model {
 	
 	private int across;
 	private int down;
-	Random rand = new Random();
-	private Group root = new Group();
+	private Random rand = new Random();
 	private double catchChance = 0.7;
 	private fireReads reads;
 	
@@ -31,8 +27,8 @@ public class fireModel extends Model {
 		reads = new fireReads(size);
 		down = reads.height();
 		across = reads.width();
-		curGrid = new squareGrid(down, across, height/down, width/across);
-		nextGrid = new squareGrid(down, across, height/down, width/across);
+		curGrid = new hexGrid(down, across, height/down/2);
+		nextGrid = new hexGrid(down, across, height/down/2);
 		getFireScene();
 	}
 
@@ -48,11 +44,6 @@ public class fireModel extends Model {
 			}
 		}
 		resetRoot();
-	}
-	
-	private void resetRoot(){
-		root.getChildren().clear();
-		root.getChildren().addAll(curGrid.getChildren());
 	}
 	
 	public void updateGrid(){
@@ -78,15 +69,7 @@ public class fireModel extends Model {
 		resetRoot();
 	}
 	
-	private int getBurningNeighbors(Collection<Unit> neighbors){
-		int total = 0;
-		for(Unit n:neighbors){
-			if(n.isBurning()) total++;
-		}
-		return total;
-	}
-	
-	private void resetCur(){
+	protected void resetCur(){
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
 				if(nextGrid.getUnit(i, j).isAlive()){
@@ -100,6 +83,14 @@ public class fireModel extends Model {
 				}
 			}
 		}
+	}
+	
+	private int getBurningNeighbors(Collection<Unit> neighbors){
+		int total = 0;
+		for(Unit n:neighbors){
+			if(n.isBurning()) total++;
+		}
+		return total;
 	}
 	
 	@Override
