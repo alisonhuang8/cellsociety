@@ -4,11 +4,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 public class Unit extends Polygon{
+	private static final int DEFAULT_STATE = -1;
 	protected int state;
 	
 	public Unit(){
 		setFill(Color.WHITE);
 		setStroke(Color.BLACK);
+		state = DEFAULT_STATE;
 	}
 	
 	public Unit(Unit u){
@@ -48,6 +50,10 @@ public class Unit extends Polygon{
 	
 	public boolean isType2(){
 		return state == 7;
+	}
+	
+	public int getState(){
+		return state;
 	}
 
 }

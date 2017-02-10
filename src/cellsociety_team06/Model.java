@@ -17,7 +17,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import subUnits.Alive;
 import subUnits.Blank;
+import subUnits.Burning;
+import subUnits.Burnt;
 
 public abstract class Model {
 	
@@ -28,6 +31,7 @@ public abstract class Model {
 	private double initialRate;
 	private Slider speedSlide;
 	private ResourceBundle myResources;
+	protected Grid curGrid, nextGrid;
 	
 	private final double minSimSpeed = 1;
 	private final double maxSimSpeed = 35;
@@ -53,6 +57,22 @@ public abstract class Model {
 	
 	public void step(){
 		setNextScene();
+	}
+	
+	private void resetCur(){
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
+				if(nextGrid.getUnit(i, j).isAlive()){
+					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
+				}
+				else if(nextGrid.getUnit(i, j).isBurning()){
+					curGrid.setUnit(i, j, new Burning(curGrid.getUnit(i, j)));
+				}
+				else{
+					curGrid.setUnit(i, j, new Burnt(curGrid.getUnit(i, j)));
+				}
+			}
+		}
 	}
 	
 	public Button createHowToPlayBtn(String instr, Scene lastScene){ //pass in the text file of the rules and current scene to go back to

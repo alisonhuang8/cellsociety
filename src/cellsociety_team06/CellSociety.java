@@ -5,6 +5,10 @@ import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import Models.fireModel;
+import Models.lifeModel;
+import Models.segregationModel;
+import Models.watorModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;

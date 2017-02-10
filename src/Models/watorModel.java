@@ -1,4 +1,4 @@
-package cellsociety_team06;
+package Models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +9,8 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import XMLReads.watorReads;
+import cellsociety_team06.Model;
+import cellsociety_team06.Unit;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;

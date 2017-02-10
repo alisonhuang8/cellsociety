@@ -4,6 +4,7 @@ package cellsociety_team06;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Grid{
 	protected List<List<Unit>> grid;
@@ -19,6 +20,20 @@ public abstract class Grid{
 	public abstract void fillGrid();
 	
 	public abstract Map<Integer[], Unit> getNeighbors(int row, int col);
+	
+	public Map<Integer[], Unit> getInstances(Unit U){
+		Map<Integer[], Unit> map = new HashMap<>();
+		for(int i = 0; i < rows(); i++){
+			for(int j = 0; j < cols(); j++){
+				Unit unit = grid.get(i).get(j);
+				if(unit.getState() == U.getState()){
+					Integer[] place = new Integer[]{i, j};
+					map.put(place, unit);
+				}
+			}
+		}
+		return map;
+	}
 	
 	public int rows(){
 		return rows;
