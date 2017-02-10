@@ -9,20 +9,15 @@ public class Predator extends Unit{
 	private static final int BONUS_ENERGY = 5;
 	private int energy;
 	private int walked;
-	
 	private static final Color COLOR = Color.GREEN;
-	public Predator(int x, int y, int width, int height, int energy, int walked) {
-		super(x, y, width, height);
+	
+	public Predator(int energy, int walked, Unit u){
+		super(u);
 		this.energy = energy;
 		this.walked = walked;
 		setFill(COLOR);
 		state = PREDATOR_STATE;
 	}
-	
-	public Predator(double x, double y, double width, double height,  int energy, int walked) {
-		this((int) x, (int) y, (int) width, (int) height, energy, walked);
-	}
-
 	
 	public int getEnergy(){
 		return energy;
@@ -48,6 +43,4 @@ public class Predator extends Unit{
 	public boolean canBirth(){
 		return walked > WALKED_THRESH;
 	}
-
-
 }

@@ -1,17 +1,21 @@
 package cellsociety_team06;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Polygon;
 
-public abstract class Unit extends Rectangle{
+public class Unit extends Polygon{
 	protected int state;
 	
-	public Unit(int x, int y, int width, int height){
-		setX(x);
-		setY(y);
-		setWidth(width);
-		setHeight(height);
+	public Unit(){
+		setFill(Color.WHITE);
 		setStroke(Color.BLACK);
+	}
+	
+	public Unit(Unit u){
+		this();
+		getPoints().addAll(u.getPoints());
+		setLayoutX(u.getLayoutX());
+		setLayoutY(u.getLayoutY());
 	}
 	
 	public boolean isBurning(){
@@ -45,4 +49,5 @@ public abstract class Unit extends Rectangle{
 	public boolean isType2(){
 		return state == 7;
 	}
+
 }
