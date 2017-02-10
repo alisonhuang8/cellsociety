@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Random;
 import cellsociety_team06.Grid;
 import cellsociety_team06.Unit;
+import cellsociety_team06.hexGrid;
 import cellsociety_team06.squareGrid;
 import cellsociety_team06.triangularGrid;
 import javafx.application.Application;
@@ -21,7 +22,7 @@ public class Test extends Application{
 	private Grid curGrid, nextGrid;
 	Random rand = new Random();
 	private Group root = new Group();
-	private double catchChance = 0.6;
+	private double catchChance = 0.8;
 	private Stage window;
 	
 	public static void main(String[] args){
@@ -85,8 +86,8 @@ public class Test extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.window = primaryStage;
-		curGrid = new triangularGrid(17, 17, 50);
-		nextGrid = new triangularGrid(17, 17, 50);
+		curGrid = new hexGrid(5, 5, 25);
+		nextGrid = new hexGrid(5, 5, 25);
 		root = new Group();
 		root.getChildren().addAll(curGrid.getChildren());
 		Scene s = new Scene(root, 500, 500, Color.WHITE);
