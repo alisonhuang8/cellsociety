@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import simUnits.FireUnits;
+import subGrids.squareGrid;
 import subUnits.Alive;
 import subUnits.Burning;
 import subUnits.Burnt;

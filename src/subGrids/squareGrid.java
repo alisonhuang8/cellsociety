@@ -1,9 +1,12 @@
-package cellsociety_team06;
+package subGrids;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cellsociety_team06.Grid;
+import cellsociety_team06.Unit;
 
 public class squareGrid extends Grid {
 	int[] rowMove;
@@ -19,11 +22,15 @@ public class squareGrid extends Grid {
 		rectHeight = heightSquare;
 		fillGrid();
 	}
+	
+	public squareGrid(int rows, int cols, int length) {
+		this(rows, cols, length, length);
+	}
 
 	@Override
 	public void fillGrid() {
 		for (int i = 0; i < rows(); i++) {
-			List<Unit> cols = new ArrayList<>();
+			List<Unit> row = new ArrayList<>();
 			for (int j = 0; j < cols(); j++) {
 				Unit u = new Unit();
 				u.getPoints().addAll(new Double[]{
@@ -31,11 +38,11 @@ public class squareGrid extends Grid {
 			            rectHeight, 0.0,
 			            rectHeight, rectWidth,
 			            0.0, rectWidth});
-				u.setLayoutX(i * rectHeight);
-				u.setLayoutY(j * rectWidth);
-				cols.add((Unit) u);
+				u.setLayoutX(j * rectWidth);
+				u.setLayoutY(i * rectHeight);
+				row.add((Unit) u);
 			}
-			grid.add(cols);
+			grid.add(row);
 		}
 	}
 
@@ -49,7 +56,7 @@ public class squareGrid extends Grid {
 			int newCol = col + colMove[i];
 			if(newRow >= 0 && newRow < rows() && newCol >= 0 && newCol < cols()){
 				place = new Integer[] {newRow, newCol};
-				u = grid.get(newCol).get(newRow);
+				u = grid.get(newRow).get(newCol);
 				map.put(place, u);
 			}
 		}

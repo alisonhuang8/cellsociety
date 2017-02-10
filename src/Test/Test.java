@@ -4,15 +4,15 @@ import java.util.Collection;
 import java.util.Random;
 import cellsociety_team06.Grid;
 import cellsociety_team06.Unit;
-import cellsociety_team06.hexGrid;
-import cellsociety_team06.squareGrid;
-import cellsociety_team06.triangularGrid;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import subGrids.hexGrid;
+import subGrids.squareGrid;
+import subGrids.triangularGrid;
 import subUnits.Alive;
 import subUnits.Burning;
 import subUnits.Burnt;
@@ -22,7 +22,7 @@ public class Test extends Application{
 	private Grid curGrid, nextGrid;
 	Random rand = new Random();
 	private Group root = new Group();
-	private double catchChance = 0.8;
+	private double catchChance = 0.4;
 	private Stage window;
 	
 	public static void main(String[] args){
@@ -30,10 +30,10 @@ public class Test extends Application{
 	}
 	
 	private void getFireScene(){
-		for(int i = 0; i < curGrid.cols(); i++){
-			for(int j = 0; j < curGrid.rows(); j++){
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
 				curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
-				if(i == 0 && j == 0){
+				if(i == 5 && j == 2){
 					curGrid.setUnit(i, j, new Burning(curGrid.getUnit(i, j)));
 				}
 			}
@@ -47,8 +47,8 @@ public class Test extends Application{
 	}
 	
 	private void updateGrid(){
-		for(int i = 0; i < curGrid.cols(); i++){
-			for(int j = 0; j < curGrid.rows(); j++){
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
 				int n = getBurningNeighbors(curGrid.getNeighbors(i, j).values());
 				Unit u = nextGrid.getUnit(i, j);
 				if(curGrid.getUnit(i, j).isAlive()){
@@ -86,8 +86,8 @@ public class Test extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.window = primaryStage;
-		curGrid = new hexGrid(5, 5, 25);
-		nextGrid = new hexGrid(5, 5, 25);
+		curGrid = new triangularGrid(10, 5, 25);
+		nextGrid = new triangularGrid(10, 5, 25);
 		root = new Group();
 		root.getChildren().addAll(curGrid.getChildren());
 		Scene s = new Scene(root, 500, 500, Color.WHITE);
@@ -98,8 +98,8 @@ public class Test extends Application{
 	}
 	
 	private void resetCur(){
-		for(int i = 0; i < curGrid.cols(); i++){
-			for(int j = 0; j < curGrid.rows(); j++){
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
 				if(nextGrid.getUnit(i, j).isAlive()){
 					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
 				}

@@ -29,11 +29,11 @@ public abstract class Grid{
 	}
 
 	public Unit getUnit(int row, int col){
-		return grid.get(col).get(row);
+		return grid.get(row).get(col);
 	}
 	
 	public void setUnit(int row, int col, Unit u){
-		grid.get(col).set(row, u);
+		grid.get(row).set(col, u);
 	}
 	
 	public List<Unit> getChildren(){
