@@ -1,3 +1,8 @@
+/**
+ * Written by Gideon Pfeffer
+ * Makes a grid of hexagons
+ */
+
 package subGrids;
 
 import java.util.ArrayList;
@@ -9,10 +14,15 @@ import Unit.Unit;
 import cellsociety_team06.Grid;
 
 public class hexGrid extends Grid {
-	int[] rowMove, evenRowColMove, oddRowColMove;
-	double length;
+	private int[] evenRowColMove, oddRowColMove;
+	private double length;
 	
-
+	/**
+	 * @param rows takes in the number of rows
+	 * @param cols takes in the number of cols
+	 * @param length takes in the length of the hexagon side
+	 * also sets the default neighbors
+	 */
 	public hexGrid(int rows, int cols, int length) {
 		super(rows, cols);
 		rowMove = new int[] 	   {-2, -1, 1, 2, 1, -1};
@@ -22,6 +32,9 @@ public class hexGrid extends Grid {
 		fillGrid();
 	}
 
+	/**
+	 * fills the grid of the hexagons
+	 */
 	@Override
 	public void fillGrid() {
 		for (int i = 0; i < rows(); i++) {
@@ -35,6 +48,10 @@ public class hexGrid extends Grid {
 		}
 	}
 	
+	/**
+	 * sets the x,y of all the hexagons
+	 * also sets the points
+	 */
 	private void setPoly(Unit u, int row, int col){
 		if(row % 2 == 0) setEvenRow(u, row, col);
 		else setOddRow(u, row, col);
@@ -47,17 +64,28 @@ public class hexGrid extends Grid {
 	            - (1.0/2.0) * length, length});
 	}
 	
+	/**
+	 * Sets the polygons for even rows
+	 */
 	private void setEvenRow(Unit u, int row, int col){
 		u.setLayoutX(col * 2 *  length + length/2.0 + length * col);
 		u.setLayoutY(row *length);
 	}
 	
+	/**
+	 * Sets the polygons for odd rows
+	 */
 	private void setOddRow(Unit u, int row, int col){
 		u.setLayoutX(col * 2 *  length + length * 2 + length * col);
 		u.setLayoutY(row * length);
 	}
 	
-	@Override
+	/**
+	 * returns a map of the neighbors with the
+	 * key being the integer [row,col] and
+	 * the value being the shape
+	 * has a special case
+	 */
 	public Map<Integer[], Unit> getNeighbors(int row, int col) {
 		Map<Integer[], Unit> map = new HashMap<>();
 		int[] colMove = oddRowColMove;
@@ -74,6 +102,18 @@ public class hexGrid extends Grid {
 			}
 		}
 		return map;
+	}
+	
+	/**
+	 * Changes the relative neighbors for the hexagons because
+	 * neighbors are handled differently
+	 */
+	public void setHexNeighbors(int[] oddRowMoves, int[] evenRowMoves){
+		if(oddRowMoves.length != evenRowMoves.length){
+			throw new IllegalArgumentException();
+		}
+		this.oddRowColMove = oddRowMoves;
+		this.evenRowColMove = evenRowMoves;
 	}
 
 }

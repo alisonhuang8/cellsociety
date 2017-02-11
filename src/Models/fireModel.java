@@ -1,3 +1,8 @@
+/**
+ * Written by Gideon Pfeffer
+ * Runs all necessary measurements for the fire model
+ */
+
 package Models;
 
 import java.util.Collection;
@@ -25,6 +30,14 @@ public class fireModel extends Model {
 	private double catchChance = 0.7;
 	private fireReads reads;
 	
+	/**
+	 * @param s should be factored out by Faith
+	 * @param t should be factored out by Faith
+	 * @param r should be factored out by Faith
+	 * @param width width of the stage
+	 * @param height height of the stage
+	 * @param size which of the three XML's should be read 
+	 */
 	public fireModel(Stage s, Timeline t, ResourceBundle r, int width, int height, int size){
 		super(s,t,r);
 		reads = new fireReads(size);
@@ -35,6 +48,10 @@ public class fireModel extends Model {
 		getFireScene();
 	}
 
+	/**
+	 * Sets up the initial fire scene
+	 * should be re-factored into a level generator
+	 */
 	private void getFireScene(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
@@ -49,6 +66,9 @@ public class fireModel extends Model {
 		resetRoot();
 	}
 	
+	/**
+	 * decides which units the fire should spread and spreads it
+	 */
 	public void updateGrid(){
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
@@ -72,7 +92,10 @@ public class fireModel extends Model {
 		resetRoot();
 	}
 	
-	protected void resetCur(){
+	/**
+	 * sets the curGrid to be equal to the NextGrid
+	 */
+	private void resetCur(){
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
 				if(nextGrid.getUnit(i, j).isAlive()){
@@ -88,6 +111,9 @@ public class fireModel extends Model {
 		}
 	}
 	
+	/**
+	 * returns the number of direct neighbors that are burning
+	 */
 	private int getBurningNeighbors(Collection<Unit> neighbors){
 		int total = 0;
 		for(Unit n:neighbors){
@@ -95,12 +121,17 @@ public class fireModel extends Model {
 		}
 		return total;
 	}
-
+	/**
+	 * ticks the CA
+	 */
 	@Override
 	public void setNextScene() {
 		updateGrid();
 	}
 
+	/**
+	 * resets the CA
+	 */
 	@Override
 	public void reset() {
 		root.getChildren().clear();

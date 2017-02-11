@@ -1,3 +1,7 @@
+/**
+ *Co-Written by all
+ */
+
 package cellsociety_team06;
 
 import java.io.File;
@@ -58,8 +62,6 @@ public abstract class Model {
 	public void step(){
 		setNextScene();
 	}
-	
-	protected abstract void resetCur();
 	
 	protected void resetRoot(){
 		root.getChildren().clear();
