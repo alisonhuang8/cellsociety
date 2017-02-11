@@ -1,10 +1,7 @@
 package cellsociety_team06;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-
 import Models.fireModel;
 import Models.lifeModel;
 import Models.segregationModel;
@@ -15,23 +12,16 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -44,18 +34,12 @@ public class CellSociety extends Application {
 	private Model currentModel;
 
 	private Scene myHomeScene;
+	private Scene mySizeScene;
+	private Scene myShapeScene;
 
 	private int FRAMES_PER_SECOND = 1;
 	private double SECOND_DELAY = 0.75 / FRAMES_PER_SECOND;
 	private int gridSize = 0;
-
-	private Button myLifeButton;
-	private Button myFireButton;
-	private Button myWatorButton;
-	private Button mySegregationButton;
-	private Button btn_small;
-	private Button btn_medium;
-	private Button btn_large;
 	
 	private String fileName = "b";
 	private String lifeFile = "lifeinfo.txt";
@@ -63,16 +47,24 @@ public class CellSociety extends Application {
 	private String watorFile = "watorinfo.txt";
 	private String segregationFile = "segregationinfo.txt";
 	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	private String shape;
+	String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
+	String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
+							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"}};
 
 	private HBox panel = new HBox();
 	private Group root = new Group();
 	private Scene myScene = new Scene(root, SIZE, SIZE, Color.WHITE);
 	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 
-	SceneSetup setup = new SceneSetup();
+	SceneSetup setup;
 			
-	public void start(Stage s) throws Exception {
+	public void start(Stage s) throws Exception {	
 		myStage = s;
+		setup = new SceneSetup(SIZE, SIZE, myResources, myStage);
+		mySizeScene = askSizeScene();
+		
+		myShapeScene = shapeScene(SIZE,SIZE,BACKGROUND);
 		myHomeScene = homeScene(SIZE, SIZE, BACKGROUND);
 		myStage.setScene(myHomeScene);
 		myStage.setTitle(myResources.getString("HomeTitle"));
@@ -82,31 +74,19 @@ public class CellSociety extends Application {
 	
 	private Scene homeScene(int width, int height, Paint background) {
 		Pane homeSceneRoot = new FlowPane(Orientation.VERTICAL);
-
-		myLifeButton = setup.createSimButton(homeSceneRoot, myResources.getString("GoLSimulation"), SIZE);
-		myLifeButton.setOnAction(e -> simButtonClicked(e, lifeFile));
-
-		myFireButton = setup.createSimButton(homeSceneRoot, myResources.getString("SpreadingFireSimulation"), SIZE);
-		myFireButton.setOnAction(e -> simButtonClicked(e, fireFile));
-
-		myWatorButton = setup.createSimButton(homeSceneRoot, myResources.getString("PredatorPreySimulation"), SIZE);
-		myWatorButton.setOnAction(e -> simButtonClicked(e, watorFile));
-
-		mySegregationButton = setup.createSimButton(homeSceneRoot, myResources.getString("SegregationSimulation"), SIZE);
-		mySegregationButton.setOnAction(e -> simButtonClicked(e, segregationFile));
-
+		for (String[] simulation: simulations) {
+			Button myButton = setup.createSimButton(homeSceneRoot, myResources.getString(simulation[0]));			
+			myButton.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent arg) {
+					fileName = simulation[1];
+					setInfoScene();
+				}
+			});
+		}
 		myHomeScene = new Scene(homeSceneRoot, width, height, background);
 		return myHomeScene;
 	}
-	
-	private void simButtonClicked(ActionEvent e, String nextFile) {
-		if (e.getSource() == myLifeButton || e.getSource() == myFireButton || e.getSource() == myWatorButton
-				|| e.getSource() == mySegregationButton) {
-			fileName = nextFile;
-			setInfoScene();	
-		}
-	}
-	
+		
 	private void setInfoScene() {
 		Scene myInfoScene = infoScene(SIZE, SIZE, BACKGROUND);
 		myStage.setTitle(myResources.getString("InfoTitle"));
@@ -116,57 +96,42 @@ public class CellSociety extends Application {
 	private Scene infoScene(int width, int height, Paint background) {
 		Pane infoRoot = new Pane();
 		Scene myInfoScene = new Scene(infoRoot, SIZE, SIZE, background);
-		infoRoot.getChildren().add(setup.readFile(infoRoot,fileName, SIZE, SIZE));
-		Button btn_play = setup.buttonPlay(infoRoot, SIZE, SIZE);
-		btn_play.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent arg) {
-				askSizeScene();
-			}
-		});
-		Button btn_back = setup.buttonBack(infoRoot, SIZE, SIZE, myResources);
-		btn_back.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent arg) {
-				try {
-					
-					start(myStage);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		infoRoot.getChildren().add(setup.readFile(infoRoot,fileName));
+		setup.buttonPlay(infoRoot, myShapeScene);		
+		setup.buttonBack(infoRoot, myHomeScene);
 		myStage.setScene(myInfoScene);
 		return myInfoScene;
 	}
 	
-	private void askSizeScene(){
-		Group sizeSceneRoot = new Group();		
-		setup.createSizeLabel(sizeSceneRoot, SIZE, SIZE, myResources);
-		
-		VBox sizes = setup.createSizeBox(sizeSceneRoot, SIZE, SIZE);
-		btn_small = setup.createSizeButton(sizeSceneRoot, myResources.getString("SmallGrid"));
-		btn_small.setOnAction(f -> SizeClicked(f));
-		
-		btn_medium = setup.createSizeButton(sizeSceneRoot,myResources.getString("MediumGrid"));
-		btn_medium.setOnAction(f -> SizeClicked(f));
-		
-		btn_large = setup.createSizeButton(sizeSceneRoot,myResources.getString("LargeGrid"));
-		btn_large.setOnAction(f -> SizeClicked(f));
-		sizes.getChildren().addAll(btn_small, btn_medium, btn_large);
-
-		myScene.setRoot(sizeSceneRoot);
-		myStage.setScene(myScene);
-		myStage.show();
-		myStage.setTitle(myResources.getString("GridSize"));
+	private Scene shapeScene(int width, int height, Paint background) {
+		Group shapeRoot = new Group();
+		myShapeScene = new Scene(shapeRoot, SIZE, SIZE, BACKGROUND);
+		shape = setup.createShapeButtons(shapeRoot, mySizeScene);
+		return myShapeScene;
 	}
 	
-	public void SizeClicked(ActionEvent f){
-		if (f.getSource() == btn_small){
+	private Scene askSizeScene(){	
+		Group sizeSceneRoot = new Group();
+		mySizeScene = new Scene(sizeSceneRoot, SIZE, SIZE, BACKGROUND);
+		setup.createSizeLabel(sizeSceneRoot, myResources, SIZE, SIZE);
+		VBox sizes = setup.createBox(sizeSceneRoot, SIZE, SIZE);		
+		for (String button: sizeButtons) {
+			Button btn = setup.createSizeButton(sizeSceneRoot, button);
+			btn.setOnAction(f -> SizeClicked(f,button));
+			sizes.getChildren().add(btn);
+		}
+		mySizeScene.setRoot(sizeSceneRoot);
+		return mySizeScene;
+	}
+	
+	public void SizeClicked(ActionEvent f, String size){
+		if (((Button) f.getSource()).getText().equals("SmallGrid")){
 			gridSize = 1;	
 			
-		} else if (f.getSource() == btn_medium){
+		} else if (((Button) f.getSource()).getText().equals("MediumGrid")){
 			gridSize = 2;
 			
-		} else if (f.getSource() == btn_large){
+		} else if (((Button) f.getSource()).getText().equals("LargeGrid")){
 			gridSize = 3;
 			
 		}
@@ -198,7 +163,6 @@ public class CellSociety extends Application {
 		root.getChildren().add(bp);
 		Group rt = currentModel.getRoot();
 		bp.setCenter(rt);
-
 	}
 
 	private void setAnimation() {
