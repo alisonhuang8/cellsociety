@@ -8,7 +8,6 @@ package Models;
 import java.util.Collection;
 import java.util.Random;
 import java.util.ResourceBundle;
-
 import Unit.Unit;
 import XMLReads.fireReads;
 import cellsociety_team06.Model;
@@ -44,6 +43,7 @@ public class fireModel extends Model {
 		down = reads.height();
 		across = reads.width();
 		curGrid = new triangularGrid(down, across, height/down);
+		curGrid.makeTorroidal();
 		nextGrid = new triangularGrid(down, across, height/down);
 		getFireScene();
 	}

@@ -58,4 +58,58 @@ public class squareGrid extends Grid {
 			grid.add(row);
 		}
 	}
+	
+	/**
+	 * checks which neighbor type it needs to look for
+	 */
+	public Map<Integer[], Unit> getNeighbors(int row, int col) {
+		if(!toroidal) return getFiniteNeighbors(row, col);
+		else return getToroidalNeighbors(row, col);
+	}
+	
+	/**
+	 * @param row
+	 * @param col
+	 * @return A map of the all local neighbor units to a block given the row and col
+	 * <K, V> corresponds to <location, Unit>
+	 */
+	public Map<Integer[], Unit> getFiniteNeighbors(int row, int col) {
+		Map<Integer[], Unit> map = new HashMap<>();
+		Unit u;
+		Integer[] place;
+		for(int i = 0; i < rowMove.length; i++){
+			int newRow = row + rowMove[i];
+			int newCol = col + colMove[i];
+			if(newRow >= 0 && newRow < rows() && newCol >= 0 && newCol < cols()){
+				place = new Integer[] {newRow, newCol};
+				u = grid.get(newRow).get(newCol);
+				map.put(place, u);
+			}
+		}
+		return map;
+	}
+	
+	/**
+	 * returns a map of the neighbors with the
+	 * key being the integer [row,col] and
+	 * the value being the shape
+	 * has a special case
+	 */
+	public Map<Integer[], Unit> getToroidalNeighbors(int row, int col) {
+		Map<Integer[], Unit> map = new HashMap<>();
+		Unit u;
+		Integer[] place;
+		for(int i = 0; i < rowMove.length; i++){
+			int newRow = row + rowMove[i];
+			int newCol = col + colMove[i];
+			if(newRow < 0) newRow = rows() + newRow;
+			if(newCol < 0) newCol = rows() + newCol;
+			if(newRow >= rows()) newRow = newRow - rows();
+			if(newCol >= cols()) newCol = newCol - cols();
+				place = new Integer[] {newRow, newCol};
+				u = grid.get(newRow).get(newCol);
+				map.put(place, u);
+		}
+		return map;
+	}
 }
