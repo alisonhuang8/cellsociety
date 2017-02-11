@@ -29,9 +29,6 @@ public abstract class Model {
 	private Stage myStage;
 	private Timeline animation;
 	protected Group root;
-//	private double initialRate;
-//	private Slider speedSlide;
-//	private ResourceBundle myResources;
 	protected Grid curGrid, nextGrid;
 	
 	private final double minSimSpeed = 1;
@@ -39,11 +36,7 @@ public abstract class Model {
 	
 	
 	//constructor
-	public Model (Stage s, Timeline t, ResourceBundle r){
-		myStage = s;
-		animation = t;
-		//myResources = r;
-//		initialRate = animation.getCurrentRate();
+	public Model (){
 		root = new Group();
 	}
 	

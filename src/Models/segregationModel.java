@@ -39,8 +39,7 @@ public class segregationModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public segregationModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int sze){
-		super(s,t, r);
+	public segregationModel(int height, int width, int sze){
 		size = sze;
 		reads = new segReads(size);
 		down = reads.height();
