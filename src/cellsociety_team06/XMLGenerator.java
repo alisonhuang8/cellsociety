@@ -8,18 +8,15 @@ package cellsociety_team06;
 import java.util.Random;
 
 public class XMLGenerator {
-	static int rows;
-	static int cols;
-	static Random rand;
 	
 	public static void main(String[] args){
-		rows = 20; // change the number of rows and columns
-		cols = 20;
-		rand = new Random();
-		populate();
+		int rows = 20; // change the number of rows and columns
+		int cols = 20;
+		Random rand = new Random();
+		populate(rows, cols, rand);
 	}
 	
-	private static void populate(){
+	private static void populate(int rows, int cols, Random rand){
 		for(int i = 0; i < rows; i++){
 			System.out.print("<Row>");
 			for(int j = 0; j < cols; j++){

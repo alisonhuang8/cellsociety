@@ -25,6 +25,7 @@ public class lifeModel extends Model {
 	private int height = 500;
 	private Group root = new Group();
 	lifeReads reads;
+	private char life = 'L';
 	
 	public lifeModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int size){
 		super(s,t,r);
@@ -41,11 +42,11 @@ public class lifeModel extends Model {
 	private void getLifeScene(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == '0'){
-					curGrid[i][j] = new Blank((width * i)/down, (height * j)/across, width/down, height/across);
+				if(reads.get(i, j) == life){
+					curGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
 				}
 				else{
-					curGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
+					curGrid[i][j] = new Blank((width * i)/down, (height * j)/across, width/down, height/across);
 				}
 				root.getChildren().add(curGrid[i][j]);
 			}

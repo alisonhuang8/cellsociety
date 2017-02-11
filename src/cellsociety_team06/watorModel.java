@@ -34,6 +34,8 @@ public class watorModel extends Model {
 	private int height;
 	private Group root;
 	private int size;
+	private char predator = 'R';
+	private char prey = 'Y';
 	
 	
 	public watorModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int sze){
@@ -66,10 +68,10 @@ public class watorModel extends Model {
 			curGrid.add(startList);
 			nextGrid.add(blankList);
 			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == 'R'){
+				if(reads.get(i, j) == predator){
 					startList.add(new Prey((width * i)/down, (height * j)/across, width/down, height/across, 0));
 				}
-				else if(reads.get(i, j) == 'Y'){
+				else if(reads.get(i, j) == prey){
 					startList.add(new Predator((width * i)/down, (height * j)/across,
 							width/down, height/across, startingEnergy, 0));
 				}

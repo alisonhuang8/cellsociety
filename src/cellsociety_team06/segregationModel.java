@@ -33,6 +33,8 @@ public class segregationModel extends Model {
 	private double totalBlank = 0.0;
 	segReads reads;
 	private int size;
+	private char type1 = 'A';
+	private char type2 = 'B';
 	
 	public segregationModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int sze){
 		super(s,t, r);
@@ -63,15 +65,15 @@ public class segregationModel extends Model {
 			nextGrid.add(blank);
 			for(int j = 0; j < across; j++){
 				
-				if(reads.get(i, j) == '0'){
-					start.add(new Blank((width * i)/down, (height * j)/across, width/down, height/across));
+				if(reads.get(i, j) == type1){
+					start.add(new Type1((width * i)/down, (height * j)/across, width/down, height/across));
 					totalBlank++;
 				}
-				else if(reads.get(i, j) == 'A'){
-					start.add(new Type1((width * i)/down, (height * j)/across, width/down, height/across));
+				else if(reads.get(i, j) == type2){
+					start.add(new Type2((width * i)/down, (height * j)/across, width/down, height/across));
 				}
 				else{
-					start.add(new Type2((width * i)/down, (height * j)/across, width/down, height/across));
+					start.add(new Blank((width * i)/down, (height * j)/across, width/down, height/across));
 				}
 				blank.add(new Blank((width * i)/down, (height * j)/across, width/down, height/across));
 				root.getChildren().add(start.get(j));

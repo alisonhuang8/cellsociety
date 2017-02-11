@@ -25,6 +25,7 @@ public class fireModel extends Model {
 	private double catchChance = 0.7;
 	private fireReads reads;
 	private ResourceBundle myResources;
+	private char alive = 'G';
 	
 	public fireModel(Stage s, Timeline t, ResourceBundle r, int width, int height, int size){
 		super(s,t,r);
@@ -41,7 +42,7 @@ public class fireModel extends Model {
 	private void getFireScene(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == 'G'){
+				if(reads.get(i, j) == alive){
 					curGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
 				}
 				if(i == 0 && j == 0){
