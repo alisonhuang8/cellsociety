@@ -13,7 +13,6 @@ import cellsociety_team06.Unit;
 import javafx.animation.Timeline;
 import javafx.stage.Stage;
 import subGrids.hexGrid;
-import subGrids.squareGrid;
 import subUnits.Blank;
 import subUnits.Type1;
 import subUnits.Type2;
@@ -133,7 +132,7 @@ public class segregationModel extends Model {
 
 	@Override
 	protected void resetCur() {
-		//Not needed for this algorithm.
+	//Not needed for this algorithm.
 	}
 
 }
