@@ -108,7 +108,6 @@ public class CellSociety extends Application {
 				public void handle(ActionEvent arg) {
 					fileName = simulation[1];
 					simType = Arrays.asList(simulations).indexOf(simulation) + 1;
-					System.out.print(simType);
 					setInfoScene();
 				}
 			});
@@ -137,6 +136,7 @@ public class CellSociety extends Application {
 		Group shapeRoot = new Group();
 		myShapeScene = new Scene(shapeRoot, width, height, BACKGROUND);
 		unitShape = setup.createShapeButtons(shapeRoot, mySizeScene);
+		System.out.print(unitShape);
 		return myShapeScene;
 	}
 	
