@@ -29,6 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import subUnits.Alive;
 
 public class CellSociety extends Application {
 	public static final int SIZE = 500;
@@ -175,8 +176,13 @@ public class CellSociety extends Application {
 		BorderPane bp = new BorderPane();
 		panel.getChildren().clear();
 
+		GridGenerator gg = new GridGenerator(1, 1, 1, neighborConfig, boundaryStyle, inputStyle, SIZE-50, SIZE-50);
+		Grid currGrid = gg.returnCurrGrid();
+		System.out.println(currGrid.getInstances(new Alive()).size());
+		Grid nextGrid = gg.returnNextGrid();
+		
 		if (fileName.equals(lifeFile)) {
-			currentModel = new lifeModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new lifeModel(currGrid, nextGrid);
 		} else if (fileName.equals(fireFile)) {
 			currentModel = new fireModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(watorFile)) {

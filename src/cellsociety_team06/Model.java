@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+
+
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -47,6 +49,14 @@ public abstract class Model {
 		root = new Group();
 	}
 	
+	public Model(Grid curr, Grid next){
+		curGrid = curr;
+		System.out.println(curGrid.getInstances(new Alive()).size());
+		nextGrid = next;
+		root = new Group();
+		resetRoot();
+	}
+	
 	//methods
 	
 	public Group getRoot(){
@@ -65,6 +75,8 @@ public abstract class Model {
 	
 	protected void resetRoot(){
 		root.getChildren().clear();
+		System.out.print(curGrid.getInstances(new Alive()).size() + " ");
+		System.out.println("reseting root");
 		root.getChildren().addAll(curGrid.getChildren());
 	}
 	

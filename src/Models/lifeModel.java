@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import Unit.Unit;
 import XMLReads.lifeReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -41,6 +42,11 @@ public class lifeModel extends Model {
 		curGrid = new squareGrid(down, across, height/down);
 		nextGrid = new squareGrid(down, across, height/down);
 		getLifeScene();
+	}
+	
+	public lifeModel(Grid curr, Grid next){
+		super(curr,next);
+		//resetRoot();
 	}
 	
 	/**
