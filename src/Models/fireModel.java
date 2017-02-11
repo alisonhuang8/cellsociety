@@ -37,8 +37,7 @@ public class fireModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public fireModel(Stage s, Timeline t, ResourceBundle r, int width, int height, int size){
-		super(s,t,r);
+	public fireModel(int width, int height, int size){
 		reads = new fireReads(size);
 		down = reads.height();
 		across = reads.width();

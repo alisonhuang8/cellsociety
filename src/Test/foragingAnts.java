@@ -17,14 +17,14 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import subGrids.hexGrid;
 import subGrids.squareGrid;
 import subGrids.triangularGrid;
 import subUnits.Alive;
 import subUnits.Burning;
 import subUnits.Burnt;
 
-public class Test extends Application{
+
+public class foragingAnts extends Application{
 	private Grid curGrid, nextGrid;
 	Random rand = new Random();
 	private Group root = new Group();
@@ -109,8 +109,9 @@ public class Test extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.window = primaryStage;
-		curGrid = new triangularGrid(10, 5, 25);
-		nextGrid = new triangularGrid(10, 5, 25);
+		curGrid = new squareGrid(50, 50, 10);
+		curGrid.makeTorroidal();
+		nextGrid = new squareGrid(50, 50, 10);
 		root = new Group();
 		root.getChildren().addAll(curGrid.getChildren());
 		Scene s = new Scene(root, 500, 500, Color.WHITE);

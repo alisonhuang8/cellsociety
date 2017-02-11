@@ -33,8 +33,7 @@ public class lifeModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public lifeModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int size){
-		super(s,t,r);
+	public lifeModel(int height, int width, int size){
 		reads = new lifeReads(size);
 		down = reads.height();
 		across = reads.width();
