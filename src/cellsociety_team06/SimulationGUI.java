@@ -1,3 +1,8 @@
+/**
+ * Written by Faith Rodriguez
+ * Creates and implements all GUI features of the simulations
+ */
+
 package cellsociety_team06;
 
 import java.util.ResourceBundle;

@@ -1,8 +1,13 @@
-package cellsociety_team06;
+/**
+ * Written by Faith Rodriguez
+ * Creates scenes and controls timeline; runs the simulations
+ */
 
+package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 
 import java.util.ResourceBundle;
@@ -45,17 +50,18 @@ public class CellSociety extends Application {
 	private Scene myHomeScene;
 	private Scene mySizeScene;
 	private Scene myShapeScene;
+	private Scene myNeighborScene;
 
 	private int FRAMES_PER_SECOND = 1;
 	private double SECOND_DELAY = 0.75 / FRAMES_PER_SECOND;
 	
 	//parameters needed by the grid generator
-	private int simType = 0;
-	private int unitShape = 0;
-	private int gridSize = 0;
+	private int simType = 1;
+	private int unitShape = 1;
+	private int gridSize = 1;
 	private List<Integer[]> neighborConfig;
-	private int boundaryStyle = 0;
-	private int inputStyle = 0;
+	private int boundaryStyle = 1;
+	private int inputStyle = 1;
 
 	private String fileName = "";
 	private String lifeFile = "lifeinfo.txt";
@@ -63,9 +69,8 @@ public class CellSociety extends Application {
 	private String watorFile = "watorinfo.txt";
 	private String segregationFile = "segregationinfo.txt";
 	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	private String shape;
-	String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
-	String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
+	private String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
+	private String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
 							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"}};
 
 	private HBox panel = new HBox();
@@ -80,23 +85,30 @@ public class CellSociety extends Application {
 	public void start(Stage s) throws Exception {	
 		myStage = s;
 		setup = new SceneSetup(width, height, myResources, myStage);
-		mySizeScene = askSizeScene();
-		myShapeScene = shapeScene(width,height,BACKGROUND);
-		myHomeScene = homeScene(width, height, BACKGROUND);
+		initializeScenes();
 		myStage.setScene(myHomeScene);
 		myStage.setTitle(myResources.getString("HomeTitle"));
 		myStage.show();
 		setAnimation();
 		simSetup = new SimulationGUI(animation, myResources);
 	}
-	
+	private void initializeScenes() {
+		mySizeScene = askSizeScene();
+		myShapeScene = shapeScene(width,height,BACKGROUND);
+		myHomeScene = homeScene(width, height, BACKGROUND);
+		//myNeighborScene = chooseNeighbors(width,height,BACKGROUND);
+	}
 	private Scene homeScene(int width, int height, Paint background) {
 		Pane homeSceneRoot = new FlowPane(Orientation.VERTICAL);
+		int simTypeCounter = 0;
 		for (String[] simulation: simulations) {
+			simTypeCounter++;
 			Button myButton = setup.createSimButton(homeSceneRoot, myResources.getString(simulation[0]));			
 			myButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent arg) {
 					fileName = simulation[1];
+					simType = Arrays.asList(simulations).indexOf(simulation) + 1;
+					System.out.print(simType);
 					setInfoScene();
 				}
 			});
@@ -124,9 +136,17 @@ public class CellSociety extends Application {
 	private Scene shapeScene(int width, int height, Paint background) {
 		Group shapeRoot = new Group();
 		myShapeScene = new Scene(shapeRoot, width, height, BACKGROUND);
-		shape = setup.createShapeButtons(shapeRoot, mySizeScene);
+		unitShape = setup.createShapeButtons(shapeRoot, mySizeScene);
 		return myShapeScene;
 	}
+	
+//	private Scene chooseNeighbors(int width, int height, Paint background) {
+//		Group neighborRoot = new Group();
+//		myNeighborScene = new Scene(neighborRoot, width, height, BACKGROUND);
+//		setup.createNeighborLabel(neighborRoot, width, height);
+//		neighbors = setup.createNeighborButtons(neighborRoot, mySizeScene, currentModel);
+//		return myNeighborScene;
+//	}
 	
 	private Scene askSizeScene(){	
 		Group sizeSceneRoot = new Group();
@@ -154,18 +174,6 @@ public class CellSociety extends Application {
 			
 		}
 		createModelAndFrames();
-	}
-	
-	private void getSimType(){
-		if (fileName.equals(lifeFile)) {
-			simType = 1;
-		} else if (fileName.equals(fireFile)) {
-			simType = 2;
-		} else if (fileName.equals(watorFile)) {
-			simType = 3;
-		} else if (fileName.equals(segregationFile)) {
-			simType = 4;
-		}	
 	}
 	
 	private void createModelAndFrames() {
