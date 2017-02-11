@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 
 import Unit.Unit;
 import XMLReads.watorReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -58,6 +59,17 @@ public class watorModel extends Model {
 		down = reads.height();
 		across = reads.width();
 		curGrid = new squareGrid(down, across, height/down);
+		curGrid.makeTorroidal();
+		start();
+	}
+	
+	public watorModel(Grid curr, Grid next){
+		curGrid = curr;
+		nextGrid = next;
+		takenPrey = new ArrayList<>();
+		takenBlank = new ArrayList<>();
+		rand = new Random();
+		root = new Group();
 		curGrid.makeTorroidal();
 		start();
 	}

@@ -35,6 +35,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import subUnits.Alive;
 
 public class CellSociety extends Application {
 	private int SIZE = 500;
@@ -57,7 +58,7 @@ public class CellSociety extends Application {
 	
 	//parameters needed by the grid generator
 	private int simType = 1;
-	private int unitShape = 1;
+	private int unitShape = 2;
 	private int gridSize = 1;
 	private List<Integer[]> neighborConfig;
 	private int boundaryStyle = 1;
@@ -181,16 +182,20 @@ public class CellSociety extends Application {
 		BorderPane bp = new BorderPane();
 		panel.getChildren().clear();
 
+		GridGenerator gg = new GridGenerator(simType, unitShape, gridSize, neighborConfig, boundaryStyle, inputStyle, SIZE-50, SIZE-50);
+		Grid currGrid = gg.returnCurrGrid();
+		Grid nextGrid = gg.returnNextGrid();
+		
 		if (fileName.equals(lifeFile)) {
-			currentModel = new lifeModel(width - 50, height - 50, gridSize);
+			currentModel = new lifeModel(currGrid, nextGrid);
+		//	currentModel = new lifeModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(fireFile)) {
-			currentModel = new fireModel(width - 50, width - 50, gridSize);
+			currentModel = new fireModel(currGrid, nextGrid);
 		} else if (fileName.equals(watorFile)) {
-			currentModel = new watorModel(width - 50, height - 50, gridSize);
+			currentModel = new watorModel(currGrid, nextGrid);
 		} else if (fileName.equals(segregationFile)) {
-			currentModel = new segregationModel(width - 50, width - 50, gridSize);
-		}	
-
+			currentModel = new segregationModel(currGrid, nextGrid);
+		}
 		myScene.setRoot(root);
 		myStage.setScene(myScene);
 		myStage.setTitle(myResources.getString("SimulationTitle"));
