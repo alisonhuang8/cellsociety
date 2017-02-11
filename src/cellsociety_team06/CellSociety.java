@@ -58,10 +58,12 @@ public class CellSociety extends Application {
 	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 
 	SceneSetup setup;
+	SimulationGUI simSetup;
 			
 	public void start(Stage s) throws Exception {	
 		myStage = s;
 		setup = new SceneSetup(SIZE, SIZE, myResources, myStage);
+		simSetup = new SimulationGUI(animation);
 		mySizeScene = askSizeScene();
 		
 		myShapeScene = shapeScene(SIZE,SIZE,BACKGROUND);
@@ -157,8 +159,8 @@ public class CellSociety extends Application {
 		myStage.setScene(myScene);
 		myStage.setTitle(myResources.getString("SimulationTitle"));
 		
-		panel.getChildren().addAll(currentModel.createStartSimBtn(), currentModel.createPauseBtn(), currentModel.createStepBtn(), 
-				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn(), currentModel.createSpeedSlider());
+		panel.getChildren().addAll(simSetup.createStartSimBtn(), simSetup.createPauseBtn(), simSetup.createStepBtn(currentModel), 
+				simSetup.createHomeBtn(myHomeScene, currentModel, myStage), simSetup.createResetBtn(currentModel), simSetup.createSpeedSlider());
 		bp.setTop(panel);
 		root.getChildren().add(bp);
 		Group rt = currentModel.getRoot();
