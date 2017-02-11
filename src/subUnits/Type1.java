@@ -12,4 +12,8 @@ public class Type1 extends Unit{
 		setFill(COLOR);
 		state = TYPE1_STATE;
 	}
+	
+	public Type1(){
+		this(new Unit());
+	}
 }

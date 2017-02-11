@@ -19,6 +19,10 @@ public class Predator extends Unit{
 		state = PREDATOR_STATE;
 	}
 	
+	public Predator(){
+		this(0, 0, new Unit());
+	}
+	
 	public int getEnergy(){
 		return energy;
 	}
@@ -38,6 +42,10 @@ public class Predator extends Unit{
 	
 	public int getWalked(){
 		return walked;
+	}
+	
+	public void resetWalked(){
+		walked = 0;
 	}
 	
 	public boolean canBirth(){

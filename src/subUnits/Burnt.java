@@ -12,4 +12,8 @@ public class Burnt extends Unit{
 		setFill(COLOR);
 		state = BURNT_STATE;
 	}
+	
+	public Burnt(){
+		this(new Unit());
+	}
 }

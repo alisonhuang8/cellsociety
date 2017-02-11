@@ -12,4 +12,8 @@ public class Blank extends Unit{
 		setFill(COLOR);
 		state = BLANK_STATE;
 	}
+	
+	public Blank(){
+		this(new Unit());
+	}
 }

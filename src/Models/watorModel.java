@@ -13,9 +13,9 @@ import cellsociety_team06.Model;
 import cellsociety_team06.Unit;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import subGrids.hexGrid;
+import subGrids.squareGrid;
 import subUnits.Blank;
 import subUnits.Predator;
 import subUnits.Prey;
@@ -24,119 +24,107 @@ public class watorModel extends Model {
 	
 	private int across;
 	private int down;
-	private List<List<Unit>> curGrid;
-	private List<List<Unit>> nextGrid;
 	Random rand;
-	private int width;
-	private List<List<Integer>> availablePrey;
-	private List<List<Integer>> availableBlank;
+	private List<List<Integer>> takenPrey;
+	private List<List<Integer>> takenBlank;
+	Map<Integer[], Integer[]> preyMap;
+	Map<Integer[], Integer[]> blankMap;
+	
 	private int startingEnergy = 5;
 	int counter = 0;
 	watorReads reads;
-	private int height;
-	private Group root;
 	private int size;
 	
 	
 	public watorModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int sze){
 		super(s,t,r);
-		size = sze;   
-		this.height = height;
-		this.width = width;
+		size = sze;
 		root = new Group();
-		start();
-	}
-	
-	private void start(){
+		takenPrey = new ArrayList<>();
+		takenBlank = new ArrayList<>();
 		rand = new Random();
 		reads = new watorReads(size);
 		down = reads.height();
 		across = reads.width();
-		curGrid = new ArrayList<>();
-		nextGrid = new ArrayList<>();
-		availablePrey = new ArrayList<>();
-		availableBlank = new ArrayList<>();
+		curGrid = new hexGrid(down, across, height/down);
+		start();
+	}
+	
+	private void start(){
+		preyMap = new HashMap<>();
+		blankMap = new HashMap<>();
 		counter = 0;
 		getWatorScene();
 	}
 	
 	private void getWatorScene(){
 		for(int i = 0; i < down; i++){
-			List<Unit> startList = new ArrayList<Unit>();
-			List<Unit> blankList = new ArrayList<Unit>();
-			curGrid.add(startList);
-			nextGrid.add(blankList);
 			for(int j = 0; j < across; j++){
 				if(reads.get(i, j) == 'R'){
-					startList.add(new Prey((width * i)/down, (height * j)/across, width/down, height/across, 0));
+					curGrid.setUnit(i, j, new Prey(0, curGrid.getUnit(i, j)));
 				}
 				else if(reads.get(i, j) == 'Y'){
-					startList.add(new Predator((width * i)/down, (height * j)/across,
-							width/down, height/across, startingEnergy, 0));
+					curGrid.setUnit(i, j, new Predator(startingEnergy, 0, curGrid.getUnit(i, j)));
 				}
 				else{
-					startList.add(new Blank((width * i)/down, (height * j)/across, width/down, height/across));
+					curGrid.setUnit(i, j, new Blank(curGrid.getUnit(i, j)));
 				}
-				blankList.add(new Blank((width * i)/down, (height * j)/across, width/down, height/across));
-				root.getChildren().add(startList.get(j));
 			}
 		}
-	}
-	
-	private void handleKeyInput(KeyCode code){
-		if(code == KeyCode.SPACE){
-			updateGrid();
-		}
+		resetRoot();
 	}
 
 	public void updateGrid(){
+		counter++;
+		takenPrey.clear();
+		takenBlank.clear();
+		preyMap.clear();
+		blankMap.clear();
 		updatePred();
+		eatPrey(preyMap);
+		movePred(blankMap);
+		preyMap.clear();
+		blankMap.clear();
+		takenBlank.clear();
 		updatePrey();
+		movePrey(blankMap);
+		resetRoot();
 	}
 	
 	private void updatePred(){
-		resetAvailablePrey(curGrid);
-		resetAvailableBlanks(curGrid);
-		Map<List<Integer>, List<Integer>> preyMap = new HashMap<>();
-		Map<List<Integer>, List<Integer>> blankMap = new HashMap<>();
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				List<Integer> place = new ArrayList<Integer>(Arrays.asList(i, j));
-				Unit curr = curGrid.get(i).get(j);
-				root.getChildren().remove(curr);
-				nextGrid.get(i).set(j,curGrid.get(i).get(j));
-				root.getChildren().add(nextGrid.get(i).get(j));
-				if(!curr.isPredator()) continue;
+				Integer[] place = new Integer[] {i,j};
+				if(!curGrid.getUnit(i, j).isPredator()) continue;
 				else{
-					if(hasPreyNeighbors(i, j)){
-						preyMap.put(place, getPreyNeighbors(i, j));
+					List<Integer[]> prey = getPreyNeighbors(i, j);
+					List<Integer[]> blank = getBlankNeighbors(i, j);
+					if(prey.size() > 0){
+						Integer[] preyLoc = prey.get(rand.nextInt(prey.size()));
+						takenPrey.add(Arrays.asList(preyLoc));
+						preyMap.put(place, preyLoc);
 					}
-					else if(hasBlankNeighbors(i, j)){
-						blankMap.put(place, getBlankNeighbors(i, j));
+					else if(blank.size() > 0){
+						Integer[] blankLoc = blank.get(rand.nextInt(blank.size()));
+						takenBlank.add(Arrays.asList(blankLoc));
+						blankMap.put(place, blankLoc);
 					}
 				}
 			}
 		}
-		eatPrey(preyMap);
-		movePred(blankMap);
-		preyMap.clear();
-		curGrid = nextGrid;
 	}
 	
 	
 	private void updatePrey(){
-		resetAvailableBlanks(curGrid);
-		Map<List<Integer>, List<Integer>> blankMap = new HashMap<>();
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				List<Integer> place = new ArrayList<Integer>(Arrays.asList(i, j));
-				Unit curr = curGrid.get(i).get(j);
-				root.getChildren().remove(curr);
-				nextGrid.get(i).set(j, curGrid.get(i).get(j));
-				root.getChildren().add(nextGrid.get(i).get(j));
-				if(curr.isPrey()){
-					if(hasBlankNeighbors(i, j)){
-						blankMap.put(place, getBlankNeighbors(i, j));
+				Integer[] place = new Integer[] {i,j};
+				if(curGrid.getUnit(i, j).isPrey()){
+					List<Integer[]> blank = getBlankNeighbors(i, j);
+					if(blank.size() > 0){
+						Integer[] blankLoc = blank.get(rand.nextInt(blank.size()));
+						takenBlank.add(Arrays.asList(blankLoc));
+						blankMap.put(place, blank.get(rand.nextInt(blank.size())));
 					}
 				}
 				else{
@@ -144,164 +132,99 @@ public class watorModel extends Model {
 				}
 			}
 		}
-		movePrey(blankMap);
-		curGrid = nextGrid;
 	}
 	
-	private void eatPrey(Map<List<Integer>, List<Integer>> map){
-		for(List<Integer> place: map.keySet()){
-			eatPrey(place.get(0), place.get(1), map.get(place).get(0), map.get(place).get(1));
+	private void eatPrey(Map<Integer[], Integer[]> map){
+		for(Integer[] place: map.keySet()){
+			eatPrey(place[0], place[1], map.get(place)[0], map.get(place)[1]);
 		}
 	}
 	
 	private void eatPrey(Integer a, Integer b, Integer c, Integer d){
-		Predator p = (Predator) curGrid.get(a).get(b);
-		root.getChildren().removeAll(nextGrid.get(a).get(b), nextGrid.get(c).get(d));
-		nextGrid.get(a).set(b, new Blank((width * a)/down, (height * b)/across, width/down, height/across));
-		nextGrid.get(c).set(d, new Predator((width * c)/down, (height * d)/across, width/down, height/across,
-				p.getEnergy() + p.ePerEat() - 1, p.getWalked() + 1));
+		Predator p = (Predator) curGrid.getUnit(a, b);
+		if(curGrid.getUnit(c, d).isPredator()) return;
+		curGrid.setUnit(a, b, new Blank(curGrid.getUnit(a, b)));
+		curGrid.setUnit(c, d, new Predator(p.getEnergy() + p.ePerEat() - 1,
+				p.getWalked() + 1, curGrid.getUnit(c, d)));
 		if(p.canBirth()){
-			nextGrid.get(a).set(b, new Predator((width * a)/down, (height * b)/across, width/down,
-					height/across, startingEnergy, 0));
-			nextGrid.get(c).set(d, new Predator((width * c)/down, (height * d)/across, width/down, height/across,
-					p.getEnergy() + p.ePerEat() - 1, 0));
-		}
-		root.getChildren().addAll(nextGrid.get(a).get(b), nextGrid.get(c).get(d));
-	}
-	
-	private void movePred(Map<List<Integer>, List<Integer>> map){
-		for(List<Integer> place: map.keySet()){
-			movePred(place.get(0), place.get(1), map.get(place).get(0), map.get(place).get(1));
+			curGrid.setUnit(a, b, new Predator(startingEnergy, 0, curGrid.getUnit(a, b)));
+			Predator newPred = (Predator) curGrid.getUnit(c, d);
+			newPred.resetWalked();
 		}
 	}
 	
-	private void movePrey(Map<List<Integer>, List<Integer>> map){
-		for(List<Integer> place: map.keySet()){
-			movePrey(place.get(0), place.get(1), map.get(place).get(0), map.get(place).get(1));
+	private void movePred(Map<Integer[], Integer[]> map){
+		for(Integer[] place: map.keySet()){
+			movePred(place[0], place[1], map.get(place)[0], map.get(place)[1]);
+		}
+	}
+	
+	private void movePrey(Map<Integer[], Integer[]> map){
+		for(Integer[] place: map.keySet()){
+			movePrey(place[0], place[1], map.get(place)[0], map.get(place)[1]);
 		}
 	}
 	
 	private void movePrey(Integer a, Integer b, Integer c, Integer d){
-		Prey p = (Prey) curGrid.get(a).get(b);
-		root.getChildren().removeAll(nextGrid.get(a).get(b), nextGrid.get(c).get(d));
+		Prey p = (Prey) curGrid.getUnit(a, b);
+		if(curGrid.getUnit(c, d).isPrey()) return;
 		if(p.canBirth()){
-			nextGrid.get(a).set(b, new Prey((width * a)/down, (height * b)/across, width/down, height/across, 0));
-			nextGrid.get(c).set(d, new Prey((width * c)/down, (height * d)/across, width/down, height/across, 0));
+			curGrid.setUnit(a, b, new Prey(0, curGrid.getUnit(a, b)));
+			curGrid.setUnit(c, d, new Prey(0, curGrid.getUnit(c, d)));
 		}
 		else{
-			nextGrid.get(a).set(b, new Blank((width * a)/down, (height * b)/across, width/down, height/across));
-			nextGrid.get(c).set(d, new Prey((width * c)/down, (height * d)/across, width/down, height/across, p.getWalked() + 1));
-		}
-		root.getChildren().addAll(nextGrid.get(a).get(b), nextGrid.get(c).get(d));
+			curGrid.setUnit(a, b, new Blank(curGrid.getUnit(a, b)));
+			curGrid.setUnit(c, d, new Prey(p.getWalked() + 1, curGrid.getUnit(c, d)));		}
 	}
 	
 	private void movePred(Integer a, Integer b, Integer c, Integer d){
-		Predator p = (Predator) curGrid.get(a).get(b);
-		root.getChildren().removeAll(nextGrid.get(a).get(b), nextGrid.get(c).get(d));
-		nextGrid.get(a).set(b, new Blank((width * a)/down, (height * b)/across, width/down, height/across));
-		nextGrid.get(c).set(d, new Predator((width * c)/down, (height * d)/across, width/down, height/across,
-				p.getEnergy() - 1, p.getWalked() + 1));
+		Predator p = (Predator) curGrid.getUnit(a,b);
+		if(curGrid.getUnit(c, d).isPredator()) return;
+		curGrid.setUnit(a, b, new Blank(curGrid.getUnit(a, b)));
+		curGrid.setUnit(c, d, new Predator(p.getEnergy() - 1,
+				p.getWalked() + 1, curGrid.getUnit(c, d)));
 		if(p.canBirth()){
-			nextGrid.get(a).set(b, new Predator((width * a)/down, (height * b)/across,
-					width/down, height/across, startingEnergy, 0));
-			nextGrid.get(c).set(d, new Predator((width * c)/down, (height * d)/across, width/down, height/across,
-					p.getEnergy() - 1, 0));
+			curGrid.setUnit(a, b, new Predator(startingEnergy, 0, curGrid.getUnit(a, b)));
+			Predator newPred = (Predator) curGrid.getUnit(c, d);
+			newPred.resetWalked();
 		}
 		if(p.removeEnergy()){
-			nextGrid.get(c).set(d, new Blank((width * c)/down, (height * d)/across, width/down, height/across));
-		}
-		root.getChildren().addAll(nextGrid.get(a).get(b), nextGrid.get(c).get(d));
+			curGrid.setUnit(c, d, new Blank(curGrid.getUnit(c, d)));		}
 	}
 	
-	private void resetAvailablePrey(List<List<Unit>> grid){
-		availablePrey.clear();
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
-				if(grid.get(i).get(j).isPrey()){
-					List<Integer> place = new ArrayList<Integer>(Arrays.asList(i, j));
-					availablePrey.add(place);
-				}
+	private List<Integer[]> hasNeighbors(int row, int col, Unit u){
+		List<Integer[]> list = new ArrayList<>();
+		Map<Integer[], Unit> neighbors = curGrid.getNeighbors(row, col);
+		for(Integer[] place: neighbors.keySet()){
+			if(neighbors.get(place).getState() == u.getState()){
+				list.add(place);
+			}	
+		}
+		return list;
+	}
+	
+	private List<Integer[]> getBlankNeighbors(int i, int j){
+		List<Integer[]> blanks = hasNeighbors(i, j, new Blank());
+		List<Integer[]> toReturn = new ArrayList<>();
+		for(Integer[] blank:blanks){
+			if(!takenBlank.contains(Arrays.asList(blank))){
+				toReturn.add(blank);
 			}
 		}
+		return toReturn;
 	}
 	
-	private void resetAvailableBlanks(List<List<Unit>> grid){
-		availableBlank.clear();
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
-				if(grid.get(i).get(j).isBlank()){
-					List<Integer> place = new ArrayList<Integer>(Arrays.asList(i, j));
-					availableBlank.add(place);
-				}
+	private List<Integer[]> getPreyNeighbors(int i, int j){
+		List<Integer[]> preys = hasNeighbors(i, j, new Prey());
+		List<Integer[]> toReturn = new ArrayList<>();
+		for(Integer[] prey:preys){
+			if(!takenPrey.contains(Arrays.asList(prey))){
+				toReturn.add(prey);
 			}
 		}
+		return toReturn;
 	}
 	
-	private boolean hasPreyNeighbors(int i, int j){
-		int[] move1 = {-1, -1, -1, 0, 0, 1, 1, 1};
-		int[] move2 = {0, 1, -1, 1, -1, 0, 1, -1};		
-		
-		for(int x = 0; x < move1.length; x++){
-			int newI = i + move1[x];
-			int newJ = j + move2[x];
-			List<Integer> move = new ArrayList<Integer>(Arrays.asList(newI, newJ));
-			if (availablePrey.contains(move)) return true;
-		}
-		return false;
-	}
-	
-	private boolean hasBlankNeighbors(int i, int j){
-		int[] move1 = {-1, -1, -1, 0, 0, 1, 1, 1};
-		int[] move2 = {0, 1, -1, 1, -1, 0, 1, -1};		
-		
-		for(int x = 0; x < move1.length; x++){
-			int newI = i + move1[x];
-			int newJ = j + move2[x];
-			List<Integer> move = new ArrayList<Integer>(Arrays.asList(newI, newJ));
-			if (availableBlank.contains(move)) return true;
-		}
-		return false;
-	}
-	
-	private List<Integer> getPreyNeighbors(int i, int j){
-		int[] move1 = {-1, -1, -1, 0, 0, 1, 1, 1};
-		int[] move2 = {0, 1, -1, 1, -1, 0, 1, -1};		
-		List<List<Integer>> list = new ArrayList<>();
-		for(int x = 0; x < move1.length; x++){
-			int newI = i + move1[x];
-			int newJ = j + move2[x];
-			List<Integer> move = new ArrayList<Integer>(Arrays.asList(newI, newJ));
-			if(newI >= 0 && newI < down && newJ >= 0 && newJ < across){
-				if (availablePrey.contains(move)){
-					list.add(move);
-				}
-			}
-		}
-		List<Integer> picked = list.get(rand.nextInt(list.size()));
-		availablePrey.remove(picked);
-		return picked;
-	}
-
-	private List<Integer> getBlankNeighbors(int i, int j){
-		int[] move1 = {-1, -1, -1, 0, 0, 1, 1, 1};
-		int[] move2 = {0, 1, -1, 1, -1, 0, 1, -1};		
-		List<List<Integer>> list = new ArrayList<>();
-		for(int x = 0; x < move1.length; x++){
-			int newI = i + move1[x];
-			int newJ = j + move2[x];
-			List<Integer> move = new ArrayList<Integer>(Arrays.asList(newI, newJ));
-			if(newI >= 0 && newI < down && newJ >= 0 && newJ < across){
-				if (availableBlank.contains(move)){
-					list.add(move);
-				}
-			}
-		}
-		List<Integer> picked = list.get(rand.nextInt(list.size()));
-		availableBlank.remove(picked);
-		return picked;
-	}
-	
-
 	@Override
 	public void setNextScene() {
 		updateGrid();
@@ -312,5 +235,9 @@ public class watorModel extends Model {
 		start();
 	}
 
+	@Override
+	protected void resetCur() {
+		//Not necessary for this algorithm
+	}
 }
 

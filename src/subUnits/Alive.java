@@ -12,4 +12,7 @@ public class Alive extends Unit{
 		setFill(COLOR);
 		state = ALIVE_STATE;
 	}
+	public Alive(){
+		this(new Unit());
+	}
 }

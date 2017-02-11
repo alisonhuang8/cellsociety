@@ -16,6 +16,10 @@ public class Prey extends Unit{
 		state = PREDATOR_STATE;
 	}
 	
+	public Prey(){
+		this(0, new Unit());
+	}
+	
 	public int getWalked(){
 		return walked;
 	}
