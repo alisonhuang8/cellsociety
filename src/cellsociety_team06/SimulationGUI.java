@@ -20,14 +20,16 @@ public class SimulationGUI {
 	private Slider speedSlide;
 
 	private Timeline animation;
+	private ResourceBundle myResources;
 	
-	public SimulationGUI(Timeline t) {
+	public SimulationGUI(Timeline t, ResourceBundle r) {
 		animation = t;
 		initialRate = animation.getCurrentRate();
+		myResources = r;
 	}
 	
 	public Button createResetBtn(Model model){
-		Button btn_reset = new Button("Reset");
+		Button btn_reset = new Button(myResources.getString("ResetButton"));
 		btn_reset.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
 				speedSlide.setValue(minSimSpeed);
@@ -39,34 +41,29 @@ public class SimulationGUI {
 		return btn_reset;
 	}
 	
-	public Button createStartSimBtn(){
-		
-		Button btn_start = new Button("Start");
+	public Button createStartSimBtn(){		
+		Button btn_start = new Button(myResources.getString("StartButton"));
 		btn_start.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
 				animation.setRate(initialRate);
 				animation.play();
 			}
 		});
-		
 		return btn_start;
 	}
 	
 	public Button createPauseBtn(){
-		Button btn_pause = new Button("Pause");
+		Button btn_pause = new Button(myResources.getString("PauseButton"));
 		btn_pause.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
 				animation.pause();
 			}
 		});
-		
 		return btn_pause;
-		
 	}
 	
 	public Button createHomeBtn(Scene homeScene, Model model, Stage s){
-		
-		Button btn_home = new Button("Return Home");
+		Button btn_home = new Button(myResources.getString("HomeButton"));
 		btn_home.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg){
 				animation.setRate(initialRate);
@@ -74,13 +71,12 @@ public class SimulationGUI {
 				model.reset();
 				s.setScene(homeScene);
 			}
-		}); 
-		
+		}); 	
 		return btn_home;
 	}
 	
 	public Button createStepBtn(Model model) {
-		Button btn_step = new Button("Step Through");
+		Button btn_step = new Button(myResources.getString("StepButton"));
 		btn_step.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg) {
 				animation.pause();
@@ -102,6 +98,5 @@ public class SimulationGUI {
 			animation.setRate(speedSlide.getValue());
 		});
 		return speedSlide;
-	}
-	
+	}	
 }
