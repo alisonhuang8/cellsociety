@@ -20,6 +20,7 @@ import javafx.scene.Group;
 import javafx.stage.Stage;
 import subGrids.hexGrid;
 import subGrids.squareGrid;
+import subUnits.Alive;
 import subUnits.Blank;
 import subUnits.Predator;
 import subUnits.Prey;
@@ -308,6 +309,21 @@ public class watorModel extends Model {
 	@Override
 	public void reset() {
 		start();
+	}
+	
+	/**
+	 * @returns the number of predator units
+	 */
+	public int getPredatorUnits(){
+		return (curGrid.getInstances(new Predator()).size());
+	}
+	
+	
+	/**
+	 * @returns the number of prey units
+	 */
+	public int getPreyUnits(){
+		return (curGrid.getInstances(new Prey()).size());
 	}
 }
 

@@ -138,4 +138,11 @@ public class fireModel extends Model {
 		getFireScene();
 	}
 	
+	/**
+	 * @returns the number of alive units
+	 */
+	public int getTreeUnits(){
+		return (curGrid.getInstances(new Alive()).size());
+	}
+	
 }
