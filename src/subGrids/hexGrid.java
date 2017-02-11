@@ -86,7 +86,7 @@ public class hexGrid extends Grid {
 	 * the value being the shape
 	 * has a special case
 	 */
-	public Map<Integer[], Unit> getNeighbors(int row, int col) {
+	public Map<Integer[], Unit> getFiniteNeighbors(int row, int col) {
 		Map<Integer[], Unit> map = new HashMap<>();
 		int[] colMove = oddRowColMove;
 		if(row % 2 != 0) colMove = evenRowColMove;
@@ -114,6 +114,40 @@ public class hexGrid extends Grid {
 		}
 		this.oddRowColMove = oddRowMoves;
 		this.evenRowColMove = evenRowMoves;
+	}
+	
+	/**
+	 * returns a map of the neighbors with the
+	 * key being the integer [row,col] and
+	 * the value being the shape
+	 * has a special case
+	 */
+	public Map<Integer[], Unit> getToroidalNeighbors(int row, int col) {
+		Map<Integer[], Unit> map = new HashMap<>();
+		int[] colMove = oddRowColMove;
+		if(row % 2 != 0) colMove = evenRowColMove;
+		Unit u;
+		Integer[] place;
+		for(int i = 0; i < rowMove.length; i++){
+			int newRow = row + rowMove[i];
+			int newCol = col + colMove[i];
+			if(newRow < 0) newRow = rows() + newRow;
+			if(newCol < 0) newCol = rows() + newCol;
+			if(newRow >= rows()) newRow = newRow - rows();
+			if(newCol >= cols()) newCol = newCol - cols();
+				place = new Integer[] {newRow, newCol};
+				u = grid.get(newRow).get(newCol);
+				map.put(place, u);
+		}
+		return map;
+	}
+	
+	/**
+	 * checks which neighbor type it needs to use
+	 */
+	public Map<Integer[], Unit> getNeighbors(int row, int col) {
+		if(!toroidal) return getFiniteNeighbors(row, col);
+		else return getToroidalNeighbors(row, col);
 	}
 
 }

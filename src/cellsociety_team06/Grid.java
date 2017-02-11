@@ -19,6 +19,7 @@ public abstract class Grid{
 	protected List<List<Unit>> grid;
 	private int rows;
 	private int cols;
+	protected boolean toroidal;
 	
 	/**
 	 * Makes a grid of Units
@@ -42,25 +43,11 @@ public abstract class Grid{
 	 * @return A map of the all local neighbor units to a block given the row and col
 	 * <K, V> corresponds to <location, Unit>
 	 */
-	public Map<Integer[], Unit> getNeighbors(int row, int col) {
-		Map<Integer[], Unit> map = new HashMap<>();
-		Unit u;
-		Integer[] place;
-		for(int i = 0; i < rowMove.length; i++){
-			int newRow = row + rowMove[i];
-			int newCol = col + colMove[i];
-			if(newRow >= 0 && newRow < rows() && newCol >= 0 && newCol < cols()){
-				place = new Integer[] {newRow, newCol};
-				u = grid.get(newRow).get(newCol);
-				map.put(place, u);
-			}
-		}
-		return map;
-	}
+	public abstract Map<Integer[], Unit> getNeighbors(int row, int col);
 	
 	/**
 	 * @param U unit passing in
-	 * @return all <locations, Uits> of units with the same type as U in a map. 
+	 * @return all <locations, Units> of units with the same type as U in a map. 
 	 */
 	public Map<Integer[], Unit> getInstances(Unit U){
 		Map<Integer[], Unit> map = new HashMap<>();
@@ -171,5 +158,12 @@ public abstract class Grid{
 		}
 		this.rowMove = rowMoves;
 		this.colMove = colMoves;
+	}
+	
+	/**
+	 * sets the boundary condition to be toroidal
+	 */
+	public void makeTorroidal(){
+		toroidal = true;
 	}
 }
