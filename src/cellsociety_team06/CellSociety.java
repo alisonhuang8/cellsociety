@@ -19,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -31,8 +32,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class CellSociety extends Application {
-	public static final int SIZE = 500;
-	public static final Paint BACKGROUND = Color.WHITE;
+	private int SIZE = 500;
+	private int graphHeight = 100;
+	private Paint BACKGROUND = Color.WHITE;
+	private int height = SIZE + graphHeight;
+	private int width = SIZE;
 
 	private Stage myStage;
 	private Timeline animation = new Timeline();
@@ -66,18 +70,19 @@ public class CellSociety extends Application {
 
 	private HBox panel = new HBox();
 	private Group root = new Group();
-	private Scene myScene = new Scene(root, SIZE, SIZE, Color.WHITE);
+	private Scene myScene = new Scene(root, width, height, Color.WHITE);
 	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
-
+	private LineChart<Number, Number> popGraph;
+	
 	SceneSetup setup;
 	SimulationGUI simSetup;
 			
 	public void start(Stage s) throws Exception {	
 		myStage = s;
-		setup = new SceneSetup(SIZE, SIZE, myResources, myStage);
+		setup = new SceneSetup(width, height, myResources, myStage);
 		mySizeScene = askSizeScene();
-		myShapeScene = shapeScene(SIZE,SIZE,BACKGROUND);
-		myHomeScene = homeScene(SIZE, SIZE, BACKGROUND);
+		myShapeScene = shapeScene(width,height,BACKGROUND);
+		myHomeScene = homeScene(width, height, BACKGROUND);
 		myStage.setScene(myHomeScene);
 		myStage.setTitle(myResources.getString("HomeTitle"));
 		myStage.show();
@@ -101,14 +106,14 @@ public class CellSociety extends Application {
 	}
 		
 	private void setInfoScene() {
-		Scene myInfoScene = infoScene(SIZE, SIZE, BACKGROUND);
+		Scene myInfoScene = infoScene(width, height, BACKGROUND);
 		myStage.setTitle(myResources.getString("InfoTitle"));
 		myStage.show();
 	}
 	
 	private Scene infoScene(int width, int height, Paint background) {
 		Pane infoRoot = new Pane();
-		Scene myInfoScene = new Scene(infoRoot, SIZE, SIZE, background);
+		Scene myInfoScene = new Scene(infoRoot, width, height, background);
 		infoRoot.getChildren().add(setup.readFile(infoRoot,fileName));
 		setup.buttonPlay(infoRoot, myShapeScene);		
 		setup.buttonBack(infoRoot, myHomeScene);
@@ -118,16 +123,16 @@ public class CellSociety extends Application {
 	
 	private Scene shapeScene(int width, int height, Paint background) {
 		Group shapeRoot = new Group();
-		myShapeScene = new Scene(shapeRoot, SIZE, SIZE, BACKGROUND);
+		myShapeScene = new Scene(shapeRoot, width, height, BACKGROUND);
 		shape = setup.createShapeButtons(shapeRoot, mySizeScene);
 		return myShapeScene;
 	}
 	
 	private Scene askSizeScene(){	
 		Group sizeSceneRoot = new Group();
-		mySizeScene = new Scene(sizeSceneRoot, SIZE, SIZE, BACKGROUND);
-		setup.createSizeLabel(sizeSceneRoot, myResources, SIZE, SIZE);
-		VBox sizes = setup.createBox(sizeSceneRoot, SIZE, SIZE);		
+		mySizeScene = new Scene(sizeSceneRoot, width, height, BACKGROUND);
+		setup.createSizeLabel(sizeSceneRoot, myResources, width, height);
+		VBox sizes = setup.createBox(sizeSceneRoot, width, height);		
 		for (String button: sizeButtons) {
 			Button btn = setup.createSizeButton(sizeSceneRoot, button);
 			btn.setOnAction(f -> SizeClicked(f,button));
@@ -169,13 +174,13 @@ public class CellSociety extends Application {
 		panel.getChildren().clear();
 
 		if (fileName.equals(lifeFile)) {
-			currentModel = new lifeModel(SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new lifeModel(width - 50, height - 50, gridSize);
 		} else if (fileName.equals(fireFile)) {
-			currentModel = new fireModel(SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new fireModel(width - 50, width - 50, gridSize);
 		} else if (fileName.equals(watorFile)) {
-			currentModel = new watorModel(SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new watorModel(width - 50, height - 50, gridSize);
 		} else if (fileName.equals(segregationFile)) {
-			currentModel = new segregationModel(SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new segregationModel(width - 50, width - 50, gridSize);
 		}	
 
 		myScene.setRoot(root);
@@ -188,6 +193,11 @@ public class CellSociety extends Application {
 		root.getChildren().add(bp);
 		Group rt = currentModel.getRoot();
 		bp.setCenter(rt);
+		if (!(currentModel instanceof segregationModel)) {
+			popGraph = simSetup.createGraph(currentModel);
+			popGraph.setMaxHeight(100);
+			bp.setBottom(popGraph);
+		}
 	}
 
 	private void setAnimation() {
@@ -200,6 +210,7 @@ public class CellSociety extends Application {
 	private void step(double elapsedTime, Stage stage) {
 		if (currentModel != null) {
 			currentModel.step();
+			if(popGraph != null) simSetup.addData(currentModel);
 		}
 	}
 

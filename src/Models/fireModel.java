@@ -144,5 +144,15 @@ public class fireModel extends Model {
 	public int getTreeUnits(){
 		return (curGrid.getInstances(new Alive()).size());
 	}
+
+	@Override
+	public int getType1Units() {
+		return (curGrid.getInstances(new Alive()).size());
+	}
+
+	@Override
+	public int getType2Units() {
+		return 0;
+	}
 	
 }

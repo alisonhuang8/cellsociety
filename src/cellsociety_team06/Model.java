@@ -32,4 +32,8 @@ public abstract class Model {
 		root.getChildren().clear();
 		root.getChildren().addAll(curGrid.getChildren());
 	}
+	
+	public abstract int getType1Units();
+	
+	public abstract int getType2Units();
 }

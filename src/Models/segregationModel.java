@@ -15,6 +15,7 @@ import javafx.animation.Timeline;
 import javafx.stage.Stage;
 import subGrids.hexGrid;
 import subUnits.Blank;
+import subUnits.Predator;
 import subUnits.Type1;
 import subUnits.Type2;
 
@@ -168,6 +169,16 @@ public class segregationModel extends Model {
 	@Override
 	public void reset() {
 		start();
+	}
+
+	@Override
+	public int getType1Units() {
+		return (curGrid.getInstances(new Type1()).size());
+	}
+
+	@Override
+	public int getType2Units() {
+		return (curGrid.getInstances(new Type2()).size());
 	}
 
 }
