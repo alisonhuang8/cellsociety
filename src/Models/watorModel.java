@@ -53,10 +53,11 @@ public class watorModel extends Model {
 		takenPrey = new ArrayList<>();
 		takenBlank = new ArrayList<>();
 		rand = new Random();
-		reads = new watorReads(size);
+		reads = new watorReads();
 		down = reads.height();
 		across = reads.width();
 		curGrid = new squareGrid(down, across, height/down);
+		curGrid.makeTorroidal();
 		start();
 	}
 	

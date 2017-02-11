@@ -88,6 +88,34 @@ public class Unit extends Polygon{
 	}
 	
 	/**
+	 * returns if the unit is a ant unit
+	 */
+	public boolean isAnt(){
+		return state == 8;
+	}
+	
+	/**
+	 * returns if the unit is a food unit
+	 */
+	public boolean isFood(){
+		return state == 9;
+	}
+	
+	/**
+	 * returns if the unit is a ground unit
+	 */
+	public boolean isGround(){
+		return state == 10;
+	}
+	
+	/**
+	 * returns if the unit is a nest unit
+	 */
+	public boolean isNest(){
+		return state == 11;
+	}
+	
+	/**
 	 * returns if the state of the unit
 	 */
 	public int getState(){

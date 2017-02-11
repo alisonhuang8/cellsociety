@@ -1,5 +1,10 @@
 package cellsociety_team06;
 
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.List;
+
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import Models.fireModel;
@@ -39,9 +44,16 @@ public class CellSociety extends Application {
 
 	private int FRAMES_PER_SECOND = 1;
 	private double SECOND_DELAY = 0.75 / FRAMES_PER_SECOND;
-	private int gridSize = 0;
 	
-	private String fileName = "b";
+	//parameters needed by the grid generator
+	private int simType = 0;
+	private int unitShape = 0;
+	private int gridSize = 0;
+	private List<Integer[]> neighborConfig;
+	private int boundaryStyle = 0;
+	private int inputStyle = 0;
+
+	private String fileName = "";
 	private String lifeFile = "lifeinfo.txt";
 	private String fireFile = "fireinfo.txt";
 	private String watorFile = "watorinfo.txt";
@@ -137,6 +149,18 @@ public class CellSociety extends Application {
 			
 		}
 		createModelAndFrames();
+	}
+	
+	private void getSimType(){
+		if (fileName.equals(lifeFile)) {
+			simType = 1;
+		} else if (fileName.equals(fireFile)) {
+			simType = 2;
+		} else if (fileName.equals(watorFile)) {
+			simType = 3;
+		} else if (fileName.equals(segregationFile)) {
+			simType = 4;
+		}	
 	}
 	
 	private void createModelAndFrames() {

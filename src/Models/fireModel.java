@@ -38,13 +38,12 @@ public class fireModel extends Model {
 	 * @param size which of the three XML's should be read 
 	 */
 	public fireModel(int width, int height, int size){
-		
-		reads = new fireReads(size);
+		reads = new fireReads();
 		down = reads.height();
 		across = reads.width();
-		curGrid = new triangularGrid(down, across, height/down);
+		curGrid = new squareGrid(down, across, height/down);
 		curGrid.makeTorroidal();
-		nextGrid = new triangularGrid(down, across, height/down);
+		nextGrid = new squareGrid(down, across, height/down);
 		getFireScene();
 	}
 
@@ -53,8 +52,8 @@ public class fireModel extends Model {
 	 * should be re-factored into a level generator
 	 */
 	private void getFireScene(){
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
 				if(reads.get(i, j) == 'G'){
 					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
 				}
