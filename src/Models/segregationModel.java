@@ -7,9 +7,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Stack;
+
+import Unit.Unit;
 import XMLReads.segReads;
 import cellsociety_team06.Model;
-import cellsociety_team06.Unit;
 import javafx.animation.Timeline;
 import javafx.stage.Stage;
 import subGrids.hexGrid;

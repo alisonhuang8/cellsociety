@@ -2,8 +2,9 @@ package Test;
 
 import java.util.Collection;
 import java.util.Random;
+
+import Unit.Unit;
 import cellsociety_team06.Grid;
-import cellsociety_team06.Unit;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;

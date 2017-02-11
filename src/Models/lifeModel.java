@@ -1,9 +1,10 @@
 package Models;
 
 import java.util.ResourceBundle;
+
+import Unit.Unit;
 import XMLReads.lifeReads;
 import cellsociety_team06.Model;
-import cellsociety_team06.Unit;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.stage.Stage;
@@ -49,6 +50,7 @@ public class lifeModel extends Model {
 	public void updateGrid(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
+				System.out.print(i + " " + j + " ");
 				int n = getAliveNeighbors(curGrid.getNeighbors(i, j).values());
 				nextGrid.setUnit(i, j, curGrid.getUnit(i, j));
 				if(curGrid.getUnit(i, j).isAlive() && (n < 2 || n > 3)){

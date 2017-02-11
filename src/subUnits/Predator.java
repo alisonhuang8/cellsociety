@@ -1,6 +1,6 @@
 package subUnits;
 
-import cellsociety_team06.Unit;
+import Unit.Unit;
 import javafx.scene.paint.Color;
 
 public class Predator extends Unit{

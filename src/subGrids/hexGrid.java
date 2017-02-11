@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Unit.Unit;
 import cellsociety_team06.Grid;
-import cellsociety_team06.Unit;
 
 public class hexGrid extends Grid {
 	int[] rowMove, evenRowColMove, oddRowColMove;

@@ -3,9 +3,10 @@ package Models;
 import java.util.Collection;
 import java.util.Random;
 import java.util.ResourceBundle;
+
+import Unit.Unit;
 import XMLReads.fireReads;
 import cellsociety_team06.Model;
-import cellsociety_team06.Unit;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.stage.Stage;

@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import Unit.Unit;
 import XMLReads.watorReads;
 import cellsociety_team06.Model;
-import cellsociety_team06.Unit;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.stage.Stage;

@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Unit.Unit;
 import cellsociety_team06.Grid;
-import cellsociety_team06.Unit;
 
 public class squareGrid extends Grid {
 	int[] rowMove;
@@ -16,10 +16,8 @@ public class squareGrid extends Grid {
 
 	public squareGrid(int rows, int cols, int heightSquare, int widthSquare) {
 		super(rows, cols);
-//		rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
-//		colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
-		rowMove = new int[] {-1, 0, 0, 1};
-		colMove = new int[] {0, 1, -1, 0};
+		rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
+		colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
 		rectWidth = widthSquare;
 		rectHeight = heightSquare;
 		fillGrid();
