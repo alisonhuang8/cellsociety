@@ -124,6 +124,7 @@ public abstract class Model {
 		Button btn_start = new Button("Start");
 		btn_start.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
+				animation.setRate(initialRate);
 				animation.play();
 			}
 		});
@@ -132,7 +133,6 @@ public abstract class Model {
 	}
 	
 	public Button createPauseBtn(){
-		
 		Button btn_pause = new Button("Pause");
 		btn_pause.setOnAction(new EventHandler<ActionEvent>() { //if the button is clicked
 			public void handle(ActionEvent arg){
@@ -166,9 +166,7 @@ public abstract class Model {
 				animation.pause();
 				btn_step.setOnKeyPressed(new EventHandler<KeyEvent>() {
 					public void handle(KeyEvent code) {
-						//if(code == KeyCode.SPACE){
 							updateGrid();
-						//}
 					}
 				});
 			}
@@ -177,12 +175,10 @@ public abstract class Model {
 	}
 	
 	private void stepMode() {
-		animation.pause();
-		
+		animation.pause();	
 	}
 
 	public Slider createSpeedSlider() {
-		initialRate = animation.getRate();
 		speedSlide = new Slider();
 		speedSlide.setMin(minSimSpeed);
 		speedSlide.setMax(maxSimSpeed);
