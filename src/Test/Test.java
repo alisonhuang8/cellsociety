@@ -29,7 +29,7 @@ public class Test extends Application{
 	private Grid curGrid, nextGrid;
 	Random rand = new Random();
 	private Group root = new Group();
-	private double catchChance = 1;
+	private double catchChance = 0.4;
 	private Stage window;
 	
 	public static void main(String[] args){
@@ -110,9 +110,8 @@ public class Test extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.window = primaryStage;
-		curGrid = new squareGrid(10, 5, 25);
-		curGrid.setNeighbors(new int[] {-1}, new int[]{0});
-		nextGrid = new squareGrid(10, 5, 25);
+		curGrid = new triangularGrid(10, 5, 25);
+		nextGrid = new triangularGrid(10, 5, 25);
 		root = new Group();
 		root.getChildren().addAll(curGrid.getChildren());
 		Scene s = new Scene(root, 500, 500, Color.WHITE);
