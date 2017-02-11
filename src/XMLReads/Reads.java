@@ -17,7 +17,6 @@ public class Reads{
 	public Reads(String type){
 		this.type = type;
 		files = new ReadXMLFile();
-
 	}
 
 	/**

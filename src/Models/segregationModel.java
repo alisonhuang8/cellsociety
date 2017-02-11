@@ -10,6 +10,7 @@ import java.util.Stack;
 
 import Unit.Unit;
 import XMLReads.segReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.stage.Stage;
@@ -50,6 +51,12 @@ public class segregationModel extends Model {
 		start();
 	}
 	
+	public segregationModel(Grid curr, Grid next){
+		curGrid = curr;
+		nextGrid = next;
+		start();
+	}
+	
 	/**
 	 * sets the initializations of all variables necessary for the CA
 	 */
@@ -58,7 +65,7 @@ public class segregationModel extends Model {
 		available = new ArrayList<>();
 		myStack = new Stack<>();
 		myStack.push(across * down);
-		getSegScene();
+		resetRoot();
 	}
 
 	/**
