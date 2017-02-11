@@ -1,19 +1,29 @@
 package subUnits.foragingAnts;
 
+import Unit.Unit;
 import javafx.scene.paint.Color;
 
 public class Ant extends Ground{
-	private static final int ANT_STATE = 3;
+	private static final int ANT_STATE = 8;
 	private static final Color ANT_COLOR = Color.BROWN;
+	private boolean hasFood;
 	
-	public Ant(Ground g) {
-		super(g);
+	public Ant(Unit u) {
+		super(u);
 		setFill(ANT_COLOR);
 		state = ANT_STATE;
 	}
 	
 	public Ant(){
-		this(new Ground());
+		this(new Unit());
+	}
+	
+	public boolean hasFoodItem(){
+		return hasFood;
+	}
+	
+	public void gotFoodItem(){
+		hasFood = true;
 	}
 
 }

@@ -41,7 +41,7 @@ public class segregationModel extends Model {
 	 */
 	public segregationModel(int height, int width, int sze){
 		size = sze;
-		reads = new segReads(size);
+		reads = new segReads();
 		down = reads.height();
 		across = reads.width();
 		curGrid = new hexGrid(down, across, height/(down * 3));

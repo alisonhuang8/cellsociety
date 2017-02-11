@@ -176,13 +176,13 @@ public class CellSociety extends Application {
 		panel.getChildren().clear();
 
 		if (fileName.equals(lifeFile)) {
-			currentModel = new lifeModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new lifeModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(fireFile)) {
-			currentModel = new fireModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new fireModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(watorFile)) {
-			currentModel = new watorModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new watorModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(segregationFile)) {
-			currentModel = new segregationModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new segregationModel(SIZE - 50, SIZE - 50, gridSize);
 		}	
 
 		myScene.setRoot(root);
