@@ -22,13 +22,13 @@ public class ReadXMLFile {
 
 			File fXmlFile = new File("inputs3.xml");
 			
-			if (size == 1){
-				fXmlFile = new File("inputs1.xml");
-			} else if (size == 2){
-				fXmlFile = new File("inputs2.xml");
-			} else {
-				fXmlFile = new File("inputs3.xml");
-			}
+//			if (size == 1){
+//				fXmlFile = new File("inputs1.xml");
+//			} else if (size == 2){
+//				fXmlFile = new File("inputs2.xml");
+//			} else {
+//				fXmlFile = new File("inputs3.xml");
+//			}
 
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

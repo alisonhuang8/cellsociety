@@ -2,6 +2,7 @@ package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -47,7 +48,14 @@ public class CellSociety extends Application {
 
 	private int FRAMES_PER_SECOND = 1;
 	private double SECOND_DELAY = 0.75 / FRAMES_PER_SECOND;
+	
+	//parameters needed by the grid generator
+	private String fileName = "";
+	private String unitShape = "";
 	private int gridSize = 0;
+	private List<Integer[]> neighborConfig;
+	private int boundaryStyle = 0;
+	private int inputStyle = 0;
 
 	private Button myLifeButton;
 	private Button myFireButton;
@@ -57,7 +65,6 @@ public class CellSociety extends Application {
 	private Button btn_medium;
 	private Button btn_large;
 	
-	private String fileName = "b";
 	private String lifeFile = "lifeinfo.txt";
 	private String fireFile = "fireinfo.txt";
 	private String watorFile = "watorinfo.txt";
