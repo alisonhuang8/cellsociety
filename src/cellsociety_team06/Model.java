@@ -10,7 +10,6 @@ public abstract class Model {
 	protected Group root;
 	protected Grid curGrid, nextGrid;
 	
-	
 	public Model (){
 		root = new Group();
 	}

@@ -53,14 +53,6 @@ public class CellSociety extends Application {
 	private int boundaryStyle = 0;
 	private int inputStyle = 0;
 
-	private Button myLifeButton;
-	private Button myFireButton;
-	private Button myWatorButton;
-	private Button mySegregationButton;
-	private Button btn_small;
-	private Button btn_medium;
-	private Button btn_large;
-
 	private String fileName = "";
 	private String lifeFile = "lifeinfo.txt";
 	private String fireFile = "fireinfo.txt";
@@ -78,18 +70,19 @@ public class CellSociety extends Application {
 	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 
 	SceneSetup setup;
+	SimulationGUI simSetup;
 			
 	public void start(Stage s) throws Exception {	
 		myStage = s;
 		setup = new SceneSetup(SIZE, SIZE, myResources, myStage);
 		mySizeScene = askSizeScene();
-		
 		myShapeScene = shapeScene(SIZE,SIZE,BACKGROUND);
 		myHomeScene = homeScene(SIZE, SIZE, BACKGROUND);
 		myStage.setScene(myHomeScene);
 		myStage.setTitle(myResources.getString("HomeTitle"));
 		myStage.show();
 		setAnimation();
+		simSetup = new SimulationGUI(animation, myResources);
 	}
 	
 	private Scene homeScene(int width, int height, Paint background) {
@@ -189,8 +182,8 @@ public class CellSociety extends Application {
 		myStage.setScene(myScene);
 		myStage.setTitle(myResources.getString("SimulationTitle"));
 		
-		panel.getChildren().addAll(currentModel.createStartSimBtn(), currentModel.createPauseBtn(), currentModel.createStepBtn(), 
-				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn(), currentModel.createSpeedSlider());
+		panel.getChildren().addAll(simSetup.createStartSimBtn(), simSetup.createPauseBtn(), simSetup.createStepBtn(currentModel), 
+				simSetup.createHomeBtn(myHomeScene, currentModel, myStage), simSetup.createResetBtn(currentModel), simSetup.createSpeedSlider());
 		bp.setTop(panel);
 		root.getChildren().add(bp);
 		Group rt = currentModel.getRoot();
