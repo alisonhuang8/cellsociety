@@ -48,17 +48,16 @@ public class triangularGrid extends Grid {
 				0.0, 0.0,
 	            length, 0.0,
 	            length/2.0, orientation * Math.pow(3, 0.5) * length/2.0});
-		
 	}
 	
 	private void setLayoutDown(Unit u, int row, int col){
-		u.setLayoutX(col * length + Math.pow(3, 0.5) * length/2);
-		u.setLayoutY(row * length - (row - 1) * length/2);
+		u.setLayoutX(((double)(length * (col - 1))) / 2.0 + (double) length/2.0);
+		u.setLayoutY(((double)((Math.pow(3, 0.5) * length))/2.0) * row + 2 * Math.pow(3, 0.5) * length/2);
 	}
 	
 	private void setLayoutUp(Unit u, int row, int col){
-		u.setLayoutX(0);
-		u.setLayoutY(0);
+		u.setLayoutX(((double)(length * col)) / 2.0);
+		u.setLayoutY(((double)((Math.pow(3, 0.5) * length))/2.0) * row + Math.pow(3, 0.5) * length/2);
 	}
 
 	
