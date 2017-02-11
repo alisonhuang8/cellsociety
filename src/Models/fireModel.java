@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import Unit.Unit;
 import XMLReads.fireReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -28,6 +29,7 @@ public class fireModel extends Model {
 	private Random rand = new Random();
 	private double catchChance = 0.7;
 	private fireReads reads;
+	private Grid initial;
 	
 	/**
 	 * @param s should be factored out by Faith
@@ -37,15 +39,25 @@ public class fireModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public fireModel(Stage s, Timeline t, ResourceBundle r, int width, int height, int size){
-		super(s,t,r);
-		reads = new fireReads(size);
+	public fireModel(int width, int height, int size){
+		reads = new fireReads();
 		down = reads.height();
 		across = reads.width();
 		curGrid = new squareGrid(down, across, height/down);
 		curGrid.makeTorroidal();
 		nextGrid = new squareGrid(down, across, height/down);
 		getFireScene();
+	}
+	
+	public fireModel(Grid curr, Grid next){
+		curGrid = curr;
+		nextGrid = next;
+		
+		for (int i=0; i<curr.rows(); i++){
+			for (int j=0; j<curr.cols(); j++){
+				initial.setUnit(i, j, curr.getUnit(i, j));
+			}
+		}
 	}
 
 	/**
@@ -136,7 +148,14 @@ public class fireModel extends Model {
 	@Override
 	public void reset() {
 		root.getChildren().clear();
-		getFireScene();
+		curGrid = initial;
+	}
+	
+	/**
+	 * @returns the number of alive units
+	 */
+	public int getTreeUnits(){
+		return (curGrid.getInstances(new Alive()).size());
 	}
 	
 }

@@ -24,7 +24,6 @@ import subUnits.Alive;
 import subUnits.Burning;
 import subUnits.Burnt;
 
-
 public class Test extends Application{
 	private Grid curGrid, nextGrid;
 	Random rand = new Random();

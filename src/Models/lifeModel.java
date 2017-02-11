@@ -26,6 +26,8 @@ public class lifeModel extends Model {
 	private int across;
 	private lifeReads reads;
 	
+	private Grid initial;
+	
 	/**
 	 * @param s should be factored out by Faith
 	 * @param t should be factored out by Faith
@@ -34,37 +36,11 @@ public class lifeModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public lifeModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int size){
-		super(s,t,r);
-		reads = new lifeReads(size);
-		down = reads.height();
-		across = reads.width();
-		curGrid = new squareGrid(down, across, height/down);
-		nextGrid = new squareGrid(down, across, height/down);
-		getLifeScene();
-	}
 	
 	public lifeModel(Grid curr, Grid next){
 		super(curr,next);
+		initial = curr;
 		//resetRoot();
-	}
-	
-	/**
-	 * Sets up the initial scene
-	 * Should be refactored into a level generator class
-	 */
-	private void getLifeScene(){
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == '0'){
-					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
-				}
-				else{
-					curGrid.setUnit(i, j, new Blank(curGrid.getUnit(i, j)));
-				}
-			}
-		}
-		resetRoot();
 	}
 	
 	/**
@@ -114,7 +90,7 @@ public class lifeModel extends Model {
 	 */
 	@Override
 	public void reset() {
-		getLifeScene();
+		curGrid = initial;
 	}
 
 
@@ -125,6 +101,7 @@ public class lifeModel extends Model {
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
 				if(nextGrid.getUnit(i, j).isAlive()){
+					System.out.println("here");
 					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
 				}
 				else{
@@ -133,4 +110,12 @@ public class lifeModel extends Model {
 			}
 		}
 	}
+	
+	/**
+	 * @returns the number of alive units
+	 */
+	public int getLifeUnits(){
+		return (curGrid.getInstances(new Alive()).size());
+	}
+	
 }

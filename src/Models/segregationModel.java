@@ -10,6 +10,7 @@ import java.util.Stack;
 
 import Unit.Unit;
 import XMLReads.segReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.stage.Stage;
@@ -39,14 +40,19 @@ public class segregationModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public segregationModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int sze){
-		super(s,t, r);
+	public segregationModel(int height, int width, int sze){
 		size = sze;
-		reads = new segReads(size);
+		reads = new segReads();
 		down = reads.height();
 		across = reads.width();
 		curGrid = new hexGrid(down, across, height/(down * 3));
 		nextGrid =  new hexGrid(down, across, height/(down * 3));
+		start();
+	}
+	
+	public segregationModel(Grid curr, Grid next){
+		curGrid = curr;
+		nextGrid = next;
 		start();
 	}
 	
@@ -58,7 +64,7 @@ public class segregationModel extends Model {
 		available = new ArrayList<>();
 		myStack = new Stack<>();
 		myStack.push(across * down);
-		getSegScene();
+		resetRoot();
 	}
 
 	/**

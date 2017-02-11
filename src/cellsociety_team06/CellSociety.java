@@ -54,14 +54,6 @@ public class CellSociety extends Application {
 	private int boundaryStyle = 0;
 	private int inputStyle = 0;
 
-	private Button myLifeButton;
-	private Button myFireButton;
-	private Button myWatorButton;
-	private Button mySegregationButton;
-	private Button btn_small;
-	private Button btn_medium;
-	private Button btn_large;
-
 	private String fileName = "";
 	private String lifeFile = "lifeinfo.txt";
 	private String fireFile = "fireinfo.txt";
@@ -79,18 +71,19 @@ public class CellSociety extends Application {
 	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 
 	SceneSetup setup;
+	SimulationGUI simSetup;
 			
 	public void start(Stage s) throws Exception {	
 		myStage = s;
 		setup = new SceneSetup(SIZE, SIZE, myResources, myStage);
 		mySizeScene = askSizeScene();
-		
 		myShapeScene = shapeScene(SIZE,SIZE,BACKGROUND);
 		myHomeScene = homeScene(SIZE, SIZE, BACKGROUND);
 		myStage.setScene(myHomeScene);
 		myStage.setTitle(myResources.getString("HomeTitle"));
 		myStage.show();
 		setAnimation();
+		simSetup = new SimulationGUI(animation, myResources);
 	}
 	
 	private Scene homeScene(int width, int height, Paint background) {
@@ -176,27 +169,28 @@ public class CellSociety extends Application {
 		BorderPane bp = new BorderPane();
 		panel.getChildren().clear();
 
-		GridGenerator gg = new GridGenerator(1, 1, 1, neighborConfig, boundaryStyle, inputStyle, SIZE-50, SIZE-50);
+		GridGenerator gg = new GridGenerator(2, 3, 3, neighborConfig, boundaryStyle, inputStyle, SIZE-50, SIZE-50);
 		Grid currGrid = gg.returnCurrGrid();
 		System.out.println(currGrid.getInstances(new Alive()).size());
 		Grid nextGrid = gg.returnNextGrid();
 		
 		if (fileName.equals(lifeFile)) {
 			currentModel = new lifeModel(currGrid, nextGrid);
+		//	currentModel = new lifeModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(fireFile)) {
-			currentModel = new fireModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new fireModel(currGrid, nextGrid);
 		} else if (fileName.equals(watorFile)) {
-			currentModel = new watorModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new watorModel(currGrid, nextGrid);
 		} else if (fileName.equals(segregationFile)) {
-			currentModel = new segregationModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new segregationModel(currGrid, nextGrid);
 		}	
 
 		myScene.setRoot(root);
 		myStage.setScene(myScene);
 		myStage.setTitle(myResources.getString("SimulationTitle"));
 		
-		panel.getChildren().addAll(currentModel.createStartSimBtn(), currentModel.createPauseBtn(), currentModel.createStepBtn(), 
-				currentModel.createHomeBtn(myHomeScene), currentModel.createResetBtn(), currentModel.createSpeedSlider());
+		panel.getChildren().addAll(simSetup.createStartSimBtn(), simSetup.createPauseBtn(), simSetup.createStepBtn(currentModel), 
+				simSetup.createHomeBtn(myHomeScene, currentModel, myStage), simSetup.createResetBtn(currentModel), simSetup.createSpeedSlider());
 		bp.setTop(panel);
 		root.getChildren().add(bp);
 		Group rt = currentModel.getRoot();

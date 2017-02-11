@@ -4,9 +4,9 @@
  */
 package XMLReads;
 
-public class watorReads extends Reads {
-	public watorReads() {   
-		super("Wator");
+public class antsReads extends Reads {
+	public antsReads() {   
+		super("Ants");
 	}
 }
 

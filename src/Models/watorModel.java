@@ -14,12 +14,14 @@ import java.util.ResourceBundle;
 
 import Unit.Unit;
 import XMLReads.watorReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.stage.Stage;
 import subGrids.hexGrid;
 import subGrids.squareGrid;
+import subUnits.Alive;
 import subUnits.Blank;
 import subUnits.Predator;
 import subUnits.Prey;
@@ -47,17 +49,28 @@ public class watorModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public watorModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int sze){
-		super(s,t,r);
+	public watorModel(int height, int width, int sze){
 		size = sze;
 		root = new Group();
 		takenPrey = new ArrayList<>();
 		takenBlank = new ArrayList<>();
 		rand = new Random();
-		reads = new watorReads(size);
+		reads = new watorReads();
 		down = reads.height();
 		across = reads.width();
 		curGrid = new squareGrid(down, across, height/down);
+		curGrid.makeTorroidal();
+		start();
+	}
+	
+	public watorModel(Grid curr, Grid next){
+		curGrid = curr;
+		nextGrid = next;
+		takenPrey = new ArrayList<>();
+		takenBlank = new ArrayList<>();
+		rand = new Random();
+		root = new Group();
+		curGrid.makeTorroidal();
 		start();
 	}
 	
@@ -308,6 +321,21 @@ public class watorModel extends Model {
 	@Override
 	public void reset() {
 		start();
+	}
+	
+	/**
+	 * @returns the number of predator units
+	 */
+	public int getPredatorUnits(){
+		return (curGrid.getInstances(new Predator()).size());
+	}
+	
+	
+	/**
+	 * @returns the number of prey units
+	 */
+	public int getPreyUnits(){
+		return (curGrid.getInstances(new Prey()).size());
 	}
 }
 
