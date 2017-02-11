@@ -70,7 +70,7 @@ public class CellSociety extends Application {
 		myStage.setTitle(myResources.getString("HomeTitle"));
 		myStage.show();
 		setAnimation();
-		simSetup = new SimulationGUI(animation);
+		simSetup = new SimulationGUI(animation, myResources);
 	}
 	
 	private Scene homeScene(int width, int height, Paint background) {
