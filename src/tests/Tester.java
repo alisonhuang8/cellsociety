@@ -1,4 +1,4 @@
-package cellsociety_team06;
+package tests;
 
 import java.util.Random;
 
@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import simUnits.LifeUnits;
 import subUnits.Alive;
 import subUnits.Blank;
 
@@ -15,10 +16,10 @@ import subUnits.Blank;
 public class Tester extends Application{
 
 	private Stage window;
-	private int down = 10;
-	private int across = 10;
-	private Unit[][] curGrid = new Unit[down][across];
-	private Unit[][] nextGrid = new Unit[down][across];
+	private int down;
+	private int across;
+	private LifeUnits[][] curGrid;
+	private LifeUnits[][] nextGrid;
 	Random rand = new Random();
 	private int width = 500;
 	private int height = 500;
@@ -31,9 +32,11 @@ public class Tester extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		reads = new lifeReads();
+		reads = new lifeReads(2);
 		down = reads.height();
 		across = reads.width();
+		curGrid = new LifeUnits[down][across];
+		nextGrid = new LifeUnits[down][across];
 		window = primaryStage;
 		window.setResizable(false);
 		window.setScene(getLifeScene());
@@ -44,11 +47,12 @@ public class Tester extends Application{
 	private Scene getLifeScene(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
+				curGrid[i][j] = new LifeUnits((width * i)/down, (height * j)/across, width/down, height/across);
 				if(reads.get(i, j) == '0'){
-					curGrid[i][j] = new Blank((width * i)/down, (height * j)/across, width/down, height/across);
+					curGrid[i][j].setDead();
 				}
 				else{
-					curGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
+					curGrid[i][j].setAlive();
 				}
 				root.getChildren().add(curGrid[i][j]);
 			}
@@ -74,27 +78,22 @@ public class Tester extends Application{
 			for(int j = 0; j < across; j++){
 				root.getChildren().remove(curGrid[i][j]);
 				int n = getAliveNeighbors(i, j);
+				nextGrid[i][j] = curGrid[i][j].copy();
 				if(curGrid[i][j].isAlive()){
 					if(n < 2 || n > 3){
-						nextGrid[i][j] = new Blank((width * i)/down, (height * j)/across, width/down, height/across);
-					}
-					else{
-						nextGrid[i][j] = curGrid[i][j];
+						nextGrid[i][j].setDead();
 					}
 				}
 				else{
 					if(n == 3){
-						nextGrid[i][j] = new Alive((width * i)/down, (height * j)/across, width/down, height/across);
-					}
-					else{
-						nextGrid[i][j] = new Blank((width * i)/down, (height * j)/across, width/down, height/across);
+						nextGrid[i][j].setAlive();
 					}
 				}
 				root.getChildren().add(nextGrid[i][j]);
 			}
 		}
 		curGrid = nextGrid;
-		nextGrid = new Unit[down][across];
+		nextGrid = new LifeUnits[down][across];
 	}
 	
 	private int getAliveNeighbors(int i, int j){
@@ -111,5 +110,4 @@ public class Tester extends Application{
 		}
 		return alive;
 	}
-
 }

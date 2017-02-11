@@ -1,62 +1,23 @@
 package subUnits;
 
-import cellsociety_team06.Unit;
+import Unit.Unit;
 import javafx.scene.paint.Color;
 
 public class Prey extends Unit{
-	private int walkedThresh = 5;
-	private int walked;
+	private static final int PREDATOR_STATE = 4;
+	private static final int WALKED_THRESH = 5;
 	private static final Color COLOR = Color.CYAN;
-	public Prey(int x, int y, int width, int height, int walked) {
-		super(x, y, width, height);
+	private int walked;
+	
+	public Prey(int walked, Unit u) {
+		super(u);
 		this.walked = walked;
 		setFill(COLOR);
+		state = PREDATOR_STATE;
 	}
 	
-	public Prey(double x, double y, double width, double height, int walked) {
-		super(x, y, width, height);
-		this.walked = walked;
-		setFill(COLOR);
-	}
-	@Override
-	public boolean isBurning() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isBurnt() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isBlank() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isPredator() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isPrey() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-	@Override
-	public boolean isAlive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isType1() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean isType2() {
-		// TODO Auto-generated method stub
-		return false;
+	public Prey(){
+		this(0, new Unit());
 	}
 	
 	public int getWalked(){
@@ -64,7 +25,6 @@ public class Prey extends Unit{
 	}
 	
 	public boolean canBirth(){
-		return (walked > walkedThresh);
+		return (walked > WALKED_THRESH);
 	}
-
 }
