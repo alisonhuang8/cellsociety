@@ -55,5 +55,5 @@ public class Unit extends Polygon{
 	public int getState(){
 		return state;
 	}
-
+	
 }

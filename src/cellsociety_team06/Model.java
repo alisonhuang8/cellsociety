@@ -45,7 +45,9 @@ public abstract class Model {
 	
 	//methods
 	
-	public abstract Group getRoot(); //creates the scene with the new units
+	public Group getRoot(){
+		return root;
+	}
 	
 	public abstract void setNextScene(); //within the subclasses, there will be a current scene and next scene
 	

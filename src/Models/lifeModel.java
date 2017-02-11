@@ -77,11 +77,6 @@ public class lifeModel extends Model {
 	}
 
 	@Override
-	public Group getRoot() {
-		return root;
-	}
-
-	@Override
 	public void reset() {
 		start();
 	}

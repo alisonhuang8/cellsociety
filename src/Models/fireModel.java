@@ -92,11 +92,6 @@ public class fireModel extends Model {
 		}
 		return total;
 	}
-	
-	@Override
-	public Group getRoot() {
-		return root;
-	}
 
 	@Override
 	public void setNextScene() {
