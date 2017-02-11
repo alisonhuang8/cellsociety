@@ -38,8 +38,8 @@ public class lifeModel extends Model {
 		reads = new lifeReads(size);
 		down = reads.height();
 		across = reads.width();
-		curGrid = new triangularGrid(down, across, height/down);
-		nextGrid = new triangularGrid(down, across, height/down);
+		curGrid = new squareGrid(down, across, height/down);
+		nextGrid = new squareGrid(down, across, height/down);
 		getLifeScene();
 	}
 	

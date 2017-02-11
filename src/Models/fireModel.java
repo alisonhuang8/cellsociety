@@ -121,6 +121,7 @@ public class fireModel extends Model {
 		}
 		return total;
 	}
+	
 	/**
 	 * ticks the CA
 	 */
