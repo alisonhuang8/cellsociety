@@ -1,3 +1,7 @@
+/**
+ * Written by Gideon Pfeffer
+ * Makes a grid of triangles
+ */
 package subGrids;
 
 import java.util.ArrayList;
@@ -9,11 +13,14 @@ import Unit.Unit;
 import cellsociety_team06.Grid;
 
 public class triangularGrid extends Grid {
-	int[] rowMove;
-	int[] colMove;
-	double length;
+	private double length;
 	
-
+	/**
+	 * @param rows rows of the grid
+	 * @param cols of the grid
+	 * @param length length of the triangle
+	 * sets the default neighbors
+	 */
 	public triangularGrid(int rows, int cols, int length) {
 		super(rows, cols);
 		rowMove = new int[] {-1, 0, 0, 1};
@@ -22,6 +29,9 @@ public class triangularGrid extends Grid {
 		fillGrid();
 	}
 
+	/**
+	 * fills the grid with the triangles
+	 */
 	@Override
 	public void fillGrid() {
 		for (int i = 0; i < rows(); i++) {
@@ -35,6 +45,10 @@ public class triangularGrid extends Grid {
 		}
 	}
 	
+	/**
+	 * determines whether a triangle needs to be pointing up or down
+	 * and sets the points
+	 */
 	private void setPoly(Unit u, int row, int col){
 		int orientation = 1;
 		if((row + col) % 2 != 0){
@@ -50,31 +64,19 @@ public class triangularGrid extends Grid {
 	            length/2.0, orientation * Math.pow(3, 0.5) * length/2.0});
 	}
 	
+	/**
+	 * sets the passed triangle to point down
+	 */
 	private void setLayoutDown(Unit u, int row, int col){
 		u.setLayoutX(((double)(length * (col - 1))) / 2.0 + (double) length/2.0);
 		u.setLayoutY(((double)((Math.pow(3, 0.5) * length))/2.0) * row + 2 * Math.pow(3, 0.5) * length/2);
 	}
 	
+	/**
+	 * sets the passed triangle to point up
+	 */
 	private void setLayoutUp(Unit u, int row, int col){
 		u.setLayoutX(((double)(length * col)) / 2.0);
 		u.setLayoutY(((double)((Math.pow(3, 0.5) * length))/2.0) * row + Math.pow(3, 0.5) * length/2);
-	}
-
-	
-	@Override
-	public Map<Integer[], Unit> getNeighbors(int row, int col) {
-		Map<Integer[], Unit> map = new HashMap<>();
-		Unit u;
-		Integer[] place;
-		for(int i = 0; i < rowMove.length; i++){
-			int newRow = row + rowMove[i];
-			int newCol = col + colMove[i];
-			if(newRow >= 0 && newRow < rows() && newCol >= 0 && newCol < cols()){
-				place = new Integer[] {newRow, newCol};
-				u = grid.get(newRow).get(newCol);
-				map.put(place, u);
-			}
-		}
-		return map;
 	}
 }

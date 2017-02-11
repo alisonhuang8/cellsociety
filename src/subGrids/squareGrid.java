@@ -1,3 +1,8 @@
+/**
+ * Written by Gideon Pfeffer
+ * makes the square grid
+ */
+
 package subGrids;
 
 import java.util.ArrayList;
@@ -9,11 +14,13 @@ import Unit.Unit;
 import cellsociety_team06.Grid;
 
 public class squareGrid extends Grid {
-	int[] rowMove;
-	int[] colMove;
-	double rectWidth, rectHeight;
+	private double rectWidth, rectHeight;
 	
-
+	/**
+	 * makes a grid of given rows, cols
+	 * height, width, and
+	 * with given default neighbors
+	 */
 	public squareGrid(int rows, int cols, int heightSquare, int widthSquare) {
 		super(rows, cols);
 		rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
@@ -23,10 +30,16 @@ public class squareGrid extends Grid {
 		fillGrid();
 	}
 	
+	/**
+	 * assumes a square if only given one side length
+	 */
 	public squareGrid(int rows, int cols, int length) {
 		this(rows, cols, length, length);
 	}
 
+	/**
+	 * Fills the grid with the rectangles
+	 */
 	@Override
 	public void fillGrid() {
 		for (int i = 0; i < rows(); i++) {
@@ -44,22 +57,5 @@ public class squareGrid extends Grid {
 			}
 			grid.add(row);
 		}
-	}
-
-	@Override
-	public Map<Integer[], Unit> getNeighbors(int row, int col) {
-		Map<Integer[], Unit> map = new HashMap<>();
-		Unit u;
-		Integer[] place;
-		for(int i = 0; i < rowMove.length; i++){
-			int newRow = row + rowMove[i];
-			int newCol = col + colMove[i];
-			if(newRow >= 0 && newRow < rows() && newCol >= 0 && newCol < cols()){
-				place = new Integer[] {newRow, newCol};
-				u = grid.get(newRow).get(newCol);
-				map.put(place, u);
-			}
-		}
-		return map;
 	}
 }

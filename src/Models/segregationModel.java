@@ -31,6 +31,14 @@ public class segregationModel extends Model {
 	private int totalBlank;
 	private int lastSize;
 	
+	/**
+	 * @param s should be factored out by Faith
+	 * @param t should be factored out by Faith
+	 * @param r should be factored out by Faith
+	 * @param width width of the stage
+	 * @param height height of the stage
+	 * @param size which of the three XML's should be read 
+	 */
 	public segregationModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int sze){
 		super(s,t, r);
 		size = sze;
@@ -42,6 +50,9 @@ public class segregationModel extends Model {
 		start();
 	}
 	
+	/**
+	 * sets the initializations of all variables necessary for the CA
+	 */
 	private void start(){
 		totalBlank = 0;
 		available = new ArrayList<>();
@@ -49,7 +60,11 @@ public class segregationModel extends Model {
 		myStack.push(across * down);
 		getSegScene();
 	}
-	
+
+	/**
+	 * sets the initial scene
+	 * should be refactored into a level generator
+	 */
 	private void getSegScene(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
@@ -68,6 +83,10 @@ public class segregationModel extends Model {
 		resetRoot();
 	}
 
+	/**
+	 * runs through a tick of the CA
+	 * stores the movements of the blank and unhappy tiles in a map
+	 */
 	@Override
 	public void updateGrid(){
 		resetAvailable();
@@ -93,22 +112,38 @@ public class segregationModel extends Model {
 		map.clear();
 	}
 	
+	/**
+	 * @param map shows the indices that should be swapped
+	 * method swaps the two units
+	 */
 	private void swapGrids(Map<Integer[], Integer[]> map){
 		for(Integer[] place: map.keySet()){
 			curGrid.swap(place[0], place[1], map.get(place)[0], map.get(place)[1]);
 		}
 	}
 	
+	/**
+	 * resets available to the locations of the blank units
+	 */
 	private void resetAvailable(){
 		Unit u = new Unit();
 		available.clear();
 		available.addAll(curGrid.getInstances(new Blank(u)).keySet());	
 	}
 	
+	/**
+	 * @return whether or not there are still blanks that can be swapped
+	 */
 	private boolean spaceAvailable(){
 		return !(available.isEmpty());
 	}
 	
+	/**
+	 * @param i row of the grid
+	 * @param j col of the grid
+	 * @return whether the unit is happy with
+	 * relation to satisfaction constant
+	 */
 	private boolean isHappy(int i , int j){
 		double total = 0.0;
 		int blanks = 0;
@@ -120,20 +155,20 @@ public class segregationModel extends Model {
 		return total/((double)curGrid.getNeighbors(i, j).size() - blanks) > satisfactionConstant;
 	}
 
+	/**
+	 * ticks the CA once
+	 */
 	@Override
 	public void setNextScene() {
 		updateGrid();
 	}
 
-
+	/**
+	 * resets the CA
+	 */
 	@Override
 	public void reset() {
 		start();
-	}
-
-	@Override
-	protected void resetCur() {
-	//Not needed for this algorithm.
 	}
 
 }
