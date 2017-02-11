@@ -11,6 +11,8 @@ import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.stage.Stage;
 import subGrids.hexGrid;
+import subGrids.squareGrid;
+import subGrids.triangularGrid;
 import subUnits.Alive;
 import subUnits.Burning;
 import subUnits.Burnt;
@@ -28,8 +30,8 @@ public class fireModel extends Model {
 		reads = new fireReads(size);
 		down = reads.height();
 		across = reads.width();
-		curGrid = new hexGrid(down, across, height/down/2);
-		nextGrid = new hexGrid(down, across, height/down/2);
+		curGrid = new triangularGrid(down, across, height/down);
+		nextGrid = new triangularGrid(down, across, height/down);
 		getFireScene();
 	}
 
