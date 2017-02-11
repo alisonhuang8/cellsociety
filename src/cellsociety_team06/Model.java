@@ -54,4 +54,8 @@ public abstract class Model {
 		System.out.println("reseting root");
 		root.getChildren().addAll(curGrid.getChildren());
 	}
+	
+	public abstract int getType1Units();
+	
+	public abstract int getType2Units();
 }

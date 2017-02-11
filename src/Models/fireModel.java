@@ -53,11 +53,11 @@ public class fireModel extends Model {
 		curGrid = curr;
 		nextGrid = next;
 		
-		for (int i=0; i<curr.rows(); i++){
-			for (int j=0; j<curr.cols(); j++){
-				initial.setUnit(i, j, curr.getUnit(i, j));
-			}
-		}
+//		for (int i=0; i<curr.rows(); i++){
+//			for (int j=0; j<curr.cols(); j++){
+//				initial.setUnit(i, j, curr.getUnit(i, j));
+//			}
+//		}
 	}
 
 	/**
@@ -156,6 +156,16 @@ public class fireModel extends Model {
 	 */
 	public int getTreeUnits(){
 		return (curGrid.getInstances(new Alive()).size());
+	}
+
+	@Override
+	public int getType1Units() {
+		return (curGrid.getInstances(new Alive()).size());
+	}
+
+	@Override
+	public int getType2Units() {
+		return 0;
 	}
 	
 }

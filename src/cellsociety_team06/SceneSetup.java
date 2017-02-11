@@ -1,3 +1,8 @@
+/**
+ * Written by Faith Rodriguez
+ * Creates and implements all GUI features of the setup scenes
+ */
+
 package cellsociety_team06;
 
 import java.io.File;
@@ -28,7 +33,7 @@ public class SceneSetup {
 	private int height;
 	private ResourceBundle resources;
 	private Stage s;
-	private String[] shapes = {"Square", "Triangle"};
+	private String[] shapes = {"Square", "Triangle", "Hexagon"};
 	
 	public SceneSetup(int gridWidth, int gridHeight, ResourceBundle resourcesPackage, Stage stage) {
 		width = gridWidth;
@@ -90,9 +95,9 @@ public class SceneSetup {
 		return btn_back;
 	}
 	
-	public String createShapeButtons(Group root, Scene nextScene) {
+	public int createShapeButtons(Group root, Scene nextScene) {
 		String currentShape = "";
-		int counter = -1;
+		int counter = 0;
 		VBox shapeButtons = createBox(root, width, height);
 		shapeButtons.setTranslateX(width/5 - 10);
 		Label lb_shape = new Label(resources.getString("ChooseCellShape"));
@@ -107,9 +112,23 @@ public class SceneSetup {
 				}
 			});
 		}
-		currentShape = shapes[counter]; 
-		return currentShape;
+		return counter;
 	}
+	
+//	public Label createNeighborLabel(Group root, int width, int height) {
+//		Label lb_neighbor = new Label(resources.getString("ChooseNeighbors"));
+//		lb_neighbor.setTranslateX(width/9*2);
+//		lb_neighbor.setTranslateY(height/7);
+//		root.getChildren().add(lb_neighbor);
+//		return lb_neighbor;
+//	}
+//	public String[] createNeighborButtons(Group root, Scene nextScene, Model model) {
+//		String[] ret = new String[4];
+//		
+//		
+//		return ret;
+//	}
+	
 	
 	public Label createSizeLabel(Group root, ResourceBundle r, int width, int height) {
 		Label lb_size = new Label(r.getString("ChooseGridSize"));

@@ -323,18 +323,20 @@ public class watorModel extends Model {
 		start();
 	}
 	
+	
 	/**
 	 * @returns the number of predator units
 	 */
-	public int getPredatorUnits(){
+	@Override
+	public int getType1Units() {
 		return (curGrid.getInstances(new Predator()).size());
 	}
-	
-	
+
 	/**
 	 * @returns the number of prey units
 	 */
-	public int getPreyUnits(){
+	@Override
+	public int getType2Units() {
 		return (curGrid.getInstances(new Prey()).size());
 	}
 }

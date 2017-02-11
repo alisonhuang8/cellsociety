@@ -114,8 +114,15 @@ public class lifeModel extends Model {
 	/**
 	 * @returns the number of alive units
 	 */
-	public int getLifeUnits(){
+
+	@Override
+	public int getType1Units() {
 		return (curGrid.getInstances(new Alive()).size());
+	}
+
+	@Override
+	public int getType2Units() {
+		return (curGrid.getInstances(new Blank()).size());
 	}
 	
 }
