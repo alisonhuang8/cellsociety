@@ -38,8 +38,7 @@ public class fireModel extends Model {
 	 * @param size which of the three XML's should be read 
 	 */
 	public fireModel(int width, int height, int size){
-		
-		reads = new fireReads(size);
+		reads = new fireReads();
 		down = reads.height();
 		across = reads.width();
 		curGrid = new squareGrid(down, across, height/down);

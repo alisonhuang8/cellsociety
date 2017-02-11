@@ -16,7 +16,7 @@ public class ReadXMLFile {
 
 	static Map<String, List<List<Character>>> inputs = new HashMap<String, List<List<Character>>>();
 
-	public static Map<String, List<List<Character>>> returnMap(int size) {
+	public static Map<String, List<List<Character>>> returnMap() {
 
 		try {
 

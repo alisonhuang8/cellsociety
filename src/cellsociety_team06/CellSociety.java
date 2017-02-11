@@ -53,14 +53,6 @@ public class CellSociety extends Application {
 	private int boundaryStyle = 0;
 	private int inputStyle = 0;
 
-	private Button myLifeButton;
-	private Button myFireButton;
-	private Button myWatorButton;
-	private Button mySegregationButton;
-	private Button btn_small;
-	private Button btn_medium;
-	private Button btn_large;
-
 	private String fileName = "";
 	private String lifeFile = "lifeinfo.txt";
 	private String fireFile = "fireinfo.txt";
@@ -90,7 +82,7 @@ public class CellSociety extends Application {
 		myStage.setTitle(myResources.getString("HomeTitle"));
 		myStage.show();
 		setAnimation();
-		simSetup = new SimulationGUI(animation);
+		simSetup = new SimulationGUI(animation, myResources);
 	}
 	
 	private Scene homeScene(int width, int height, Paint background) {

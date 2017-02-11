@@ -34,7 +34,7 @@ public class lifeModel extends Model {
 	 * @param size which of the three XML's should be read 
 	 */
 	public lifeModel(int height, int width, int size){
-		reads = new lifeReads(size);
+		reads = new lifeReads();
 		down = reads.height();
 		across = reads.width();
 		curGrid = new squareGrid(down, across, height/down);
