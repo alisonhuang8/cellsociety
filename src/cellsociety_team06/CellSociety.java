@@ -63,15 +63,14 @@ public class CellSociety extends Application {
 	public void start(Stage s) throws Exception {	
 		myStage = s;
 		setup = new SceneSetup(SIZE, SIZE, myResources, myStage);
-		simSetup = new SimulationGUI(animation);
 		mySizeScene = askSizeScene();
-		
 		myShapeScene = shapeScene(SIZE,SIZE,BACKGROUND);
 		myHomeScene = homeScene(SIZE, SIZE, BACKGROUND);
 		myStage.setScene(myHomeScene);
 		myStage.setTitle(myResources.getString("HomeTitle"));
 		myStage.show();
 		setAnimation();
+		simSetup = new SimulationGUI(animation);
 	}
 	
 	private Scene homeScene(int width, int height, Paint background) {
@@ -146,13 +145,13 @@ public class CellSociety extends Application {
 		panel.getChildren().clear();
 
 		if (fileName.equals(lifeFile)) {
-			currentModel = new lifeModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new lifeModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(fireFile)) {
-			currentModel = new fireModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new fireModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(watorFile)) {
-			currentModel = new watorModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new watorModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(segregationFile)) {
-			currentModel = new segregationModel(myStage, animation, myResources, SIZE - 50, SIZE - 50, gridSize);
+			currentModel = new segregationModel(SIZE - 50, SIZE - 50, gridSize);
 		}	
 
 		myScene.setRoot(root);

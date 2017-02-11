@@ -47,8 +47,7 @@ public class watorModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public watorModel(Stage s, Timeline t, ResourceBundle r, int height, int width, int sze){
-		super(s,t,r);
+	public watorModel(int height, int width, int sze){
 		size = sze;
 		root = new Group();
 		takenPrey = new ArrayList<>();
