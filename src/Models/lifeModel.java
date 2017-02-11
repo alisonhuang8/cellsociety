@@ -126,4 +126,12 @@ public class lifeModel extends Model {
 			}
 		}
 	}
+	
+	/**
+	 * @returns the number of alive units
+	 */
+	public int getLifeUnits(){
+		return (curGrid.getInstances(new Alive()).size());
+	}
+	
 }

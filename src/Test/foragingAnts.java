@@ -8,6 +8,7 @@ package Test;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import Unit.Unit;
@@ -94,19 +95,50 @@ public class foragingAnts extends Application{
 	 * moves the grid forward a step
 	 */
 	private void updateGrid(){
-		for(Unit instance : curGrid.getInstances(new Ant()).values()){
-			Ant a = (Ant) instance;
-			if(a.hasFoodItem()) returnToNest(a);
-			else findFoodSource(a);
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
+				if(curGrid.getUnit(i, j).isAnt()){
+					Ant a = (Ant) curGrid.getUnit(i, j);
+					if(a.hasFoodItem()) returnToNest(i, j, a);
+					else findFoodSource(i, j, a);
+				}
+				
+			}
 		}
 		updateRoot();
 	}
 	
-	private void returnToNest(Ant a){
-		
+	private void returnToNest(int row, int col, Ant a){
+		if(locatedAtFoodSource(row, col)){
+			a.setOrientation(neighborWithMaxHomePher(row, col));
+		}
 	}
 	
-	private void findFoodSource(Ant a){
+	/**
+	 * @returns the neighbor with the most home pharamones
+	 */
+	private int[] neighborWithMaxHomePher(int row, int col){
+		double maxPher = 0;
+		int[] dir = new int[]{0,0};
+		Map<Integer[], Unit> map = curGrid.getNeighbors(row, col);
+		for(Integer[] place: map.keySet()){
+			Ground g = (Ground) curGrid.getUnit(place[0], place[1]);
+			if(g.getHomePheromone() > maxPher){
+				dir = new int[]{row + place[0], col + place[1]};
+				maxPher = g.getHomePheromone();
+			}
+		}
+		return dir;
+	}
+	
+	private boolean locatedAtFoodSource(int row, int col){
+		for(Unit u : curGrid.getNeighbors(row, col).values()){
+			if(u.isFood()) return true;
+		}
+		return false;
+	}
+	
+	private void findFoodSource(int row, int col, Ant a){
 
 	}
 

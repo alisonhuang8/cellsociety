@@ -7,6 +7,7 @@ public class Ant extends Ground{
 	private static final int ANT_STATE = 8;
 	private static final Color ANT_COLOR = Color.BROWN;
 	private boolean hasFood;
+	private int[] orientation = new int[]{0,0};
 	
 	public Ant(Unit u) {
 		super(u);
@@ -24,6 +25,10 @@ public class Ant extends Ground{
 	
 	public void gotFoodItem(){
 		hasFood = true;
+	}
+	
+	public void setOrientation(int[] o){
+		orientation = o;
 	}
 
 }
