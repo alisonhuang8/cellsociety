@@ -1,3 +1,9 @@
+/**
+ * Written by Gideon Pfeffer
+ * Used to test the different orientations and implementations
+ * without having to go through the application
+ * USes the fire model
+ */
 package Test;
 
 import java.util.Collection;
@@ -30,6 +36,9 @@ public class Test extends Application{
 		launch(args);
 	}
 	
+	/**
+	 * sets the starting stage
+	 */
 	private void getFireScene(){
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
@@ -47,6 +56,10 @@ public class Test extends Application{
 		root.getChildren().addAll(curGrid.getChildren());
 	}
 	
+	
+	/**
+	 * moves the grid forward a step
+	 */
 	private void updateGrid(){
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
@@ -70,6 +83,9 @@ public class Test extends Application{
 		updateRoot();
 	}
 	
+	/**
+	 * returns the number of burning neighbors
+	 */
 	private int getBurningNeighbors(Collection<Unit> neighbors){
 		int total = 0;
 		for(Unit n:neighbors){
@@ -78,12 +94,19 @@ public class Test extends Application{
 		return total;
 	}
 
+	/**
+	 * moves the simulation forward one tick
+	 */
 	private void handleKeyInput(KeyCode code){
 		if(code == KeyCode.SPACE){
 			updateGrid();
 		}
 	}
 	
+	/**
+	 * Sets up the stage
+	 * and makes the grids
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.window = primaryStage;
@@ -98,6 +121,9 @@ public class Test extends Application{
 		getFireScene();
 	}
 	
+	/**
+	 * resets current to be equal to next
+	 */
 	private void resetCur(){
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
