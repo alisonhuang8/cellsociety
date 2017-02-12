@@ -34,13 +34,13 @@ public class GridGenerator {
 	private int down = 0;
 	private int across = 0;
 	private int totalBlank = 0;
-	
+
 	protected Group root;
 
 	private Grid currGrid;
 	private Grid nextGrid;
 	private Grid initialGrid;
-	
+
 	private Reads reads;
 
 	public GridGenerator(int st, int us, int gs, int nc, int bs, int is, int w, int h){
@@ -55,9 +55,9 @@ public class GridGenerator {
 
 		new ReadXMLFile();
 		triggerEverything();
-		
+
 	}
-	
+
 	private void triggerEverything(){
 		createReads();
 		getAcross();
@@ -67,11 +67,11 @@ public class GridGenerator {
 		checkToroidal();
 		checkPossNeighbors();
 	}
-	
+
 	public Grid returnCurrGrid(){
 		return currGrid;
 	}
-	
+
 	public Grid returnNextGrid(){
 		return nextGrid;
 	}
@@ -84,7 +84,7 @@ public class GridGenerator {
 		}
 		return initialGrid;
 	}
-	
+
 	private void createReads(){
 		if (simType == 1){
 			reads = new Reads("Life", inputStyle, simType);
@@ -136,7 +136,7 @@ public class GridGenerator {
 	}
 
 	private void createEmptyGrids(){
-		
+
 		if (unitShape == 1){
 			currGrid = new squareGrid(down, across, height/down);
 			nextGrid = new squareGrid(down, across, height/down);
@@ -151,34 +151,36 @@ public class GridGenerator {
 			initialGrid = new hexGrid(down, across, height/down);
 		}
 	}
-	
+
 	private void checkPossNeighbors(){
-		int[] rowMove;
-		int[] colMove;
-		if (neighborConfig == 1){
-			rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
-			colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
-			currGrid.setNeighbors(rowMove, colMove);
-		} else if (neighborConfig == 2){
-			rowMove = new int[] {-1, 0, 0, 1};
-			colMove = new int[] {0, 1, -1, 0};
-			currGrid.setNeighbors(rowMove, colMove);
-		} else if (neighborConfig == 3){
-			rowMove = new int[] {1, -1, 1, -1};
-			colMove = new int[] {1, -1, -1, 1};
-			currGrid.setNeighbors(rowMove, colMove);
-		} else if (neighborConfig == 4){
-			rowMove = new int[] {0, 0};
-			colMove = new int[] {1, -1};
-			currGrid.setNeighbors(rowMove, colMove);
-		} else {
-			rowMove = new int[] {-1, 1};
-			colMove = new int[] {0, 0};
-			currGrid.setNeighbors(rowMove, colMove);
+		if (unitShape == 1){
+			int[] rowMove;
+			int[] colMove;
+			if (neighborConfig == 1){
+				rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
+				colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
+				currGrid.setNeighbors(rowMove, colMove);
+			} else if (neighborConfig == 2){
+				rowMove = new int[] {-1, 0, 0, 1};
+				colMove = new int[] {0, 1, -1, 0};
+				currGrid.setNeighbors(rowMove, colMove);
+			} else if (neighborConfig == 3){
+				rowMove = new int[] {1, -1, 1, -1};
+				colMove = new int[] {1, -1, -1, 1};
+				currGrid.setNeighbors(rowMove, colMove);
+			} else if (neighborConfig == 4){
+				rowMove = new int[] {0, 0};
+				colMove = new int[] {1, -1};
+				currGrid.setNeighbors(rowMove, colMove);
+			} else {
+				rowMove = new int[] {-1, 1};
+				colMove = new int[] {0, 0};
+				currGrid.setNeighbors(rowMove, colMove);
+			}
 		}
-		
+
 	}
-	
+
 	private void fillCurrGrid(){
 		if (simType == 1){
 			fillWithLife();
@@ -192,7 +194,7 @@ public class GridGenerator {
 			fillWithSugar();
 		}
 	}
-	
+
 	private void fillWithLife(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
@@ -205,20 +207,20 @@ public class GridGenerator {
 			}
 		}
 	}
-	
+
 	private void fillWithFire(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
 				if(reads.get(i, j) == 'G'){
 					currGrid.setUnit(i, j, new Alive(currGrid.getUnit(i, j)));
 				}
-				if(i == down/2 && j == across/2){
+				if(i == down/5 && j == across/5){
 					currGrid.setUnit(i, j, new Burning(currGrid.getUnit(i, j)));
 				}
 			}
 		}
 	}
-	
+
 	private void fillWithWator(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
@@ -234,7 +236,7 @@ public class GridGenerator {
 			}
 		}
 	}
-	
+
 	private void fillWithSeg(){
 		totalBlank = 0;
 		for(int i = 0; i < down; i++){
@@ -252,7 +254,7 @@ public class GridGenerator {
 			}
 		}
 	}
-	
+
 	private void fillWithSugar(){
 		for (int i=0; i<down; i++){
 			for (int j=0; j<across; j++){
@@ -264,7 +266,7 @@ public class GridGenerator {
 			}
 		}
 	}
-	
+
 	private void checkToroidal(){
 		if (boundaryStyle == 1){
 			currGrid.undoToroidal();
@@ -273,5 +275,5 @@ public class GridGenerator {
 			currGrid.makeToroidal();
 		}
 	}
-	
+
 }
