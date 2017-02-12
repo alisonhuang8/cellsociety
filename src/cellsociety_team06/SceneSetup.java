@@ -37,7 +37,7 @@ public class SceneSetup {
 	private String[] shapes = {"Square", "Triangle", "Hexagon"};
 	private String[] boundaryTypes = {"Normal","Toroidal"};
 	private int tempChoice;
-	private int unitShape;
+	private int unitShape;  
 	
 	public SceneSetup(int gridWidth, int gridHeight, ResourceBundle resourcesPackage, Stage stage) {
 		width = gridWidth;
