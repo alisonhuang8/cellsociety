@@ -10,19 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.ResourceBundle;
-
 import Unit.Unit;
-import XMLReads.watorReads;
 import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
-import javafx.animation.Timeline;
 import javafx.scene.Group;
-import javafx.stage.Stage;
-import subGrids.hexGrid;
-import subGrids.squareGrid;
-import subGrids.triangularGrid;
-import subUnits.Alive;
 import subUnits.Blank;
 import subUnits.Predator;
 import subUnits.Prey;
@@ -37,10 +28,7 @@ public class watorModel extends Model {
 	private Map<Integer[], Integer[]> preyMap;
 	private Map<Integer[], Integer[]> blankMap;
 	
-	private int startingEnergy = 5;
-	private int counter = 0;
-	private watorReads reads;
-	private int size;
+	private static final int STARTING_ENERGY = 5;
 
 	
 	/**
@@ -76,21 +64,14 @@ public class watorModel extends Model {
 	private void start(){
 		preyMap = new HashMap<>();
 		blankMap = new HashMap<>();
-		counter = 0;
 		resetRoot();
 	}
-	
-	/**
-	 * Sets the initial scene for the CA simulation
-	 * Should be refactored into a level generator
-	 */
 	
 
 	/**
 	 * updates the grid one tick
 	 */
 	public void updateGrid(){
-		counter++;
 		takenPrey.clear();
 		takenBlank.clear();
 		preyMap.clear();
@@ -176,7 +157,7 @@ public class watorModel extends Model {
 		curGrid.setUnit(c, d, new Predator(p.getEnergy() + p.ePerEat() - 1,
 				p.getWalked() + 1, curGrid.getUnit(c, d)));
 		if(p.canBirth()){
-			curGrid.setUnit(a, b, new Predator(startingEnergy, 0, curGrid.getUnit(a, b)));
+			curGrid.setUnit(a, b, new Predator(STARTING_ENERGY, 0, curGrid.getUnit(a, b)));
 			Predator newPred = (Predator) curGrid.getUnit(c, d);
 			newPred.resetWalked();
 		}
@@ -235,7 +216,7 @@ public class watorModel extends Model {
 		curGrid.setUnit(c, d, new Predator(p.getEnergy() - 1,
 				p.getWalked() + 1, curGrid.getUnit(c, d)));
 		if(p.canBirth()){
-			curGrid.setUnit(a, b, new Predator(startingEnergy, 0, curGrid.getUnit(a, b)));
+			curGrid.setUnit(a, b, new Predator(STARTING_ENERGY, 0, curGrid.getUnit(a, b)));
 			Predator newPred = (Predator) curGrid.getUnit(c, d);
 			newPred.resetWalked();
 		}
@@ -295,8 +276,6 @@ public class watorModel extends Model {
 	public void setNextScene() {
 		updateGrid();
 	}
-
-	
 	
 	/**
 	 * @returns the number of predator units

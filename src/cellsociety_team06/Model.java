@@ -4,17 +4,7 @@
 
 package cellsociety_team06;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ResourceBundle;
-import java.util.Scanner;
-
-
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
-import subUnits.Alive;
 
 public abstract class Model {
 	protected Group root;
@@ -38,15 +28,11 @@ public abstract class Model {
 	}
 	
 	public void reset() {
-		root.getChildren().clear();
-		
 		for (int i=0; i<initialGrid.rows(); i++){
 			for (int j=0; j<initialGrid.cols(); j++){
 				curGrid.setUnit(i, j, initialGrid.getUnit(i, j));
 			}
 		}
-		
-		resetRoot();
 	}
 	
 	public abstract void setNextScene();
