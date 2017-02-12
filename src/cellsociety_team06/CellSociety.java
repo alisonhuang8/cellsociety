@@ -43,7 +43,7 @@ public class CellSociety extends Application {
 	private int graphHeight = 100;
 	private Paint BACKGROUND = Color.WHITE;
 	private int height = SIZE + graphHeight;
-	private int width = SIZE + graphHeight*2;
+	private int width = SIZE;
 
 	private Stage myStage;
 	private Timeline animation = new Timeline();
@@ -53,7 +53,6 @@ public class CellSociety extends Application {
 	private Scene mySizeScene;
 	private Scene myShapeScene;
 	private Scene myNeighborScene;
-	private Scene myBoundaryScene;
 
 	private int FRAMES_PER_SECOND = 1;
 	private double SECOND_DELAY = 0.75 / FRAMES_PER_SECOND;
@@ -74,8 +73,6 @@ public class CellSociety extends Application {
 	private String sugarFile = "sugarinfo.txt";
 	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
-	private String[] shapes = {"Square", "Triangle", "Hexagon"};
-	private String[] boundaryTypes = {"Normal","Toroidal"};
 	private String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
 							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"},{"SugarSimulation", "sugarinfo.txt"}};
 
@@ -100,7 +97,6 @@ public class CellSociety extends Application {
 	}
 	private void initializeScenes() {
 		mySizeScene = askSizeScene();
-		myBoundaryScene = boundaryScene(width,height,BACKGROUND);
 		myShapeScene = shapeScene(width,height,BACKGROUND);
 		myHomeScene = homeScene(width, height, BACKGROUND);
 		//myNeighborScene = chooseNeighbors(width,height,BACKGROUND);
@@ -142,8 +138,8 @@ public class CellSociety extends Application {
 	private Scene shapeScene(int width, int height, Paint background) {
 		Group shapeRoot = new Group();
 		myShapeScene = new Scene(shapeRoot, width, height, BACKGROUND);
-		setup.createLabel(shapeRoot, myResources, width, height, "ChooseCellShape");
-		unitShape = setup.createButtons(shapeRoot, myBoundaryScene, shapes);
+		unitShape = setup.createShapeButtons(shapeRoot, mySizeScene);
+		System.out.print(unitShape);
 		return myShapeScene;
 	}
 	
@@ -155,20 +151,10 @@ public class CellSociety extends Application {
 //		return myNeighborScene;
 //	}
 	
-	private Scene boundaryScene(int width, int height, Paint background) {
-		unitShape = setup.getChoice();
-		Group boundaryRoot = new Group();
-		myBoundaryScene = new Scene(boundaryRoot, width, height, BACKGROUND);
-		setup.createLabel(boundaryRoot, myResources, width, height, "BoundaryChoice");
-		boundaryStyle = setup.createButtons(boundaryRoot, mySizeScene, boundaryTypes); 
-		return myBoundaryScene;
-	}
-	
 	private Scene askSizeScene(){
-		unitShape = setup.getChoice();
 		Group sizeSceneRoot = new Group();
 		mySizeScene = new Scene(sizeSceneRoot, width, height, BACKGROUND);
-		setup.createLabel(sizeSceneRoot, myResources, width, height, "ChooseGridSize");
+		setup.createSizeLabel(sizeSceneRoot, myResources, width, height);
 		VBox sizes = setup.createBox(sizeSceneRoot, width, height);		
 		for (String button: sizeButtons) {
 			Button btn = setup.createSizeButton(sizeSceneRoot, button);
@@ -194,7 +180,7 @@ public class CellSociety extends Application {
 	}
 	
 	private void createModelAndFrames() {
-		unitShape = setup.getChoice();
+		unitShape = setup.getUnitShape();
 		root.getChildren().clear();
 		BorderPane bp = new BorderPane();
 		panel.getChildren().clear();
@@ -203,6 +189,7 @@ public class CellSociety extends Application {
 		Grid currGrid = gg.returnCurrGrid();
 		Grid nextGrid = gg.returnNextGrid();
 		Grid initialGrid = gg.returnInitialGrid();
+		
 		if (fileName.equals(lifeFile)) {
 			currentModel = new lifeModel(currGrid, nextGrid, initialGrid);
 		//	currentModel = new lifeModel(SIZE - 50, SIZE - 50, gridSize);
