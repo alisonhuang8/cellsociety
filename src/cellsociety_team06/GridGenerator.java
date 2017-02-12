@@ -63,6 +63,7 @@ public class GridGenerator {
 		getDown();
 		createEmptyGrids();
 		fillCurrGrid();
+		checkToroidal();
 	}
 	
 	public Grid returnCurrGrid(){
@@ -232,6 +233,15 @@ public class GridGenerator {
 					currGrid.setUnit(i, j, new Sugar(currGrid.getUnit(i, j)));
 				}
 			}
+		}
+	}
+	
+	private void checkToroidal(){
+		if (boundaryStyle == 1){
+			currGrid.undoToroidal();
+		}
+		if (boundaryStyle == 2){
+			currGrid.makeToroidal();
 		}
 	}
 	
