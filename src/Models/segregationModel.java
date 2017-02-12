@@ -16,8 +16,8 @@ import subUnits.Type2;
 
 public class segregationModel extends Model {
 
-	private Random rand = new Random();
-	private List<Integer[]> available = new ArrayList<>();
+	private Random rand;
+	private List<Integer[]> available;
 	private double satisfactionConstant = 0.7;
 	private Stack<Integer> myStack;
 	private int totalBlank;
@@ -28,6 +28,7 @@ public class segregationModel extends Model {
 	 */
 	public segregationModel(Grid curr, Grid next, Grid init){
 		super(curr, next, init);
+		rand = new Random();
 		start();
 	}
 	
@@ -67,7 +68,7 @@ public class segregationModel extends Model {
 		}
 		myStack.push(map.size());
 		swapGrids(map);
-		map.clear();
+		resetRoot();
 	}
 	
 	/**
@@ -76,8 +77,15 @@ public class segregationModel extends Model {
 	 */
 	private void swapGrids(Map<Integer[], Integer[]> map){
 		for(Integer[] place: map.keySet()){
-			curGrid.swap(place[0], place[1], map.get(place)[0], map.get(place)[1]);
+			swap(place[0], place[1], map.get(place)[0], map.get(place)[1]);
 		}
+	}
+	
+	private void swap(int rowA, int colA, int rowB, int colB){
+		Unit u = curGrid.getUnit(rowA,  colA);
+		if(u.isType1()) curGrid.setUnit(rowB, colB, new Type1(curGrid.getUnit(rowB,  colB)));
+		else curGrid.setUnit(rowB, colB, new Type2(curGrid.getUnit(rowB,  colB)));
+		curGrid.setUnit(rowA, colA, new Blank(curGrid.getUnit(rowA, colA)));
 	}
 	
 	/**

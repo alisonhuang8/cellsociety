@@ -81,11 +81,16 @@ public class sugarModel extends Model {
 		a.metabolize();
 		if (!a.isDead()){
 			a.pickedUp(s.getSugar());
-			curGrid.swap(agRow, agCol, sugRow, sugCol);
+			setAgent(sugRow, sugCol, a);
 		}
 		curGrid.setUnit(agRow, agCol, new Sugar(curGrid.getUnit(agRow, agCol), 0));
 		resetRoot();
-
+	}
+	
+	private void setAgent(int row, int col, Agent a){
+		curGrid.setUnit(row, col, new Agent(curGrid.getUnit(row, col)));
+		Agent newAgent = (Agent) curGrid.getUnit(row, col);
+		newAgent.setStats(a);
 	}
 
 	/**
