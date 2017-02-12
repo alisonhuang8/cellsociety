@@ -8,7 +8,7 @@ import javafx.scene.Group;
 
 public abstract class Model {
 	protected Group root;
-	protected Grid curGrid, nextGrid;
+	protected Grid curGrid, nextGrid, initialGrid;
 	
 	public Model (){
 		root = new Group();
@@ -27,9 +27,19 @@ public abstract class Model {
 		return root;
 	}
 	
-	public abstract void setNextScene();
+	public void reset() {
+		root.getChildren().clear();
+		
+		for (int i=0; i<initialGrid.rows(); i++){
+			for (int j=0; j<initialGrid.cols(); j++){
+				curGrid.setUnit(i, j, initialGrid.getUnit(i, j));
+			}
+		}
+		
+		resetRoot();
+	}
 	
-	public abstract void reset();
+	public abstract void setNextScene();
 	
 	public abstract void updateGrid();
 	
