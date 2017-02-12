@@ -5,13 +5,10 @@
 
 package cellsociety_team06;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import Models.fireModel;
 import Models.lifeModel;
 import Models.segregationModel;
@@ -36,7 +33,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import subUnits.Alive;
 
 public class CellSociety extends Application {
 	private int SIZE = 500;
@@ -52,7 +48,6 @@ public class CellSociety extends Application {
 	private Scene myHomeScene;
 	private Scene mySizeScene;
 	private Scene myShapeScene;
-	private Scene myNeighborScene;
 	private Scene myBoundaryScene;
 
 	private int FRAMES_PER_SECOND = 1;
@@ -65,6 +60,7 @@ public class CellSociety extends Application {
 	private List<Integer[]> neighborConfig;
 	private int boundaryStyle = 1;
 	private int inputStyle = 1;
+	private String[] choices = {"simType", "unitShape", "boundaryStyle"};
 
 	private String fileName = "";
 	private String lifeFile = "lifeinfo.txt";
@@ -108,9 +104,7 @@ public class CellSociety extends Application {
 	}
 	private Scene homeScene(int width, int height, Paint background) {
 		Pane homeSceneRoot = new FlowPane(Orientation.VERTICAL);
-		int simTypeCounter = 0;
 		for (String[] simulation: simulations) {
-			simTypeCounter++;
 			Button myButton = setup.createSimButton(homeSceneRoot, myResources.getString(simulation[0]));			
 			myButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent arg) {
@@ -134,7 +128,7 @@ public class CellSociety extends Application {
 		Pane infoRoot = new Pane();
 		Scene myInfoScene = new Scene(infoRoot, width, height, background);
 		infoRoot.getChildren().add(setup.readFile(infoRoot,fileName));
-		setup.buttonPlay(infoRoot, myShapeScene);		
+		setup.buttonPlay(infoRoot, myShapeScene, simType);		
 		setup.buttonBack(infoRoot, myHomeScene);
 		myStage.setScene(myInfoScene);
 		return myInfoScene;
@@ -144,7 +138,7 @@ public class CellSociety extends Application {
 		Group shapeRoot = new Group();
 		myShapeScene = new Scene(shapeRoot, width, height, BACKGROUND);
 		setup.createLabel(shapeRoot, myResources, width, height, "ChooseCellShape");
-		unitShape = setup.createButtons(shapeRoot, myBoundaryScene, shapes);
+		setup.createButtons(shapeRoot, myBoundaryScene, shapes);
 		return myShapeScene;
 	}
 	
@@ -157,16 +151,14 @@ public class CellSociety extends Application {
 //	}
 	
 	private Scene boundaryScene(int width, int height, Paint background) {
-		unitShape = setup.getChoice();
 		Group boundaryRoot = new Group();
 		myBoundaryScene = new Scene(boundaryRoot, width, height, BACKGROUND);
 		setup.createLabel(boundaryRoot, myResources, width, height, "BoundaryChoice");
-		boundaryStyle = setup.createButtons(boundaryRoot, mySizeScene, boundaryTypes); 
+		setup.createButtons(boundaryRoot, mySizeScene, boundaryTypes); 
 		return myBoundaryScene;
 	}
 	
 	private Scene askSizeScene(){
-		unitShape = setup.getChoice();
 		Group sizeSceneRoot = new Group();
 		mySizeScene = new Scene(sizeSceneRoot, width, height, BACKGROUND);
 		setup.createLabel(sizeSceneRoot, myResources, width, height, "ChooseGridSize");
@@ -195,7 +187,7 @@ public class CellSociety extends Application {
 	}
 	
 	private void createModelAndFrames() {
-		unitShape = setup.getChoice();
+		getUserChoices();
 		root.getChildren().clear();
 		BorderPane bp = new BorderPane();
 		panel.getChildren().clear();
@@ -206,7 +198,6 @@ public class CellSociety extends Application {
 		Grid initialGrid = gg.returnInitialGrid();
 		if (fileName.equals(lifeFile)) {
 			currentModel = new lifeModel(currGrid, nextGrid, initialGrid);
-		//	currentModel = new lifeModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(fireFile)) {
 			currentModel = new fireModel(currGrid, nextGrid, initialGrid);
 		} else if (fileName.equals(watorFile)) {
@@ -234,6 +225,14 @@ public class CellSociety extends Application {
 		}
 	}
 
+	private void getUserChoices() {
+		Integer[] setupChoices = setup.getChoices();
+		simType = setupChoices[0];
+		unitShape = setupChoices[1];
+		boundaryStyle = setupChoices[2];
+		
+	}
+	
 	private void setAnimation() {
 		KeyFrame frame = new KeyFrame(Duration.millis(1000 / FRAMES_PER_SECOND), e -> step(SECOND_DELAY, myStage));
 		animation.setCycleCount(Timeline.INDEFINITE);

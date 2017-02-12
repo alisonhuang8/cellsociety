@@ -7,6 +7,7 @@ package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -36,7 +37,7 @@ public class SceneSetup {
 	private Stage s;
 	private String[] shapes = {"Square", "Triangle", "Hexagon"};
 	private String[] boundaryTypes = {"Normal","Toroidal"};
-	private int tempChoice;
+	private ArrayList<Integer> tempChoice = new ArrayList<Integer>();
 	private int unitShape;  
 	
 	public SceneSetup(int gridWidth, int gridHeight, ResourceBundle resourcesPackage, Stage stage) {
@@ -71,13 +72,14 @@ public class SceneSetup {
 		return simulationInfo;
 	}
 	
-	public Button buttonPlay(Pane infoRoot, Scene nextScene) {
+	public Button buttonPlay(Pane infoRoot, Scene nextScene, int simChoice) {
 		Button btn_play = new Button("Let's Play");
 		btn_play.setLayoutX(width / 2);
 		btn_play.setLayoutY(4 * height / 5);
 		infoRoot.getChildren().add(btn_play);
 		btn_play.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg) {
+				tempChoice.add(simChoice);
 				s.setScene(nextScene);
 				s.show();
 				s.setTitle(resources.getString("Shape"));
@@ -99,11 +101,13 @@ public class SceneSetup {
 		return btn_back;
 	}
 	
-	public int getChoice() {
-		return tempChoice;
+	public Integer[] getChoices() {
+		Integer[] choices = tempChoice.toArray(new Integer[tempChoice.size()]);
+		tempChoice.clear();
+		return choices;
 	}
 	
-	public int createButtons(Group root, Scene nextScene, String[] options) {
+	public void createButtons(Group root, Scene nextScene, String[] options) {
 		VBox shapeButtons = createBox(root, width, height);
 		shapeButtons.setTranslateX(width/5 - 10);
 		for (String option:options) {
@@ -111,13 +115,11 @@ public class SceneSetup {
 			shapeButtons.getChildren().add(btn);
 			btn.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent arg) {
-					tempChoice = Arrays.asList(options).indexOf(option) + 1;
-					System.out.println(tempChoice);
+					tempChoice.add(Arrays.asList(options).indexOf(option) + 1);
 					s.setScene(nextScene);
 				}
 			});
 		}
-		return tempChoice;
 	}
 	
 

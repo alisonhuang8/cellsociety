@@ -34,7 +34,6 @@ public class GridGenerator {
 	private int across = 0;
 	private int totalBlank = 0;
 	
-	private ReadXMLFile files;
 	protected Group root;
 
 	private Grid currGrid;
@@ -53,7 +52,7 @@ public class GridGenerator {
 		width = w;
 		height = h;
 
-		files = new ReadXMLFile();
+		new ReadXMLFile();
 		triggerEverything();
 		
 	}
@@ -85,15 +84,15 @@ public class GridGenerator {
 	
 	private void createReads(){
 		if (simType == 1){
-			reads = new Reads("Life");
+			reads = new Reads("Life", inputStyle, simType);
 		} else if (simType == 2){
-			reads = new Reads("Fire");
+			reads = new Reads("Fire", inputStyle, simType);
 		} else if (simType == 3){
-			reads = new Reads("Wator");
+			reads = new Reads("Wator", inputStyle, simType);
 		} else if (simType == 4){
-			reads = new Reads("Segregation");
+			reads = new Reads("Segregation", inputStyle, simType);
 		} else {
-			reads = new Reads("Sugar");
+			reads = new Reads("Sugar", inputStyle, simType);
 		}
 	}
 
