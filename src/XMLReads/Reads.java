@@ -48,7 +48,7 @@ public class Reads{
 				return 'L';
 			}
 		} else if (simType == 2){
-			return 'X';
+			return 'G';
 		} else if (simType == 3){
 			if(rand.nextInt(100) < 100/3){ //percent chance of this block
 				return '0';
