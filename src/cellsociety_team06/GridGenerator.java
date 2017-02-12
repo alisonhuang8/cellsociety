@@ -1,5 +1,6 @@
 package cellsociety_team06;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cellsociety_team06.Model;
@@ -24,7 +25,7 @@ public class GridGenerator {
 	private int simType = 0;
 	private int unitShape = 0;
 	private int gridSize = 0;
-	private List<Integer[]> neighborConfig;
+	private int neighborConfig;
 	private int boundaryStyle = 0;
 	private int inputStyle = 0;
 
@@ -42,7 +43,7 @@ public class GridGenerator {
 	
 	private Reads reads;
 
-	public GridGenerator(int st, int us, int gs, List<Integer[]> nc, int bs, int is, int w, int h){
+	public GridGenerator(int st, int us, int gs, int nc, int bs, int is, int w, int h){
 		simType = st;
 		unitShape = us;
 		gridSize = gs;
@@ -64,6 +65,7 @@ public class GridGenerator {
 		createEmptyGrids();
 		fillCurrGrid();
 		checkToroidal();
+		checkPossNeighbors();
 	}
 	
 	public Grid returnCurrGrid(){
@@ -150,6 +152,33 @@ public class GridGenerator {
 		}
 	}
 	
+	private void checkPossNeighbors(){
+		int[] rowMove;
+		int[] colMove;
+		if (neighborConfig == 1){
+			rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
+			colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
+			currGrid.setNeighbors(rowMove, colMove);
+		} else if (neighborConfig == 2){
+			rowMove = new int[] {-1, 0, 0, 1};
+			colMove = new int[] {0, 1, -1, 0};
+			currGrid.setNeighbors(rowMove, colMove);
+		} else if (neighborConfig == 3){
+			rowMove = new int[] {1, -1, 1, -1};
+			colMove = new int[] {1, -1, -1, 1};
+			currGrid.setNeighbors(rowMove, colMove);
+		} else if (neighborConfig == 4){
+			rowMove = new int[] {0, 0};
+			colMove = new int[] {1, -1};
+			currGrid.setNeighbors(rowMove, colMove);
+		} else {
+			rowMove = new int[] {-1, 1};
+			colMove = new int[] {0, 0};
+			currGrid.setNeighbors(rowMove, colMove);
+		}
+		
+	}
+	
 	private void fillCurrGrid(){
 		if (simType == 1){
 			fillWithLife();
@@ -183,7 +212,7 @@ public class GridGenerator {
 				if(reads.get(i, j) == 'G'){
 					currGrid.setUnit(i, j, new Alive(currGrid.getUnit(i, j)));
 				}
-				if(i == 0 && j == 0){
+				if(i == down/2 && j == across/2){
 					currGrid.setUnit(i, j, new Burning(currGrid.getUnit(i, j)));
 				}
 			}

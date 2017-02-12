@@ -109,9 +109,9 @@ public class SceneSetup {
 	
 	public void createButtons(Group root, Scene nextScene, String[] options) {
 		VBox shapeButtons = createBox(root, width, height);
-		shapeButtons.setTranslateX(width/5 - 10);
+		shapeButtons.setTranslateX(width/12*5);
 		for (String option:options) {
-			Button btn = new Button(option);
+			Button btn = new Button(resources.getString(option));
 			shapeButtons.getChildren().add(btn);
 			btn.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent arg) {
@@ -120,22 +120,11 @@ public class SceneSetup {
 				}
 			});
 		}
+		
 	}
 	
-
-//	public String[] createNeighborButtons(Group root, Scene nextScene, Model model) {
-//		String[] ret = new String[4];
-//		
-//		
-//		return ret;
-//	}
-//	
-//	public void createBoundaryBtn(Group root, Scene nextScene) {
-//		
-//	}
-	
-	public Label createLabel(Group root, ResourceBundle r, int width, int height, String message) {
-		Label lb_size = new Label(r.getString(message));
+	public Label createLabel(Group root, int width, int height, String message) {
+		Label lb_size = new Label(resources.getString(message));
 		lb_size.setTranslateX(width/9*2);
 		lb_size.setTranslateY(height/7);
 		root.getChildren().add(lb_size);
@@ -143,7 +132,7 @@ public class SceneSetup {
 	}
 	
 	public Button createSizeButton(Group sizeSceneRoot, String label){
-		Button sizeButton = new Button(label);
+		Button sizeButton = new Button(resources.getString(label));
 		sizeSceneRoot.getChildren().add(sizeButton);
 		return sizeButton;
 	}

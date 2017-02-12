@@ -49,6 +49,8 @@ public class CellSociety extends Application {
 	private Scene mySizeScene;
 	private Scene myShapeScene;
 	private Scene myBoundaryScene;
+	private Scene myInputScene;
+	private Scene myNeighborScene;
 
 	private int FRAMES_PER_SECOND = 1;
 	private double SECOND_DELAY = 0.75 / FRAMES_PER_SECOND;
@@ -57,10 +59,9 @@ public class CellSociety extends Application {
 	private int simType = 1;
 	private int unitShape = 1;
 	private int gridSize = 1;
-	private List<Integer[]> neighborConfig;
+	private int neighborConfig;
 	private int boundaryStyle = 1;
 	private int inputStyle = 1;
-	private String[] choices = {"simType", "unitShape", "boundaryStyle"};
 
 	private String fileName = "";
 	private String lifeFile = "lifeinfo.txt";
@@ -70,8 +71,10 @@ public class CellSociety extends Application {
 	private String sugarFile = "sugarinfo.txt";
 	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
-	private String[] shapes = {"Square", "Triangle", "Hexagon"};
-	private String[] boundaryTypes = {"Normal","Toroidal"};
+	private String[] shapes = {"SquareShape", "TriangleShape", "HexagonShape"};
+	private String[] neighbors = {"All", "Sides", "Corners", "Horizontal","Verticle"};
+	private String[] boundaryTypes = {"NormalBoundary","ToroidalBoundary"};
+	private String[] input = {"Read", "Random"};
 	private String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
 							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"},
 							  {"SugarSimulation","sugarinfo.txt"}};
@@ -97,10 +100,11 @@ public class CellSociety extends Application {
 	}
 	private void initializeScenes() {
 		mySizeScene = askSizeScene();
-		myBoundaryScene = boundaryScene(width,height,BACKGROUND);
-		myShapeScene = shapeScene(width,height,BACKGROUND);
+		myInputScene = createScene(width,height,BACKGROUND, mySizeScene, "InputChoice", input);
+		myBoundaryScene = createScene(width,height,BACKGROUND, myInputScene, "BoundaryChoice", boundaryTypes);
+		myNeighborScene = createScene(width,height,BACKGROUND, myBoundaryScene, "ChooseNeighbors", neighbors);
+		myShapeScene = createScene(width,height,BACKGROUND, myNeighborScene, "ChooseCellShape", shapes);
 		myHomeScene = homeScene(width, height, BACKGROUND);
-		//myNeighborScene = chooseNeighbors(width,height,BACKGROUND);
 	}
 	private Scene homeScene(int width, int height, Paint background) {
 		Pane homeSceneRoot = new FlowPane(Orientation.VERTICAL);
@@ -134,34 +138,18 @@ public class CellSociety extends Application {
 		return myInfoScene;
 	}
 	
-	private Scene shapeScene(int width, int height, Paint background) {
-		Group shapeRoot = new Group();
-		myShapeScene = new Scene(shapeRoot, width, height, BACKGROUND);
-		setup.createLabel(shapeRoot, myResources, width, height, "ChooseCellShape");
-		setup.createButtons(shapeRoot, myBoundaryScene, shapes);
-		return myShapeScene;
-	}
-	
-//	private Scene chooseNeighbors(int width, int height, Paint background) {
-//		Group neighborRoot = new Group();
-//		myNeighborScene = new Scene(neighborRoot, width, height, BACKGROUND);
-//		setup.createNeighborLabel(neighborRoot, width, height);
-//		neighbors = setup.createNeighborButtons(neighborRoot, mySizeScene, currentModel);
-//		return myNeighborScene;
-//	}
-	
-	private Scene boundaryScene(int width, int height, Paint background) {
-		Group boundaryRoot = new Group();
-		myBoundaryScene = new Scene(boundaryRoot, width, height, BACKGROUND);
-		setup.createLabel(boundaryRoot, myResources, width, height, "BoundaryChoice");
-		setup.createButtons(boundaryRoot, mySizeScene, boundaryTypes); 
+	private Scene createScene(int width, int height, Paint background, Scene nextScene, String message, String[] choice) {
+		Group root = new Group();
+		myBoundaryScene = new Scene(root, width, height, BACKGROUND);
+		setup.createLabel(root,  width, height, message);
+		setup.createButtons(root, nextScene, choice); 
 		return myBoundaryScene;
 	}
 	
 	private Scene askSizeScene(){
 		Group sizeSceneRoot = new Group();
 		mySizeScene = new Scene(sizeSceneRoot, width, height, BACKGROUND);
-		setup.createLabel(sizeSceneRoot, myResources, width, height, "ChooseGridSize");
+		setup.createLabel(sizeSceneRoot,  width, height, "ChooseGridSize");
 		VBox sizes = setup.createBox(sizeSceneRoot, width, height);		
 		for (String button: sizeButtons) {
 			Button btn = setup.createSizeButton(sizeSceneRoot, button);
@@ -173,13 +161,14 @@ public class CellSociety extends Application {
 	}
 	
 	public void SizeClicked(ActionEvent f, String size){
-		if (((Button) f.getSource()).getText().equals("SmallGrid")){
+		if (((Button) f.getSource()).getText().equals(myResources.getString("SmallGrid"))){
 			gridSize = 1;	
 			
-		} else if (((Button) f.getSource()).getText().equals("MediumGrid")){
+		} else if (((Button) f.getSource()).getText().equals(myResources.getString("MediumGrid"))){
 			gridSize = 2;
+			System.out.println(gridSize);
 			
-		} else if (((Button) f.getSource()).getText().equals("LargeGrid")){
+		} else if (((Button) f.getSource()).getText().equals(myResources.getString("LargeGrid"))){
 			gridSize = 3;
 			
 		}
@@ -229,7 +218,9 @@ public class CellSociety extends Application {
 		Integer[] setupChoices = setup.getChoices();
 		simType = setupChoices[0];
 		unitShape = setupChoices[1];
-		boundaryStyle = setupChoices[2];
+		neighborConfig = setupChoices[2];
+		boundaryStyle = setupChoices[3];
+		inputStyle = setupChoices[4];
 		
 	}
 	
