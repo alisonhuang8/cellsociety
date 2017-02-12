@@ -49,6 +49,7 @@ public class CellSociety extends Application {
 	private Scene mySizeScene;
 	private Scene myShapeScene;
 	private Scene myBoundaryScene;
+	private Scene myInputScene;
 
 	private int FRAMES_PER_SECOND = 1;
 	private double SECOND_DELAY = 0.75 / FRAMES_PER_SECOND;
@@ -70,8 +71,9 @@ public class CellSociety extends Application {
 	private String sugarFile = "sugarinfo.txt";
 	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
-	private String[] shapes = {"Square", "Triangle", "Hexagon"};
-	private String[] boundaryTypes = {"Normal","Toroidal"};
+	private String[] shapes = {"SquareShape", "TriangleShape", "HexagonShape"};
+	private String[] boundaryTypes = {"NormalBoundary","ToroidalBoundary"};
+	private String[] input = {"Read", "Random"};
 	private String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
 							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"},
 							  {"SugarSimulation","sugarinfo.txt"}};
@@ -97,6 +99,7 @@ public class CellSociety extends Application {
 	}
 	private void initializeScenes() {
 		mySizeScene = askSizeScene();
+		myInputScene = inputScene(width,height,BACKGROUND);
 		myBoundaryScene = boundaryScene(width,height,BACKGROUND);
 		myShapeScene = shapeScene(width,height,BACKGROUND);
 		myHomeScene = homeScene(width, height, BACKGROUND);
@@ -154,7 +157,15 @@ public class CellSociety extends Application {
 		Group boundaryRoot = new Group();
 		myBoundaryScene = new Scene(boundaryRoot, width, height, BACKGROUND);
 		setup.createLabel(boundaryRoot, myResources, width, height, "BoundaryChoice");
-		setup.createButtons(boundaryRoot, mySizeScene, boundaryTypes); 
+		setup.createButtons(boundaryRoot, myInputScene, boundaryTypes); 
+		return myBoundaryScene;
+	}
+	
+	private Scene inputScene(int width, int height, Paint background) {
+		Group inputRoot = new Group();
+		myBoundaryScene = new Scene(inputRoot, width, height, BACKGROUND);
+		setup.createLabel(inputRoot, myResources, width, height, "InputChoice");
+		setup.createButtons(inputRoot, mySizeScene, input); 
 		return myBoundaryScene;
 	}
 	
@@ -230,6 +241,7 @@ public class CellSociety extends Application {
 		simType = setupChoices[0];
 		unitShape = setupChoices[1];
 		boundaryStyle = setupChoices[2];
+		inputStyle = setupChoices[3];
 		
 	}
 	

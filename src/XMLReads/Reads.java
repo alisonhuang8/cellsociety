@@ -39,7 +39,7 @@ public class Reads{
 	}
 	
 	private Character randomChar(){
-		
+		rand = new Random();
 		if (simType == 1){
 			if(rand.nextInt(100) < 50){ //percent chance of this block
 				return '0';
