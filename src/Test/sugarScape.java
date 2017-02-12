@@ -92,7 +92,7 @@ public class sugarScape extends Application{
 			for(int j = 0; j < curGrid.cols(); j++){
 				Integer[] place = {i, j};
 				if(curGrid.getUnit(i, j).isAgent()){
-					Integer[] move = pickRandomSugar(i, j);
+					Integer[] move = pickSugar(i, j);
 					if(move == null) continue;
 					eaten.add(Arrays.asList(move));
 					agentMoves.put(place, move);
@@ -127,18 +127,42 @@ public class sugarScape extends Application{
 		
 	}
 	
-	private Integer[] pickRandomSugar(int row, int col){
+	/**
+	 * selects the sugar for the agent
+	 */
+	private Integer[] pickSugar(int row, int col) {
+		Integer[] best = {-1, -1};
 		Agent a = (Agent) curGrid.getUnit(row, col);
+		int bestSugar = 0;
+		int minDistance = a.agentVision();
 		Map<Integer[], Unit> map = curGrid.getInstances(new Sugar());
-		List<Integer[]> list = new ArrayList<>();
-		for(Integer[] place : map.keySet()){
-			if(isValid(row, col, place[0], place[1], a) &&
-					!eaten.contains(Arrays.asList(place))){
-				list.add(place);
+		for (Integer[] place : map.keySet()) {
+			int curSugar = getSugarValue(place[0], place[1]);
+			int curDistance = getDistance(row, col, place[0], place[1]);
+			if (isValid(row, col, place[0], place[1], a) && !eaten.contains(Arrays.asList(place))
+					&& curSugar >= bestSugar && curDistance <= minDistance) {
+				best = place;
+				bestSugar= curSugar;
+				minDistance = curDistance;
 			}
 		}
-		if(list.size() == 0) return null;
-		return list.get(rand.nextInt(list.size()));
+		if(best[0] == -1 && best[1] == -1) return null;
+		return best;
+	}
+	
+	/**
+	 * returns the sugar value
+	 */
+	private int getSugarValue(int row, int col){
+		Sugar s = (Sugar) curGrid.getUnit(row, col);
+		return s.getSugar();
+	}
+	
+	/**
+	 * @return the distance between an agent and sugar
+	 */
+	private int getDistance(int agRow, int agCol, int sugRow, int sugCol){
+		return Math.abs(agRow - sugRow) + Math.abs(agCol - sugCol);
 	}
 	
 	private boolean isValid(int agentRow, int agentCol,
