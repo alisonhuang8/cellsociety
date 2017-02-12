@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Random;
 
 import Unit.Unit;
-import XMLReads.antsReads;
 import cellsociety_team06.Grid;
 import cellsociety_team06.ReadXMLFile;
 import javafx.application.Application;
@@ -38,7 +37,6 @@ public class foragingAnts extends Application{
 	private Group root = new Group();
 	private double catchChance = 0.4;
 	private Stage window;
-	private antsReads files;
 	
 	public static void main(String[] args){
 		launch(args);
@@ -50,7 +48,6 @@ public class foragingAnts extends Application{
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		files = new antsReads();
 		this.window = primaryStage;
 		curGrid = new squareGrid(60, 60, 10);
 		nextGrid = new squareGrid(60, 60, 10);
@@ -68,13 +65,13 @@ public class foragingAnts extends Application{
 	private void getFirstScene(){
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
-				if(files.get(i, j) == 'A'){
+				if(rand.nextInt(50) < 20){
 					curGrid.setUnit(i, j, new Ant(curGrid.getUnit(i, j)));
 				}
-				else if(files.get(i, j) == 'N'){
+				else if(rand.nextInt(50) < 20){
 					curGrid.setUnit(i, j, new Nest(curGrid.getUnit(i, j)));
 				}
-				else if(files.get(i, j) == 'F'){
+				else if(rand.nextInt(50) < 20){
 					curGrid.setUnit(i, j, new Food(curGrid.getUnit(i, j)));
 				}
 				else{
