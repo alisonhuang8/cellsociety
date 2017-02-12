@@ -16,6 +16,8 @@ import subUnits.Predator;
 import subUnits.Prey;
 import subUnits.Type1;
 import subUnits.Type2;
+import subUnits.sugarScape.Agent;
+import subUnits.sugarScape.Sugar;
 
 public class GridGenerator {
 
@@ -157,10 +159,9 @@ public class GridGenerator {
 			fillWithWator();
 		} else if (simType == 4) {
 			fillWithSeg();
+		} else {
+			fillWithSugar();
 		}
-//		} else {
-//			fillWithSugar();
-//		}
 	}
 	
 	private void fillWithLife(){
@@ -223,15 +224,16 @@ public class GridGenerator {
 		}
 	}
 	
-//	private void fillWithSugar(){
-//		for (int i=0; i<down; i++){
-//			for (int j=0; j<across; j++){
-//				if(reads.get(i, j) == 'A'){
-//					currGrid.setUnit(i, j, new Agent(currGrid.getUnit(i, j)));
-//				} else {
-//					currGrid.setUnit(i, j, new Sugar(currGrid.getUnit(i, j)));
-//				}
-//			}
-//		}
-//	}
+	private void fillWithSugar(){
+		for (int i=0; i<down; i++){
+			for (int j=0; j<across; j++){
+				if(reads.get(i, j) == 'A'){
+					currGrid.setUnit(i, j, new Agent(currGrid.getUnit(i, j)));
+				} else {
+					currGrid.setUnit(i, j, new Sugar(currGrid.getUnit(i, j)));
+				}
+			}
+		}
+	}
+	
 }

@@ -17,7 +17,6 @@ import subUnits.sugarScape.Agent;
 import subUnits.sugarScape.Sugar;
 
 public class sugarModel extends Model {
-	private Grid curGrid;
 	private Random rand = new Random();
 	private Map<Integer[], Integer[]> agentMoves = new HashMap<>();
 	private List<List<Integer>> eaten = new ArrayList<>();
