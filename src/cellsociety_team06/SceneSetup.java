@@ -35,6 +35,8 @@ public class SceneSetup {
 	private ResourceBundle resources;
 	private Stage s;
 	private String[] shapes = {"Square", "Triangle", "Hexagon"};
+	private String[] boundaryTypes = {"Normal","Toroidal"};
+	private int tempChoice;
 	private int unitShape;
 	
 	public SceneSetup(int gridWidth, int gridHeight, ResourceBundle resourcesPackage, Stage stage) {
@@ -97,44 +99,41 @@ public class SceneSetup {
 		return btn_back;
 	}
 	
-	public int createShapeButtons(Group root, Scene nextScene) {
+	public int getChoice() {
+		return tempChoice;
+	}
+	
+	public int createButtons(Group root, Scene nextScene, String[] options) {
 		VBox shapeButtons = createBox(root, width, height);
 		shapeButtons.setTranslateX(width/5 - 10);
-		Label lb_shape = new Label(resources.getString("ChooseCellShape"));
-		shapeButtons.getChildren().add(lb_shape);
-		for (String shape:shapes) {
-			Button btn = new Button(shape);
+		for (String option:options) {
+			Button btn = new Button(option);
 			shapeButtons.getChildren().add(btn);
 			btn.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent arg) {
+					tempChoice = Arrays.asList(options).indexOf(option) + 1;
+					System.out.println(tempChoice);
 					s.setScene(nextScene);
-					unitShape = Arrays.asList(shapes).indexOf(shape) + 1;
 				}
 			});
 		}
-		return unitShape;
-	}
-	public int getUnitShape() {
-		return unitShape;
+		return tempChoice;
 	}
 	
-//	public Label createNeighborLabel(Group root, int width, int height) {
-//		Label lb_neighbor = new Label(resources.getString("ChooseNeighbors"));
-//		lb_neighbor.setTranslateX(width/9*2);
-//		lb_neighbor.setTranslateY(height/7);
-//		root.getChildren().add(lb_neighbor);
-//		return lb_neighbor;
-//	}
+
 //	public String[] createNeighborButtons(Group root, Scene nextScene, Model model) {
 //		String[] ret = new String[4];
 //		
 //		
 //		return ret;
 //	}
+//	
+//	public void createBoundaryBtn(Group root, Scene nextScene) {
+//		
+//	}
 	
-	
-	public Label createSizeLabel(Group root, ResourceBundle r, int width, int height) {
-		Label lb_size = new Label(r.getString("ChooseGridSize"));
+	public Label createLabel(Group root, ResourceBundle r, int width, int height, String message) {
+		Label lb_size = new Label(r.getString(message));
 		lb_size.setTranslateX(width/9*2);
 		lb_size.setTranslateY(height/7);
 		root.getChildren().add(lb_size);
