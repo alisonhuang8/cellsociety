@@ -58,7 +58,7 @@ public class CellSociety extends Application {
 	
 	//parameters needed by the grid generator
 	private int simType = 1;
-	private int unitShape = 2;
+	private int unitShape = 1;
 	private int gridSize = 1;
 	private List<Integer[]> neighborConfig;
 	private int boundaryStyle = 1;
@@ -188,14 +188,14 @@ public class CellSociety extends Application {
 		Grid nextGrid = gg.returnNextGrid();
 		
 		if (fileName.equals(lifeFile)) {
-			currentModel = new lifeModel(currGrid, nextGrid);
+			currentModel = new lifeModel(currGrid, nextGrid, unitShape, SIZE);
 		//	currentModel = new lifeModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(fireFile)) {
-			currentModel = new fireModel(currGrid, nextGrid);
+			currentModel = new fireModel(currGrid, nextGrid, unitShape, SIZE);
 		} else if (fileName.equals(watorFile)) {
-			currentModel = new watorModel(currGrid, nextGrid);
+			currentModel = new watorModel(currGrid, nextGrid, unitShape, SIZE);
 		} else if (fileName.equals(segregationFile)) {
-			currentModel = new segregationModel(currGrid, nextGrid);
+			currentModel = new segregationModel(currGrid, nextGrid, unitShape, SIZE);
 		}
 		myScene.setRoot(root);
 		myStage.setScene(myScene);
