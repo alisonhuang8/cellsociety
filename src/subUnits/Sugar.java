@@ -1,4 +1,4 @@
-package subUnits.sugarScape;
+package subUnits;
 
 import java.util.Random;
 

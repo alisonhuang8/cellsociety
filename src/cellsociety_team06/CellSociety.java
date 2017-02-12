@@ -77,6 +77,7 @@ public class CellSociety extends Application {
 	private String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
 	private String[] shapes = {"Square", "Triangle", "Hexagon"};
 	private String[] boundaryTypes = {"Normal","Toroidal"};
+	private String[] input = {"Read", "Random"};
 	private String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
 							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"},
 							  {"SugarSimulation","sugarinfo.txt"}};
@@ -162,6 +163,14 @@ public class CellSociety extends Application {
 		myBoundaryScene = new Scene(boundaryRoot, width, height, BACKGROUND);
 		setup.createLabel(boundaryRoot, myResources, width, height, "BoundaryChoice");
 		setup.createButtons(boundaryRoot, mySizeScene, boundaryTypes); 
+		return myBoundaryScene;
+	}
+	
+	private Scene inputScene(int width, int height, Paint background) {
+		Group inputRoot = new Group();
+		myBoundaryScene = new Scene(inputRoot, width, height, BACKGROUND);
+		setup.createLabel(inputRoot, myResources, width, height, "InputChoice");
+		setup.createButtons(inputRoot, mySizeScene, input); 
 		return myBoundaryScene;
 	}
 	
