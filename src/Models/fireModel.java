@@ -7,14 +7,9 @@ package Models;
 
 import java.util.Collection;
 import java.util.Random;
-import java.util.ResourceBundle;
 import Unit.Unit;
-import XMLReads.fireReads;
 import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
-import javafx.animation.Timeline;
-import javafx.scene.Group;
-import javafx.stage.Stage;
 import subGrids.hexGrid;
 import subGrids.squareGrid;
 import subGrids.triangularGrid;

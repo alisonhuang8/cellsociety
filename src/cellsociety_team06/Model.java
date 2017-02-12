@@ -4,17 +4,7 @@
 
 package cellsociety_team06;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ResourceBundle;
-import java.util.Scanner;
-
-
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
-import subUnits.Alive;
 
 public abstract class Model {
 	protected Group root;
