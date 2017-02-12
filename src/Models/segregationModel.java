@@ -5,20 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.ResourceBundle;
 import java.util.Stack;
 
 import Unit.Unit;
-import XMLReads.segReads;
 import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
-import javafx.animation.Timeline;
-import javafx.stage.Stage;
-import subGrids.hexGrid;
-import subGrids.squareGrid;
-import subGrids.triangularGrid;
 import subUnits.Blank;
-import subUnits.Predator;
 import subUnits.Type1;
 import subUnits.Type2;
 
@@ -30,11 +22,9 @@ public class segregationModel extends Model {
 	private List<Integer[]> available = new ArrayList<>();
 	private double satisfactionConstant = 0.7;
 	private Stack<Integer> myStack;
-	private segReads reads;
-	private int size;
 	private int totalBlank;
 	private int lastSize;
-	private Grid initial;
+
 	
 	/**
 	 * @param s should be factored out by Faith
@@ -45,25 +35,12 @@ public class segregationModel extends Model {
 	 * @param size which of the three XML's should be read 
 	 */
 	
-	public segregationModel(Grid curr, Grid next, int unitShape, int height){
+	public segregationModel(Grid curr, Grid next, Grid init){
 		curGrid = curr;
 		nextGrid = next;
+		initialGrid = init;
 		down = curGrid.rows();
 		across = curGrid.cols();
-		
-		if (unitShape == 1){
-			initial = new squareGrid(curr.rows(), curr.cols(), height/curr.rows());
-		} else if (unitShape == 2){
-			initial = new triangularGrid(curr.rows(), curr.cols(), height/curr.rows());
-		} else {
-			initial = new hexGrid(curr.rows(), curr.cols(), height/curr.rows());
-		}
-		for (int i=0; i<curr.rows(); i++){
-			for (int j=0; j<curr.cols(); j++){
-				initial.setUnit(i, j, curr.getUnit(i, j));
-			}
-		}
-		
 		start();
 	}
 	
@@ -158,15 +135,7 @@ public class segregationModel extends Model {
 		updateGrid();
 	}
 
-	/**
-	 * resets the CA
-	 */
-	@Override
-	public void reset() {
-		root.getChildren().clear();
-		curGrid = initial;
-		resetRoot();
-	}
+
 
 	@Override
 	public int getType1Units() {

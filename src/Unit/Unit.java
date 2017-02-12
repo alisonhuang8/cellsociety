@@ -116,6 +116,20 @@ public class Unit extends Polygon{
 	}
 	
 	/**
+	 * returns if the unit is an agent unit
+	 */
+	public boolean isAgent(){
+		return state == 12;
+	}
+	
+	/**
+	 * returns if the unit is a sugar unit
+	 */
+	public boolean isSugar(){
+		return state == 13;
+	}
+	
+	/**
 	 * returns if the state of the unit
 	 */
 	public int getState(){
