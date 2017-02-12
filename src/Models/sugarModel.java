@@ -32,7 +32,7 @@ public class sugarModel extends Model {
 		root.getChildren().addAll(curGrid.getChildren());
 	}
 
-	public void updateGrid() {
+	public void updateGrid(){
 		agentMoves.clear();
 		eaten.clear();
 		updateAgents();
@@ -48,8 +48,9 @@ public class sugarModel extends Model {
 				Integer[] place = { i, j };
 				if (curGrid.getUnit(i, j).isAgent()) {
 					Integer[] move = pickRandomSugar(i, j);
-					if (move == null)
+					if (move == null){
 						continue;
+					}
 					eaten.add(Arrays.asList(move));
 					agentMoves.put(place, move);
 				} else {
@@ -62,7 +63,7 @@ public class sugarModel extends Model {
 	}
 
 	private void move() {
-		for (Integer[] place : agentMoves.keySet()) {
+		for (Integer[] place : agentMoves.keySet()){
 			move(place[0], place[1], agentMoves.get(place)[0], agentMoves.get(place)[1]);
 		}
 	}
@@ -71,7 +72,7 @@ public class sugarModel extends Model {
 		Agent a = (Agent) curGrid.getUnit(agRow, agCol);
 		Sugar s = (Sugar) curGrid.getUnit(sugRow, sugCol);
 		a.metabolize();
-		if (!a.isDead()) {
+		if (!a.isDead()){
 			a.pickedUp(s.getSugar());
 			curGrid.swap(agRow, agCol, sugRow, sugCol);
 		}
@@ -97,14 +98,13 @@ public class sugarModel extends Model {
 	private boolean isValid(int agentRow, int agentCol, int sugarRow, int sugarCol, Agent a) {
 		if (agentRow != sugarRow && agentCol != sugarCol)
 			return false;
-		if (Math.abs(agentRow - sugarRow) + Math.abs(agentCol - sugarCol) <= a.agentVision())
-			return true;
-		return false;
+		return (Math.abs(agentRow - sugarRow)
+				+ Math.abs(agentCol - sugarCol) <= a.agentVision());
 	}
 
 	@Override
 	public void setNextScene() {
-		updateAgents();
+		updateGrid();
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import Unit.Unit;
 import cellsociety_team06.Grid;
 import javafx.application.Application;
