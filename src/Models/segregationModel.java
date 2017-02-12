@@ -10,11 +10,15 @@ import java.util.Stack;
 
 import Unit.Unit;
 import XMLReads.segReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.stage.Stage;
 import subGrids.hexGrid;
+import subGrids.squareGrid;
+import subGrids.triangularGrid;
 import subUnits.Blank;
+import subUnits.Predator;
 import subUnits.Type1;
 import subUnits.Type2;
 
@@ -30,6 +34,7 @@ public class segregationModel extends Model {
 	private int size;
 	private int totalBlank;
 	private int lastSize;
+	private Grid initial;
 	
 	/**
 	 * @param s should be factored out by Faith
@@ -39,13 +44,26 @@ public class segregationModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public segregationModel(int height, int width, int sze){
-		size = sze;
-		reads = new segReads();
-		down = reads.height();
-		across = reads.width();
-		curGrid = new hexGrid(down, across, height/(down * 3));
-		nextGrid =  new hexGrid(down, across, height/(down * 3));
+	
+	public segregationModel(Grid curr, Grid next, int unitShape, int height){
+		curGrid = curr;
+		nextGrid = next;
+		down = curGrid.rows();
+		across = curGrid.cols();
+		
+		if (unitShape == 1){
+			initial = new squareGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else if (unitShape == 2){
+			initial = new triangularGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else {
+			initial = new hexGrid(curr.rows(), curr.cols(), height/curr.rows());
+		}
+		for (int i=0; i<curr.rows(); i++){
+			for (int j=0; j<curr.cols(); j++){
+				initial.setUnit(i, j, curr.getUnit(i, j));
+			}
+		}
+		
 		start();
 	}
 	
@@ -57,28 +75,6 @@ public class segregationModel extends Model {
 		available = new ArrayList<>();
 		myStack = new Stack<>();
 		myStack.push(across * down);
-		getSegScene();
-	}
-
-	/**
-	 * sets the initial scene
-	 * should be refactored into a level generator
-	 */
-	private void getSegScene(){
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == '0'){
-					curGrid.setUnit(i, j, new Blank(curGrid.getUnit(i, j)));
-					totalBlank++;
-				}
-				else if(reads.get(i, j) == 'A'){
-					curGrid.setUnit(i, j, new Type1(curGrid.getUnit(i, j)));
-				}
-				else{
-					curGrid.setUnit(i, j, new Type2(curGrid.getUnit(i, j)));
-				}
-			}
-		}
 		resetRoot();
 	}
 
@@ -167,7 +163,19 @@ public class segregationModel extends Model {
 	 */
 	@Override
 	public void reset() {
-		start();
+		root.getChildren().clear();
+		curGrid = initial;
+		resetRoot();
+	}
+
+	@Override
+	public int getType1Units() {
+		return (curGrid.getInstances(new Type1()).size());
+	}
+
+	@Override
+	public int getType2Units() {
+		return (curGrid.getInstances(new Type2()).size());
 	}
 
 }

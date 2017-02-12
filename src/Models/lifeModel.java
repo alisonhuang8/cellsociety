@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import Unit.Unit;
 import XMLReads.lifeReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -23,7 +24,8 @@ import java.util.Collection;
 public class lifeModel extends Model {
 	private int down;
 	private int across;
-	private lifeReads reads;
+	
+	private Grid initial;
 	
 	/**
 	 * @param s should be factored out by Faith
@@ -33,31 +35,27 @@ public class lifeModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public lifeModel(int height, int width, int size){
-		reads = new lifeReads();
-		down = reads.height();
-		across = reads.width();
-		curGrid = new squareGrid(down, across, height/down);
-		nextGrid = new squareGrid(down, across, height/down);
-		getLifeScene();
-	}
 	
-	/**
-	 * Sets up the initial scene
-	 * Should be refactored into a level generator class
-	 */
-	private void getLifeScene(){
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == '0'){
-					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
-				}
-				else{
-					curGrid.setUnit(i, j, new Blank(curGrid.getUnit(i, j)));
-				}
+	public lifeModel(Grid curr, Grid next, int unitShape, int height){
+		curGrid = curr;
+		nextGrid = next;
+		down = curGrid.rows();
+		across = curGrid.cols();
+		
+		
+		if (unitShape == 1){
+			initial = new squareGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else if (unitShape == 2){
+			initial = new triangularGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else {
+			initial = new hexGrid(curr.rows(), curr.cols(), height/curr.rows());
+		}
+		for (int i=0; i<curr.rows(); i++){
+			for (int j=0; j<curr.cols(); j++){
+				initial.setUnit(i, j, curr.getUnit(i, j));
 			}
 		}
-		resetRoot();
+
 	}
 	
 	/**
@@ -107,7 +105,9 @@ public class lifeModel extends Model {
 	 */
 	@Override
 	public void reset() {
-		getLifeScene();
+		root.getChildren().clear();
+		curGrid = initial;
+		resetRoot();
 	}
 
 
@@ -118,6 +118,7 @@ public class lifeModel extends Model {
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
 				if(nextGrid.getUnit(i, j).isAlive()){
+					System.out.println("here");
 					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
 				}
 				else{
@@ -130,8 +131,15 @@ public class lifeModel extends Model {
 	/**
 	 * @returns the number of alive units
 	 */
-	public int getLifeUnits(){
+
+	@Override
+	public int getType1Units() {
 		return (curGrid.getInstances(new Alive()).size());
+	}
+
+	@Override
+	public int getType2Units() {
+		return (curGrid.getInstances(new Blank()).size());
 	}
 	
 }

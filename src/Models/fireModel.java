@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import Unit.Unit;
 import XMLReads.fireReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -23,11 +24,9 @@ import subUnits.Burnt;
 
 public class fireModel extends Model {
 	
-	private int across;
-	private int down;
 	private Random rand = new Random();
 	private double catchChance = 0.7;
-	private fireReads reads;
+	private Grid initial;
 	
 	/**
 	 * @param s should be factored out by Faith
@@ -37,34 +36,27 @@ public class fireModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public fireModel(int width, int height, int size){
-		reads = new fireReads();
-		down = reads.height();
-		across = reads.width();
-		curGrid = new squareGrid(down, across, height/down);
+	
+	public fireModel(Grid curr, Grid next, int unitShape, int height){
+		curGrid = curr;
+		nextGrid = next;
+		
 		curGrid.makeTorroidal();
-		nextGrid = new squareGrid(down, across, height/down);
-		getFireScene();
-	}
-
-	/**
-	 * Sets up the initial fire scene
-	 * should be re-factored into a level generator
-	 */
-	private void getFireScene(){
-		for(int i = 0; i < 10; i++){
-			for(int j = 0; j < 10; j++){
-				if(reads.get(i, j) == 'G'){
-					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
-				}
-				if(i == 0 && j == 0){
-					curGrid.setUnit(i, j, new Burning(curGrid.getUnit(i, j)));
-				}
+		
+		if (unitShape == 1){
+			initial = new squareGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else if (unitShape == 2){
+			initial = new triangularGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else {
+			initial = new hexGrid(curr.rows(), curr.cols(), height/curr.rows());
+		}
+		for (int i=0; i<curr.rows(); i++){
+			for (int j=0; j<curr.cols(); j++){
+				initial.setUnit(i, j, curr.getUnit(i, j));
 			}
 		}
-		resetRoot();
 	}
-	
+
 	/**
 	 * decides which units the fire should spread and spreads it
 	 */
@@ -135,7 +127,8 @@ public class fireModel extends Model {
 	@Override
 	public void reset() {
 		root.getChildren().clear();
-		getFireScene();
+		curGrid = initial;
+		resetRoot();
 	}
 	
 	/**
@@ -143,6 +136,16 @@ public class fireModel extends Model {
 	 */
 	public int getTreeUnits(){
 		return (curGrid.getInstances(new Alive()).size());
+	}
+
+	@Override
+	public int getType1Units() {
+		return (curGrid.getInstances(new Alive()).size());
+	}
+
+	@Override
+	public int getType2Units() {
+		return 0;
 	}
 	
 }

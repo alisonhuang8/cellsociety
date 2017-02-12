@@ -14,12 +14,14 @@ import java.util.ResourceBundle;
 
 import Unit.Unit;
 import XMLReads.watorReads;
+import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.stage.Stage;
 import subGrids.hexGrid;
 import subGrids.squareGrid;
+import subGrids.triangularGrid;
 import subUnits.Alive;
 import subUnits.Blank;
 import subUnits.Predator;
@@ -39,6 +41,7 @@ public class watorModel extends Model {
 	private int counter = 0;
 	private watorReads reads;
 	private int size;
+	private Grid initial;
 	
 	/**
 	 * @param s should be factored out by Faith
@@ -48,18 +51,34 @@ public class watorModel extends Model {
 	 * @param height height of the stage
 	 * @param size which of the three XML's should be read 
 	 */
-	public watorModel(int height, int width, int sze){
-		size = sze;
-		root = new Group();
+	
+	public watorModel(Grid curr, Grid next, int unitShape, int height){
+		curGrid = curr;
+		nextGrid = next;
+		down = curGrid.rows();
+		across = curGrid.cols();
+		
 		takenPrey = new ArrayList<>();
 		takenBlank = new ArrayList<>();
 		rand = new Random();
-		reads = new watorReads();
-		down = reads.height();
-		across = reads.width();
-		curGrid = new squareGrid(down, across, height/down);
+		root = new Group();
 		curGrid.makeTorroidal();
+		
+		if (unitShape == 1){
+			initial = new squareGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else if (unitShape == 2){
+			initial = new triangularGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else {
+			initial = new hexGrid(curr.rows(), curr.cols(), height/curr.rows());
+		}
+		for (int i=0; i<curr.rows(); i++){
+			for (int j=0; j<curr.cols(); j++){
+				initial.setUnit(i, j, curr.getUnit(i, j));
+			}
+		}
+		
 		start();
+	
 	}
 	
 	/**
@@ -69,29 +88,14 @@ public class watorModel extends Model {
 		preyMap = new HashMap<>();
 		blankMap = new HashMap<>();
 		counter = 0;
-		getWatorScene();
+		resetRoot();
 	}
 	
 	/**
 	 * Sets the initial scene for the CA simulation
 	 * Should be refactored into a level generator
 	 */
-	private void getWatorScene(){
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == 'R'){
-					curGrid.setUnit(i, j, new Prey(0, curGrid.getUnit(i, j)));
-				}
-				else if(reads.get(i, j) == 'Y'){
-					curGrid.setUnit(i, j, new Predator(startingEnergy, 0, curGrid.getUnit(i, j)));
-				}
-				else{
-					curGrid.setUnit(i, j, new Blank(curGrid.getUnit(i, j)));
-				}
-			}
-		}
-		resetRoot();
-	}
+	
 
 	/**
 	 * updates the grid one tick
@@ -308,21 +312,25 @@ public class watorModel extends Model {
 	 */
 	@Override
 	public void reset() {
-		start();
+		root.getChildren().clear();
+		curGrid = initial;
+		resetRoot();
 	}
+	
 	
 	/**
 	 * @returns the number of predator units
 	 */
-	public int getPredatorUnits(){
+	@Override
+	public int getType1Units() {
 		return (curGrid.getInstances(new Predator()).size());
 	}
-	
-	
+
 	/**
 	 * @returns the number of prey units
 	 */
-	public int getPreyUnits(){
+	@Override
+	public int getType2Units() {
 		return (curGrid.getInstances(new Prey()).size());
 	}
 }

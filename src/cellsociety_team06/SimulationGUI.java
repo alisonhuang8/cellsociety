@@ -1,11 +1,20 @@
+/**
+ * Written by Faith Rodriguez
+ * Creates and implements all GUI features of the simulations
+ */
+
 package cellsociety_team06;
 
 import java.util.ResourceBundle;
 
+import Models.lifeModel;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyEvent;
@@ -16,11 +25,15 @@ public class SimulationGUI {
 	private double minSimSpeed = 1;
 	private double maxSimSpeed = 35;
 	private double initialRate;
+	private double xPos = 1;
 	
 	private Slider speedSlide;
 
 	private Timeline animation;
 	private ResourceBundle myResources;
+	
+	private XYChart.Series series1 = new XYChart.Series();
+	private XYChart.Series series2 = new XYChart.Series();
 	
 	public SimulationGUI(Timeline t, ResourceBundle r) {
 		animation = t;
@@ -99,4 +112,36 @@ public class SimulationGUI {
 		});
 		return speedSlide;
 	}	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public LineChart<Number, Number> createGraph(Model model) {
+        //defining the axes
+        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Number of Steps");
+        yAxis.setLabel("Population");
+        //creating the chart
+        final LineChart<Number,Number> lineChart = 
+                new LineChart<Number,Number>(xAxis,yAxis);
+        //defining a series
+        series1 = new XYChart.Series();
+        series1.setName("Type1");
+        lineChart.getData().add(series1);
+        series2 = new XYChart.Series();
+        series2.setName("Type2");
+        lineChart.getData().add(series2);
+        lineChart.setCreateSymbols(false);
+        return lineChart;
+    }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void addData(Model model) {
+		xPos ++;
+		 series1.getData().add
+	        (new XYChart.Data(xPos, model.getType1Units()));
+		 series2.getData().add
+	        (new XYChart.Data(xPos, model.getType2Units()));
+	}
+	
+	
 }

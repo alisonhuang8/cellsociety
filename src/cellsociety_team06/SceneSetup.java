@@ -1,7 +1,13 @@
+/**
+ * Written by Faith Rodriguez
+ * Creates and implements all GUI features of the setup scenes
+ */
+
 package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -28,7 +34,8 @@ public class SceneSetup {
 	private int height;
 	private ResourceBundle resources;
 	private Stage s;
-	private String[] shapes = {"Square", "Triangle"};
+	private String[] shapes = {"Square", "Triangle", "Hexagon"};
+	private int unitShape;
 	
 	public SceneSetup(int gridWidth, int gridHeight, ResourceBundle resourcesPackage, Stage stage) {
 		width = gridWidth;
@@ -90,26 +97,41 @@ public class SceneSetup {
 		return btn_back;
 	}
 	
-	public String createShapeButtons(Group root, Scene nextScene) {
-		String currentShape = "";
-		int counter = -1;
+	public int createShapeButtons(Group root, Scene nextScene) {
 		VBox shapeButtons = createBox(root, width, height);
 		shapeButtons.setTranslateX(width/5 - 10);
 		Label lb_shape = new Label(resources.getString("ChooseCellShape"));
 		shapeButtons.getChildren().add(lb_shape);
 		for (String shape:shapes) {
-			counter ++;
 			Button btn = new Button(shape);
 			shapeButtons.getChildren().add(btn);
 			btn.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent arg) {
 					s.setScene(nextScene);
+					unitShape = Arrays.asList(shapes).indexOf(shape) + 1;
 				}
 			});
 		}
-		currentShape = shapes[counter]; 
-		return currentShape;
+		return unitShape;
 	}
+	public int getUnitShape() {
+		return unitShape;
+	}
+	
+//	public Label createNeighborLabel(Group root, int width, int height) {
+//		Label lb_neighbor = new Label(resources.getString("ChooseNeighbors"));
+//		lb_neighbor.setTranslateX(width/9*2);
+//		lb_neighbor.setTranslateY(height/7);
+//		root.getChildren().add(lb_neighbor);
+//		return lb_neighbor;
+//	}
+//	public String[] createNeighborButtons(Group root, Scene nextScene, Model model) {
+//		String[] ret = new String[4];
+//		
+//		
+//		return ret;
+//	}
+	
 	
 	public Label createSizeLabel(Group root, ResourceBundle r, int width, int height) {
 		Label lb_size = new Label(r.getString("ChooseGridSize"));
