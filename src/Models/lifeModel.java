@@ -24,7 +24,6 @@ import java.util.Collection;
 public class lifeModel extends Model {
 	private int down;
 	private int across;
-	private lifeReads reads;
 	
 	private Grid initial;
 	
@@ -37,10 +36,26 @@ public class lifeModel extends Model {
 	 * @param size which of the three XML's should be read 
 	 */
 	
-	public lifeModel(Grid curr, Grid next){
-		super(curr,next);
-		initial = curr;
-		//resetRoot();
+	public lifeModel(Grid curr, Grid next, int unitShape, int height){
+		curGrid = curr;
+		nextGrid = next;
+		down = curGrid.rows();
+		across = curGrid.cols();
+		
+		
+		if (unitShape == 1){
+			initial = new squareGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else if (unitShape == 2){
+			initial = new triangularGrid(curr.rows(), curr.cols(), height/curr.rows());
+		} else {
+			initial = new hexGrid(curr.rows(), curr.cols(), height/curr.rows());
+		}
+		for (int i=0; i<curr.rows(); i++){
+			for (int j=0; j<curr.cols(); j++){
+				initial.setUnit(i, j, curr.getUnit(i, j));
+			}
+		}
+
 	}
 	
 	/**
@@ -90,7 +105,9 @@ public class lifeModel extends Model {
 	 */
 	@Override
 	public void reset() {
+		root.getChildren().clear();
 		curGrid = initial;
+		resetRoot();
 	}
 
 
