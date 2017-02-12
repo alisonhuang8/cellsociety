@@ -16,8 +16,6 @@ import subUnits.Type2;
 
 public class segregationModel extends Model {
 
-	private int across;
-	private int down;
 	private Random rand = new Random();
 	private List<Integer[]> available = new ArrayList<>();
 	private double satisfactionConstant = 0.7;
@@ -25,22 +23,11 @@ public class segregationModel extends Model {
 	private int totalBlank;
 	private int lastSize;
 
-	
 	/**
-	 * @param s should be factored out by Faith
-	 * @param t should be factored out by Faith
-	 * @param r should be factored out by Faith
-	 * @param width width of the stage
-	 * @param height height of the stage
-	 * @param size which of the three XML's should be read 
+	 * makes an instance of the seg model
 	 */
-	
 	public segregationModel(Grid curr, Grid next, Grid init){
-		curGrid = curr;
-		nextGrid = next;
-		initialGrid = init;
-		down = curGrid.rows();
-		across = curGrid.cols();
+		super(curr, next, init);
 		start();
 	}
 	
@@ -51,7 +38,7 @@ public class segregationModel extends Model {
 		totalBlank = 0;
 		available = new ArrayList<>();
 		myStack = new Stack<>();
-		myStack.push(across * down);
+		myStack.push(curGrid.cols() * curGrid.rows());
 		resetRoot();
 	}
 
@@ -59,15 +46,14 @@ public class segregationModel extends Model {
 	 * runs through a tick of the CA
 	 * stores the movements of the blank and unhappy tiles in a map
 	 */
-	@Override
 	public void updateGrid(){
 		resetAvailable();
 		if(!myStack.isEmpty()) lastSize = myStack.pop();
-		double av = available.size()/((double) (across * down));
+		double av = available.size()/((double) (curGrid.cols() * curGrid.rows()));
 		double visited = 0.0;
 		Map<Integer[], Integer[]> map = new HashMap<>();
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
 				visited++;
 				Integer[] place = {i, j};
 				if((av * visited < 1) && lastSize > (1.0/7.0) * totalBlank) continue;
@@ -128,22 +114,18 @@ public class segregationModel extends Model {
 	}
 
 	/**
-	 * ticks the CA once
+	 * returns the number of Type1 units
 	 */
 	@Override
-	public void setNextScene() {
-		updateGrid();
-	}
-
-
-
-	@Override
-	public int getType1Units() {
+	public int getUnitA() {
 		return (curGrid.getInstances(new Type1()).size());
 	}
 
+	/**
+	 * returns the number of Type2 units
+	 */
 	@Override
-	public int getType2Units() {
+	public int getUnitB() {
 		return (curGrid.getInstances(new Type2()).size());
 	}
 

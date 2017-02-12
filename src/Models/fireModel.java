@@ -18,32 +18,20 @@ public class fireModel extends Model {
 	
 	private Random rand = new Random();
 	private double catchChance = 0.7;
-	private int down;
-	private int across;
-	
+
 	/**
-	 * @param s should be factored out by Faith
-	 * @param t should be factored out by Faith
-	 * @param r should be factored out by Faith
-	 * @param width width of the stage
-	 * @param height height of the stage
-	 * @param size which of the three XML's should be read 
+	 * makes an instance of the fire model
 	 */
-	
 	public fireModel(Grid curr, Grid next, Grid init){
-		curGrid = curr;
-		nextGrid = next;
-		initialGrid = init;
-		down = curGrid.rows();
-		across = curGrid.cols();
+		super(curr, next, init);
 	}
 
 	/**
 	 * decides which units the fire should spread and spreads it
 	 */
 	public void updateGrid(){
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
 				int n = getBurningNeighbors(curGrid.getNeighbors(i, j).values());
 				Unit u = nextGrid.getUnit(i, j);
 				if(curGrid.getUnit(i, j).isAlive()){
@@ -94,22 +82,20 @@ public class fireModel extends Model {
 		}
 		return total;
 	}
-	
+
 	/**
-	 * ticks the CA
+	 * returns the number of alive units
 	 */
 	@Override
-	public void setNextScene() {
-		updateGrid();
-	}
-
-	@Override
-	public int getType1Units() {
+	public int getUnitA() {
 		return (curGrid.getInstances(new Alive()).size());
 	}
 
+	/**
+	 * not applicable for this CA
+	 */
 	@Override
-	public int getType2Units() {
+	public int getUnitB() {
 		return 0;
 	}
 	

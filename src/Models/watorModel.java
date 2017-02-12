@@ -13,15 +13,11 @@ import java.util.Random;
 import Unit.Unit;
 import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
-import javafx.scene.Group;
 import subUnits.Blank;
 import subUnits.Predator;
 import subUnits.Prey;
 
 public class watorModel extends Model {
-	
-	private int across;
-	private int down;
 	private Random rand;
 	private List<List<Integer>> takenPrey;
 	private List<List<Integer>> takenBlank;
@@ -29,39 +25,22 @@ public class watorModel extends Model {
 	private Map<Integer[], Integer[]> blankMap;
 	
 	private static final int STARTING_ENERGY = 5;
-
 	
 	/**
-	 * @param s should be factored out by Faith
-	 * @param t should be factored out by Faith
-	 * @param r should be factored out by Faith
-	 * @param width width of the stage
-	 * @param height height of the stage
-	 * @param size which of the three XML's should be read 
+	 * makes an instance of the wator model
 	 */
-	
 	public watorModel(Grid curr, Grid next, Grid init){
-		curGrid = curr;
-		nextGrid = next;
-		initialGrid = init;
-		down = curGrid.rows();
-		across = curGrid.cols();
-
-	
-		
-		takenPrey = new ArrayList<>();
-		takenBlank = new ArrayList<>();
+		super(curr, next, init);
 		rand = new Random();
-		root = new Group();
-		curGrid.makeTorroidal();
 		start();
-	
 	}
 	
 	/**
 	 * initializes the variables needed for the CA simulation
 	 */
 	private void start(){
+		takenPrey = new ArrayList<>();
+		takenBlank = new ArrayList<>();
 		preyMap = new HashMap<>();
 		blankMap = new HashMap<>();
 		resetRoot();
@@ -72,19 +51,24 @@ public class watorModel extends Model {
 	 * updates the grid one tick
 	 */
 	public void updateGrid(){
+		clearStructures();
+		updatePred();
+		eatPrey(preyMap);
+		movePred(blankMap);
+		clearStructures();
+		updatePrey();
+		movePrey(blankMap);
+		resetRoot();
+	}
+	
+	/**
+	 * clears the data structures used for the model
+	 */
+	private void clearStructures(){
 		takenPrey.clear();
 		takenBlank.clear();
 		preyMap.clear();
 		blankMap.clear();
-		updatePred();
-		eatPrey(preyMap);
-		movePred(blankMap);
-		preyMap.clear();
-		blankMap.clear();
-		takenBlank.clear();
-		updatePrey();
-		movePrey(blankMap);
-		resetRoot();
 	}
 	
 	/**
@@ -92,8 +76,8 @@ public class watorModel extends Model {
 	 * and stores the swaps in a prey and blank map
 	 */
 	private void updatePred(){
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
 				Integer[] place = new Integer[] {i,j};
 				if(!curGrid.getUnit(i, j).isPredator()) continue;
 				else{
@@ -119,8 +103,8 @@ public class watorModel extends Model {
 	 * and stores the swaps in a blank map
 	 */
 	private void updatePrey(){
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
 				Integer[] place = new Integer[] {i,j};
 				if(curGrid.getUnit(i, j).isPrey()){
 					List<Integer[]> blank = getBlankNeighbors(i, j);
@@ -270,18 +254,10 @@ public class watorModel extends Model {
 	}
 	
 	/**
-	 * ticks the grid updating the CA simulation
-	 */
-	@Override
-	public void setNextScene() {
-		updateGrid();
-	}
-	
-	/**
 	 * @returns the number of predator units
 	 */
 	@Override
-	public int getType1Units() {
+	public int getUnitA() {
 		return (curGrid.getInstances(new Predator()).size());
 	}
 
@@ -289,7 +265,7 @@ public class watorModel extends Model {
 	 * @returns the number of prey units
 	 */
 	@Override
-	public int getType2Units() {
+	public int getUnitB() {
 		return (curGrid.getInstances(new Prey()).size());
 	}
 }

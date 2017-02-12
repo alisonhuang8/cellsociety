@@ -21,18 +21,17 @@ public class sugarModel extends Model {
 	private Map<Integer[], Integer[]> agentMoves = new HashMap<>();
 	private List<List<Integer>> eaten = new ArrayList<>();
 
+	/**
+	 * makes a new instance of the sugar CA
+	 */
 	public sugarModel(Grid curr, Grid next, Grid init) {
-		curGrid = curr;
-		nextGrid = next;
-		initialGrid = init;
+		super(curr, next, init);
 	}
 
-	private void updateRoot() {
-		root.getChildren().clear();
-		root.getChildren().addAll(curGrid.getChildren());
-	}
-
-	public void updateGrid() {
+	/**
+	 * performs all operations for the simulation
+	 */
+	public void updateGrid(){
 		agentMoves.clear();
 		eaten.clear();
 		updateAgents();
@@ -47,9 +46,10 @@ public class sugarModel extends Model {
 			for (int j = 0; j < curGrid.cols(); j++) {
 				Integer[] place = { i, j };
 				if (curGrid.getUnit(i, j).isAgent()) {
-					Integer[] move = pickRandomSugar(i, j);
-					if (move == null)
+					Integer[] move = pickSugar(i, j);
+					if (move == null){
 						continue;
+					}
 					eaten.add(Arrays.asList(move));
 					agentMoves.put(place, move);
 				} else {
@@ -58,62 +58,97 @@ public class sugarModel extends Model {
 				}
 			}
 		}
-		updateRoot();
+		resetRoot();
 	}
 
+	/**
+	 * moves the sugar agents
+	 */
 	private void move() {
-		for (Integer[] place : agentMoves.keySet()) {
+		for (Integer[] place : agentMoves.keySet()){
 			move(place[0], place[1], agentMoves.get(place)[0], agentMoves.get(place)[1]);
 		}
 	}
 
+	/**
+	 * checks if the agent should die
+	 * if not, moves
+	 */
 	private void move(int agRow, int agCol, int sugRow, int sugCol) {
 		Agent a = (Agent) curGrid.getUnit(agRow, agCol);
 		Sugar s = (Sugar) curGrid.getUnit(sugRow, sugCol);
 		a.metabolize();
-		if (!a.isDead()) {
+		if (!a.isDead()){
 			a.pickedUp(s.getSugar());
 			curGrid.swap(agRow, agCol, sugRow, sugCol);
 		}
 		curGrid.setUnit(agRow, agCol, new Sugar(curGrid.getUnit(agRow, agCol), 0));
-		updateRoot();
+		resetRoot();
 
 	}
 
-	private Integer[] pickRandomSugar(int row, int col) {
+	/**
+	 * selects the sugar for the agent
+	 */
+	private Integer[] pickSugar(int row, int col) {
+		Integer[] best = {-1, -1};
 		Agent a = (Agent) curGrid.getUnit(row, col);
+		int bestSugar = 0;
+		int minDistance = a.agentVision();
 		Map<Integer[], Unit> map = curGrid.getInstances(new Sugar());
-		List<Integer[]> list = new ArrayList<>();
 		for (Integer[] place : map.keySet()) {
-			if (isValid(row, col, place[0], place[1], a) && !eaten.contains(Arrays.asList(place))) {
-				list.add(place);
+			int curSugar = getSugarValue(place[0], place[1]);
+			int curDistance = getDistance(row, col, place[0], place[1]);
+			if (isValid(row, col, place[0], place[1], a) && !eaten.contains(Arrays.asList(place))
+					&& curSugar >= bestSugar && curDistance <= minDistance) {
+				best = place;
+				bestSugar= curSugar;
+				minDistance = curDistance;
 			}
 		}
-		if (list.size() == 0)
-			return null;
-		return list.get(rand.nextInt(list.size()));
+		if(best[0] == -1 && best[1] == -1) return null;
+		return best;
+	}
+	
+	/**
+	 * returns the sugar value
+	 */
+	private int getSugarValue(int row, int col){
+		Sugar s = (Sugar) curGrid.getUnit(row, col);
+		return s.getSugar();
+	}
+	
+	/**
+	 * @return the distance between an agent and sugar
+	 */
+	private int getDistance(int agRow, int agCol, int sugRow, int sugCol){
+		return Math.abs(agRow - sugRow) + Math.abs(agCol - sugCol);
 	}
 
+	/**
+	 * checks if a sugar is a valid move
+	 * for the agent
+	 */
 	private boolean isValid(int agentRow, int agentCol, int sugarRow, int sugarCol, Agent a) {
 		if (agentRow != sugarRow && agentCol != sugarCol)
 			return false;
-		if (Math.abs(agentRow - sugarRow) + Math.abs(agentCol - sugarCol) <= a.agentVision())
-			return true;
-		return false;
+		return (Math.abs(agentRow - sugarRow)
+				+ Math.abs(agentCol - sugarCol) <= a.agentVision());
 	}
 
+	/**
+	 * returns the number of sugar
+	 */
 	@Override
-	public void setNextScene() {
-		updateAgents();
-	}
-
-	@Override
-	public int getType1Units() {
+	public int getUnitA() {
 		return curGrid.getInstances(new Sugar()).size();
 	}
 
+	/**
+	 * returns the number of agents
+	 */
 	@Override
-	public int getType2Units() {
+	public int getUnitB() {
 		return curGrid.getInstances(new Agent()).size();
 	}
 }

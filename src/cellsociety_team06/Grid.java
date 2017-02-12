@@ -163,7 +163,11 @@ public abstract class Grid{
 	/**
 	 * sets the boundary condition to be toroidal
 	 */
-	public void makeTorroidal(){
+	public void makeToroidal(){
 		toroidal = true;
+	}
+	
+	public void undoToroidal(){
+		toroidal = false;
 	}
 }
