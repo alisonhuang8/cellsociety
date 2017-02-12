@@ -218,8 +218,9 @@ public class CellSociety extends Application {
 		Integer[] setupChoices = setup.getChoices();
 		simType = setupChoices[0];
 		unitShape = setupChoices[1];
-		boundaryStyle = setupChoices[2];
-		inputStyle = setupChoices[3];
+		neighborConfig = setupChoices[2];
+		boundaryStyle = setupChoices[3];
+		inputStyle = setupChoices[4];
 		
 	}
 	
