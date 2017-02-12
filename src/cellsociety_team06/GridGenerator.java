@@ -179,8 +179,8 @@ public class GridGenerator {
 	private void fillWithFire(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == 'X'){
-					currGrid.setUnit(i, j, new Burning(currGrid.getUnit(i, j)));
+				if(reads.get(i, j) == 'G'){
+					currGrid.setUnit(i, j, new Alive(currGrid.getUnit(i, j)));
 				}
 				if(i == 0 && j == 0){
 					currGrid.setUnit(i, j, new Burning(currGrid.getUnit(i, j)));
