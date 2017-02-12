@@ -27,14 +27,16 @@ public class XMLGenerator {
 	 */
 	private static void populate(){
 		for(int i = 0; i < rows; i++){
+			System.out.print("<Row>");
 			for(int j = 0; j < cols; j++){
-				if(rand.nextInt(100) < 200){ //percent chance of this block
-				}
-				else if(rand.nextInt(100) < 80){ //percent chance of this block
+				if(rand.nextInt(100) < 50){ //percent chance of this block
+					System.out.print('A');
 				}
 				else{
+					System.out.print('S');//percent chance of this block
 				}
 			}
+			System.out.println("</Row>");
 		}
 	}
 }

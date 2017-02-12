@@ -15,6 +15,7 @@ import java.util.Scanner;
 import Models.fireModel;
 import Models.lifeModel;
 import Models.segregationModel;
+import Models.sugarModel;
 import Models.watorModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -70,12 +71,13 @@ public class CellSociety extends Application {
 	private String fireFile = "fireinfo.txt";
 	private String watorFile = "watorinfo.txt";
 	private String segregationFile = "segregationinfo.txt";
+	private String sugarFile = "sugarinfo.txt";
 	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
 	private String[] shapes = {"Square", "Triangle", "Hexagon"};
 	private String[] boundaryTypes = {"Normal","Toroidal"};
 	private String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
-							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"}};
+							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"},{"SugarSimulation", "sugarinfo.txt"}};
 
 	private HBox panel = new HBox();
 	private Group root = new Group();
@@ -210,6 +212,8 @@ public class CellSociety extends Application {
 			currentModel = new watorModel(currGrid, nextGrid, initialGrid);
 		} else if (fileName.equals(segregationFile)) {
 			currentModel = new segregationModel(currGrid, nextGrid, initialGrid);
+		} else if (fileName.equals(sugarFile)) {
+			currentModel = new sugarModel(currGrid, nextGrid, initialGrid);
 		}
 		myScene.setRoot(root);
 		myStage.setScene(myScene);
