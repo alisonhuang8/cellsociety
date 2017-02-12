@@ -34,7 +34,6 @@ public class GridGenerator {
 	private int across = 0;
 	private int totalBlank = 0;
 	
-	private ReadXMLFile files;
 	protected Group root;
 
 	private Grid currGrid;
@@ -53,7 +52,7 @@ public class GridGenerator {
 		width = w;
 		height = h;
 
-		files = new ReadXMLFile();
+		new ReadXMLFile();
 		triggerEverything();
 		
 	}
@@ -85,15 +84,15 @@ public class GridGenerator {
 	
 	private void createReads(){
 		if (simType == 1){
-			reads = new Reads("Life");
+			reads = new Reads("Life", inputStyle, simType);
 		} else if (simType == 2){
-			reads = new Reads("Fire");
+			reads = new Reads("Fire", inputStyle, simType);
 		} else if (simType == 3){
-			reads = new Reads("Wator");
+			reads = new Reads("Wator", inputStyle, simType);
 		} else if (simType == 4){
-			reads = new Reads("Segregation");
+			reads = new Reads("Segregation", inputStyle, simType);
 		} else {
-			reads = new Reads("Sugar");
+			reads = new Reads("Sugar", inputStyle, simType);
 		}
 	}
 
@@ -180,8 +179,8 @@ public class GridGenerator {
 	private void fillWithFire(){
 		for(int i = 0; i < down; i++){
 			for(int j = 0; j < across; j++){
-				if(reads.get(i, j) == 'G'){
-					currGrid.setUnit(i, j, new Alive(currGrid.getUnit(i, j)));
+				if(reads.get(i, j) == 'X'){
+					currGrid.setUnit(i, j, new Burning(currGrid.getUnit(i, j)));
 				}
 				if(i == 0 && j == 0){
 					currGrid.setUnit(i, j, new Burning(currGrid.getUnit(i, j)));
