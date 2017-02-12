@@ -87,7 +87,6 @@ public class lifeModel extends Model {
 		for(int i = 0; i < curGrid.rows(); i++){
 			for(int j = 0; j < curGrid.cols(); j++){
 				if(nextGrid.getUnit(i, j).isAlive()){
-					System.out.println("here");
 					curGrid.setUnit(i, j, new Alive(curGrid.getUnit(i, j)));
 				}
 				else{
