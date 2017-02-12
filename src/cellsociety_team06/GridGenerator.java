@@ -56,7 +56,6 @@ public class GridGenerator {
 	}
 	
 	private void triggerEverything(){
-		System.out.println("triggered\n");
 		createReads();
 		getAcross();
 		getDown();
@@ -82,7 +81,6 @@ public class GridGenerator {
 		} else {
 			reads = new Reads("Segregation");
 		}
-		System.out.println("reads created\n");
 	}
 
 	private void getDown(){
@@ -133,7 +131,6 @@ public class GridGenerator {
 			currGrid = new hexGrid(down, across, height/down);
 			nextGrid = new hexGrid(down, across, height/down);
 		}
-		System.out.println("empty grids created\n");
 	}
 	
 	private void fillCurrGrid(){
@@ -146,7 +143,6 @@ public class GridGenerator {
 		} else {
 			fillWithSeg();
 		}
-		System.out.println("filled grids\n");
 	}
 	
 	private void fillWithLife(){

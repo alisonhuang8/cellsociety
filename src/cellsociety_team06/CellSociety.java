@@ -149,7 +149,7 @@ public class CellSociety extends Application {
 //		return myNeighborScene;
 //	}
 	
-	private Scene askSizeScene(){	
+	private Scene askSizeScene(){
 		Group sizeSceneRoot = new Group();
 		mySizeScene = new Scene(sizeSceneRoot, width, height, BACKGROUND);
 		setup.createSizeLabel(sizeSceneRoot, myResources, width, height);
@@ -178,6 +178,7 @@ public class CellSociety extends Application {
 	}
 	
 	private void createModelAndFrames() {
+		unitShape = setup.getUnitShape();
 		root.getChildren().clear();
 		BorderPane bp = new BorderPane();
 		panel.getChildren().clear();

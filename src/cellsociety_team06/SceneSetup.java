@@ -7,6 +7,7 @@ package cellsociety_team06;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -34,6 +35,7 @@ public class SceneSetup {
 	private ResourceBundle resources;
 	private Stage s;
 	private String[] shapes = {"Square", "Triangle", "Hexagon"};
+	private int unitShape;
 	
 	public SceneSetup(int gridWidth, int gridHeight, ResourceBundle resourcesPackage, Stage stage) {
 		width = gridWidth;
@@ -96,23 +98,24 @@ public class SceneSetup {
 	}
 	
 	public int createShapeButtons(Group root, Scene nextScene) {
-		String currentShape = "";
-		int counter = 0;
 		VBox shapeButtons = createBox(root, width, height);
 		shapeButtons.setTranslateX(width/5 - 10);
 		Label lb_shape = new Label(resources.getString("ChooseCellShape"));
 		shapeButtons.getChildren().add(lb_shape);
 		for (String shape:shapes) {
-			counter ++;
 			Button btn = new Button(shape);
 			shapeButtons.getChildren().add(btn);
 			btn.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent arg) {
 					s.setScene(nextScene);
+					unitShape = Arrays.asList(shapes).indexOf(shape) + 1;
 				}
 			});
 		}
-		return counter;
+		return unitShape;
+	}
+	public int getUnitShape() {
+		return unitShape;
 	}
 	
 //	public Label createNeighborLabel(Group root, int width, int height) {

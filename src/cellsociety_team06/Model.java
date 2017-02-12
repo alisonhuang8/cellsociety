@@ -27,7 +27,6 @@ public abstract class Model {
 	public Model(Grid curr, Grid next){
 		this();
 		curGrid = curr;
-		System.out.println(curGrid.getInstances(new Alive()).size());
 		nextGrid = next;
 		root = new Group();
 		resetRoot();
@@ -50,8 +49,6 @@ public abstract class Model {
 	
 	protected void resetRoot(){
 		root.getChildren().clear();
-		System.out.print(curGrid.getInstances(new Alive()).size() + " ");
-		System.out.println("reseting root");
 		root.getChildren().addAll(curGrid.getChildren());
 	}
 	
