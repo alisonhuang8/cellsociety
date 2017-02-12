@@ -123,8 +123,8 @@ public class SceneSetup {
 		
 	}
 	
-	public Label createLabel(Group root, ResourceBundle r, int width, int height, String message) {
-		Label lb_size = new Label(r.getString(message));
+	public Label createLabel(Group root, int width, int height, String message) {
+		Label lb_size = new Label(resources.getString(message));
 		lb_size.setTranslateX(width/9*2);
 		lb_size.setTranslateY(height/7);
 		root.getChildren().add(lb_size);
