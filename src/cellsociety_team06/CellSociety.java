@@ -186,16 +186,16 @@ public class CellSociety extends Application {
 		GridGenerator gg = new GridGenerator(simType, unitShape, gridSize, neighborConfig, boundaryStyle, inputStyle, SIZE-50, SIZE-50);
 		Grid currGrid = gg.returnCurrGrid();
 		Grid nextGrid = gg.returnNextGrid();
-		
+		Grid initialGrid = gg.returnInitialGrid();
 		if (fileName.equals(lifeFile)) {
-			currentModel = new lifeModel(currGrid, nextGrid, unitShape, SIZE);
+			currentModel = new lifeModel(currGrid, nextGrid, initialGrid);
 		//	currentModel = new lifeModel(SIZE - 50, SIZE - 50, gridSize);
 		} else if (fileName.equals(fireFile)) {
-			currentModel = new fireModel(currGrid, nextGrid, unitShape, SIZE);
+			currentModel = new fireModel(currGrid, nextGrid, initialGrid);
 		} else if (fileName.equals(watorFile)) {
-			currentModel = new watorModel(currGrid, nextGrid, unitShape, SIZE);
+			currentModel = new watorModel(currGrid, nextGrid, initialGrid);
 		} else if (fileName.equals(segregationFile)) {
-			currentModel = new segregationModel(currGrid, nextGrid, unitShape, SIZE);
+			currentModel = new segregationModel(currGrid, nextGrid, initialGrid);
 		}
 		myScene.setRoot(root);
 		myStage.setScene(myScene);

@@ -26,7 +26,8 @@ public class fireModel extends Model {
 	
 	private Random rand = new Random();
 	private double catchChance = 0.7;
-	private Grid initial;
+	private int down;
+	private int across;
 	
 	/**
 	 * @param s should be factored out by Faith
@@ -37,32 +38,20 @@ public class fireModel extends Model {
 	 * @param size which of the three XML's should be read 
 	 */
 	
-	public fireModel(Grid curr, Grid next, int unitShape, int height){
+	public fireModel(Grid curr, Grid next, Grid init){
 		curGrid = curr;
 		nextGrid = next;
-		
-		curGrid.makeTorroidal();
-		
-		if (unitShape == 1){
-			initial = new squareGrid(curr.rows(), curr.cols(), height/curr.rows());
-		} else if (unitShape == 2){
-			initial = new triangularGrid(curr.rows(), curr.cols(), height/curr.rows());
-		} else {
-			initial = new hexGrid(curr.rows(), curr.cols(), height/curr.rows());
-		}
-		for (int i=0; i<curr.rows(); i++){
-			for (int j=0; j<curr.cols(); j++){
-				initial.setUnit(i, j, curr.getUnit(i, j));
-			}
-		}
+		initialGrid = init;
+		down = curGrid.rows();
+		across = curGrid.cols();
 	}
 
 	/**
 	 * decides which units the fire should spread and spreads it
 	 */
 	public void updateGrid(){
-		for(int i = 0; i < curGrid.rows(); i++){
-			for(int j = 0; j < curGrid.cols(); j++){
+		for(int i = 0; i < down; i++){
+			for(int j = 0; j < across; j++){
 				int n = getBurningNeighbors(curGrid.getNeighbors(i, j).values());
 				Unit u = nextGrid.getUnit(i, j);
 				if(curGrid.getUnit(i, j).isAlive()){
@@ -100,6 +89,7 @@ public class fireModel extends Model {
 				}
 			}
 		}
+		resetRoot();
 	}
 	
 	/**
@@ -121,16 +111,6 @@ public class fireModel extends Model {
 		updateGrid();
 	}
 
-	/**
-	 * resets the CA
-	 */
-	@Override
-	public void reset() {
-		root.getChildren().clear();
-		curGrid = initial;
-		resetRoot();
-	}
-	
 	/**
 	 * @returns the number of alive units
 	 */
