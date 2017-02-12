@@ -129,22 +129,22 @@ public abstract class Grid{
 	public void swap(int rowA, int colA, int rowB, int colB){
 		Unit a = grid.get(rowA).get(colA);
 		Unit b = grid.get(rowB).get(colB);
-		switchLayouts(a, b);
+//		switchLayouts(a, b);
 		grid.get(rowA).set(colA, b);
 		grid.get(rowB).set(colB, a);		
 	}
 	
-	/**
-	 * Swaps the x and y coordinates of two given units
-	 */
-	private void switchLayouts(Unit a, Unit b){
-		double x = a.getLayoutX();
-		double y = a.getLayoutY();
-		a.setLayoutX(b.getLayoutX());
-		a.setLayoutY(b.getLayoutY());
-		b.setLayoutX(x);
-		b.setLayoutY(y);
-	}
+//	/**
+//	 * Swaps the x and y coordinates of two given units
+//	 */
+//	private void switchLayouts(Unit a, Unit b){
+//		double x = a.getLayoutX();
+//		double y = a.getLayoutY();
+//		a.setLayoutX(b.getLayoutX());
+//		a.setLayoutY(b.getLayoutY());
+//		b.setLayoutX(x);
+//		b.setLayoutY(y);
+//	}
 	
 	/**
 	 * Allows the user to set new
