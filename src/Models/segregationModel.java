@@ -5,20 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.ResourceBundle;
 import java.util.Stack;
 
 import Unit.Unit;
-import XMLReads.segReads;
 import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
-import javafx.animation.Timeline;
-import javafx.stage.Stage;
-import subGrids.hexGrid;
-import subGrids.squareGrid;
-import subGrids.triangularGrid;
 import subUnits.Blank;
-import subUnits.Predator;
 import subUnits.Type1;
 import subUnits.Type2;
 
@@ -30,8 +22,6 @@ public class segregationModel extends Model {
 	private List<Integer[]> available = new ArrayList<>();
 	private double satisfactionConstant = 0.7;
 	private Stack<Integer> myStack;
-	private segReads reads;
-	private int size;
 	private int totalBlank;
 	private int lastSize;
 

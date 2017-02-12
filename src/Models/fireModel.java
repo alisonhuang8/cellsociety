@@ -10,9 +10,6 @@ import java.util.Random;
 import Unit.Unit;
 import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
-import subGrids.hexGrid;
-import subGrids.squareGrid;
-import subGrids.triangularGrid;
 import subUnits.Alive;
 import subUnits.Burning;
 import subUnits.Burnt;
@@ -104,13 +101,6 @@ public class fireModel extends Model {
 	@Override
 	public void setNextScene() {
 		updateGrid();
-	}
-
-	/**
-	 * @returns the number of alive units
-	 */
-	public int getTreeUnits(){
-		return (curGrid.getInstances(new Alive()).size());
 	}
 
 	@Override

@@ -28,15 +28,11 @@ public abstract class Model {
 	}
 	
 	public void reset() {
-		root.getChildren().clear();
-		
 		for (int i=0; i<initialGrid.rows(); i++){
 			for (int j=0; j<initialGrid.cols(); j++){
 				curGrid.setUnit(i, j, initialGrid.getUnit(i, j));
 			}
 		}
-		
-		resetRoot();
 	}
 	
 	public abstract void setNextScene();

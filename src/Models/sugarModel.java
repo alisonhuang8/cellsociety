@@ -1,8 +1,7 @@
+package Models;
+
 /**
  * Written by Gideon Pfeffer
- * Used to test the different orientations and implementations
- * without having to go through the application
- * USes the fire model
  */
 
 import java.util.ArrayList;
@@ -119,8 +118,12 @@ public class sugarModel extends Model{
 	}
 
 	@Override
-	public void reset() {
-		// TODO Auto-generated method stub
-		
+	public int getType1Units() {
+		return curGrid.getInstances(new Sugar()).size();
+	}
+
+	@Override
+	public int getType2Units() {
+		return curGrid.getInstances(new Agent()).size();
 	}
 }

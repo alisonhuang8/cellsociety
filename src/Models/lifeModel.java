@@ -4,18 +4,9 @@
  */
 package Models;
 
-import java.util.ResourceBundle;
-
 import Unit.Unit;
-import XMLReads.lifeReads;
 import cellsociety_team06.Grid;
 import cellsociety_team06.Model;
-import javafx.animation.Timeline;
-import javafx.scene.Group;
-import javafx.stage.Stage;
-import subGrids.hexGrid;
-import subGrids.squareGrid;
-import subGrids.triangularGrid;
 import subUnits.Alive;
 import subUnits.Blank;
 
