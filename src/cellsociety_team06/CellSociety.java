@@ -181,7 +181,7 @@ public class CellSociety extends Application {
 		BorderPane bp = new BorderPane();
 		panel.getChildren().clear();
 
-		GridGenerator gg = new GridGenerator(simType, unitShape, gridSize, 3, boundaryStyle, inputStyle, SIZE-50, SIZE-50);
+		GridGenerator gg = new GridGenerator(simType, unitShape, gridSize, neighborConfig, boundaryStyle, inputStyle, SIZE-50, SIZE-50);
 		Grid currGrid = gg.returnCurrGrid();
 		Grid nextGrid = gg.returnNextGrid();
 		Grid initialGrid = gg.returnInitialGrid();
