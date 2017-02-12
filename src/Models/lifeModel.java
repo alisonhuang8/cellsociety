@@ -55,14 +55,6 @@ public class lifeModel extends Model {
 	}
 
 	/**
-	 * ticks the CA
-	 */
-	@Override
-	public void setNextScene() {
-		updateGrid();
-	}
-
-	/**
 	 * sets curGrid to be equal to nextGrid
 	 */
 	private void resetCur(){
@@ -82,7 +74,7 @@ public class lifeModel extends Model {
 	 * @returns the number of alive units
 	 */
 	@Override
-	public int getType1Units() {
+	public int getUnitA() {
 		return (curGrid.getInstances(new Alive()).size());
 	}
 
@@ -90,7 +82,7 @@ public class lifeModel extends Model {
 	 * @returns the number of blank
 	 */
 	@Override
-	public int getType2Units() {
+	public int getUnitB() {
 		return (curGrid.getInstances(new Blank()).size());
 	}
 	

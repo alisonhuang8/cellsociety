@@ -138,9 +138,9 @@ public class SimulationGUI {
 	public void addData(Model model) {
 		xPos ++;
 		 series1.getData().add
-	        (new XYChart.Data(xPos, model.getType1Units()));
+	        (new XYChart.Data(xPos, model.getUnitA()));
 		 series2.getData().add
-	        (new XYChart.Data(xPos, model.getType2Units()));
+	        (new XYChart.Data(xPos, model.getUnitB()));
 	}
 	
 	

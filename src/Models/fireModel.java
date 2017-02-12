@@ -82,20 +82,12 @@ public class fireModel extends Model {
 		}
 		return total;
 	}
-	
-	/**
-	 * ticks the CA
-	 */
-	@Override
-	public void setNextScene() {
-		updateGrid();
-	}
 
 	/**
 	 * returns the number of alive units
 	 */
 	@Override
-	public int getType1Units() {
+	public int getUnitA() {
 		return (curGrid.getInstances(new Alive()).size());
 	}
 
@@ -103,7 +95,7 @@ public class fireModel extends Model {
 	 * not applicable for this CA
 	 */
 	@Override
-	public int getType2Units() {
+	public int getUnitB() {
 		return 0;
 	}
 	

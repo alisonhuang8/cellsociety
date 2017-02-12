@@ -53,7 +53,6 @@ public class foragingAnts extends Application{
 		files = new antsReads();
 		this.window = primaryStage;
 		curGrid = new squareGrid(60, 60, 10);
-		curGrid.makeTorroidal();
 		nextGrid = new squareGrid(60, 60, 10);
 		root = new Group();
 		Scene s = new Scene(root, 600, 600, Color.WHITE);

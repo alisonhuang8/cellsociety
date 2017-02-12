@@ -137,18 +137,10 @@ public class sugarModel extends Model {
 	}
 
 	/**
-	 * moves the CA forward a tick
-	 */
-	@Override
-	public void setNextScene() {
-		updateGrid();
-	}
-
-	/**
 	 * returns the number of sugar
 	 */
 	@Override
-	public int getType1Units() {
+	public int getUnitA() {
 		return curGrid.getInstances(new Sugar()).size();
 	}
 
@@ -156,7 +148,7 @@ public class sugarModel extends Model {
 	 * returns the number of agents
 	 */
 	@Override
-	public int getType2Units() {
+	public int getUnitB() {
 		return curGrid.getInstances(new Agent()).size();
 	}
 }
