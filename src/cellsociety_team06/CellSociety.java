@@ -58,7 +58,7 @@ public class CellSociety extends Application {
 	private int simType = 1;
 	private int unitShape = 1;
 	private int gridSize = 1;
-	private List<Integer[]> neighborConfig;
+	private int neighborConfig;
 	private int boundaryStyle = 1;
 	private int inputStyle = 1;
 	private String[] choices = {"simType", "unitShape", "boundaryStyle"};
@@ -203,7 +203,7 @@ public class CellSociety extends Application {
 		BorderPane bp = new BorderPane();
 		panel.getChildren().clear();
 
-		GridGenerator gg = new GridGenerator(simType, unitShape, gridSize, neighborConfig, boundaryStyle, inputStyle, SIZE-50, SIZE-50);
+		GridGenerator gg = new GridGenerator(simType, unitShape, gridSize, 3, boundaryStyle, inputStyle, SIZE-50, SIZE-50);
 		Grid currGrid = gg.returnCurrGrid();
 		Grid nextGrid = gg.returnNextGrid();
 		Grid initialGrid = gg.returnInitialGrid();
