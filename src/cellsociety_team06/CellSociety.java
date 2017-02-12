@@ -109,7 +109,6 @@ public class CellSociety extends Application {
 				public void handle(ActionEvent arg) {
 					fileName = simulation[1];
 					simType = Arrays.asList(simulations).indexOf(simulation) + 1;
-					System.out.print(simType);
 					setInfoScene();
 				}
 			});
@@ -138,6 +137,7 @@ public class CellSociety extends Application {
 		Group shapeRoot = new Group();
 		myShapeScene = new Scene(shapeRoot, width, height, BACKGROUND);
 		unitShape = setup.createShapeButtons(shapeRoot, mySizeScene);
+		System.out.print(unitShape);
 		return myShapeScene;
 	}
 	
@@ -149,7 +149,7 @@ public class CellSociety extends Application {
 //		return myNeighborScene;
 //	}
 	
-	private Scene askSizeScene(){	
+	private Scene askSizeScene(){
 		Group sizeSceneRoot = new Group();
 		mySizeScene = new Scene(sizeSceneRoot, width, height, BACKGROUND);
 		setup.createSizeLabel(sizeSceneRoot, myResources, width, height);
@@ -178,6 +178,7 @@ public class CellSociety extends Application {
 	}
 	
 	private void createModelAndFrames() {
+		unitShape = setup.getUnitShape();
 		root.getChildren().clear();
 		BorderPane bp = new BorderPane();
 		panel.getChildren().clear();
