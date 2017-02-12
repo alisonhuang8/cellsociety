@@ -34,7 +34,7 @@ public class segregationModel extends Model {
 	private int size;
 	private int totalBlank;
 	private int lastSize;
-	private Grid initial;
+
 	
 	/**
 	 * @param s should be factored out by Faith
@@ -45,25 +45,12 @@ public class segregationModel extends Model {
 	 * @param size which of the three XML's should be read 
 	 */
 	
-	public segregationModel(Grid curr, Grid next, int unitShape, int height){
+	public segregationModel(Grid curr, Grid next, Grid init){
 		curGrid = curr;
 		nextGrid = next;
+		initialGrid = init;
 		down = curGrid.rows();
 		across = curGrid.cols();
-		
-		if (unitShape == 1){
-			initial = new squareGrid(curr.rows(), curr.cols(), height/curr.rows());
-		} else if (unitShape == 2){
-			initial = new triangularGrid(curr.rows(), curr.cols(), height/curr.rows());
-		} else {
-			initial = new hexGrid(curr.rows(), curr.cols(), height/curr.rows());
-		}
-		for (int i=0; i<curr.rows(); i++){
-			for (int j=0; j<curr.cols(); j++){
-				initial.setUnit(i, j, curr.getUnit(i, j));
-			}
-		}
-		
 		start();
 	}
 	
@@ -158,15 +145,7 @@ public class segregationModel extends Model {
 		updateGrid();
 	}
 
-	/**
-	 * resets the CA
-	 */
-	@Override
-	public void reset() {
-		root.getChildren().clear();
-		curGrid = initial;
-		resetRoot();
-	}
+
 
 	@Override
 	public int getType1Units() {

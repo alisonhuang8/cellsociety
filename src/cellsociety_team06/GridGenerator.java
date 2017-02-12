@@ -37,6 +37,7 @@ public class GridGenerator {
 
 	private Grid currGrid;
 	private Grid nextGrid;
+	private Grid initialGrid;
 	
 	private Reads reads;
 
@@ -70,6 +71,15 @@ public class GridGenerator {
 	public Grid returnNextGrid(){
 		return nextGrid;
 	}
+
+	public Grid returnInitialGrid(){
+		for (int i=0; i<currGrid.rows(); i++){
+			for (int j=0; j<currGrid.cols(); j++){
+				initialGrid.setUnit(i, j, currGrid.getUnit(i, j));
+			}
+		}
+		return initialGrid;
+	}
 	
 	private void createReads(){
 		if (simType == 1){
@@ -78,8 +88,10 @@ public class GridGenerator {
 			reads = new Reads("Fire");
 		} else if (simType == 3){
 			reads = new Reads("Wator");
-		} else {
+		} else if (simType == 4){
 			reads = new Reads("Segregation");
+		} else {
+			reads = new Reads("Sugar");
 		}
 	}
 
@@ -124,12 +136,15 @@ public class GridGenerator {
 		if (unitShape == 1){
 			currGrid = new squareGrid(down, across, height/down);
 			nextGrid = new squareGrid(down, across, height/down);
+			initialGrid = new squareGrid(down, across, height/down);
 		} else if (unitShape == 2){
 			currGrid = new triangularGrid(down, across, height/down);
 			nextGrid = new triangularGrid(down, across, height/down);
+			initialGrid = new triangularGrid(down, across, height/down);
 		} else {
 			currGrid = new hexGrid(down, across, height/down);
 			nextGrid = new hexGrid(down, across, height/down);
+			initialGrid = new hexGrid(down, across, height/down);
 		}
 	}
 	
@@ -140,9 +155,12 @@ public class GridGenerator {
 			fillWithFire();
 		} else if (simType == 3){
 			fillWithWator();
-		} else {
+		} else if (simType == 4) {
 			fillWithSeg();
 		}
+//		} else {
+//			fillWithSugar();
+//		}
 	}
 	
 	private void fillWithLife(){
@@ -204,4 +222,16 @@ public class GridGenerator {
 			}
 		}
 	}
+	
+//	private void fillWithSugar(){
+//		for (int i=0; i<down; i++){
+//			for (int j=0; j<across; j++){
+//				if(reads.get(i, j) == 'A'){
+//					currGrid.setUnit(i, j, new Agent(currGrid.getUnit(i, j)));
+//				} else {
+//					currGrid.setUnit(i, j, new Sugar(currGrid.getUnit(i, j)));
+//				}
+//			}
+//		}
+//	}
 }
