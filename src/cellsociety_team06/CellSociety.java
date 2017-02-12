@@ -5,13 +5,10 @@
 
 package cellsociety_team06;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import Models.fireModel;
 import Models.lifeModel;
 import Models.segregationModel;
@@ -36,7 +33,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import subUnits.Alive;
 
 public class CellSociety extends Application {
 	private int SIZE = 500;
@@ -52,7 +48,6 @@ public class CellSociety extends Application {
 	private Scene myHomeScene;
 	private Scene mySizeScene;
 	private Scene myShapeScene;
-	private Scene myNeighborScene;
 	private Scene myBoundaryScene;
 
 	private int FRAMES_PER_SECOND = 1;
@@ -108,9 +103,7 @@ public class CellSociety extends Application {
 	}
 	private Scene homeScene(int width, int height, Paint background) {
 		Pane homeSceneRoot = new FlowPane(Orientation.VERTICAL);
-		int simTypeCounter = 0;
 		for (String[] simulation: simulations) {
-			simTypeCounter++;
 			Button myButton = setup.createSimButton(homeSceneRoot, myResources.getString(simulation[0]));			
 			myButton.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent arg) {
