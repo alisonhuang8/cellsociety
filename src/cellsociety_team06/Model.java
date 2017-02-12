@@ -19,7 +19,6 @@ public abstract class Model {
 		curGrid = curr;
 		nextGrid = next;
 		initialGrid = init;
-		root = new Group();
 		resetRoot();
 	}
 	

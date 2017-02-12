@@ -13,26 +13,12 @@ import subUnits.Blank;
 import java.util.Collection;
 
 public class lifeModel extends Model {
-	private int down;
-	private int across;
-	
 	
 	/**
-	 * @param s should be factored out by Faith
-	 * @param t should be factored out by Faith
-	 * @param r should be factored out by Faith
-	 * @param width width of the stage
-	 * @param height height of the stage
-	 * @param size which of the three XML's should be read 
+	 * makes an instance of the life model
 	 */
-	
 	public lifeModel(Grid curr, Grid next, Grid init){
-		curGrid = curr;
-		nextGrid = next;
-		initialGrid = init;
-		down = curGrid.rows();
-		across = curGrid.cols();
-
+		super(curr, next, init);
 	}
 	
 	/**
@@ -40,8 +26,8 @@ public class lifeModel extends Model {
 	 * the nextGrid
 	 */
 	public void updateGrid(){
-		for(int i = 0; i < down; i++){
-			for(int j = 0; j < across; j++){
+		for(int i = 0; i < curGrid.rows(); i++){
+			for(int j = 0; j < curGrid.cols(); j++){
 				int n = getAliveNeighbors(curGrid.getNeighbors(i, j).values());
 				nextGrid.setUnit(i, j, curGrid.getUnit(i, j));
 				if(curGrid.getUnit(i, j).isAlive() && (n < 2 || n > 3)){
@@ -76,10 +62,6 @@ public class lifeModel extends Model {
 		updateGrid();
 	}
 
-
-
-
-
 	/**
 	 * sets curGrid to be equal to nextGrid
 	 */
@@ -99,12 +81,14 @@ public class lifeModel extends Model {
 	/**
 	 * @returns the number of alive units
 	 */
-
 	@Override
 	public int getType1Units() {
 		return (curGrid.getInstances(new Alive()).size());
 	}
 
+	/**
+	 * @returns the number of blank
+	 */
 	@Override
 	public int getType2Units() {
 		return (curGrid.getInstances(new Blank()).size());
