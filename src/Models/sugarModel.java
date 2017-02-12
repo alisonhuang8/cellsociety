@@ -23,6 +23,7 @@ public class sugarModel extends Model {
 
 	/**
 	 * makes a new instance of the sugar CA
+	 * sets the default neighbors
 	 */
 	public sugarModel(Grid curr, Grid next, Grid init) {
 		super(curr, next, init);
