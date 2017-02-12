@@ -166,4 +166,8 @@ public abstract class Grid{
 	public void makeToroidal(){
 		toroidal = true;
 	}
+	
+	public void undoToroidal(){
+		toroidal = false;
+	}
 }
