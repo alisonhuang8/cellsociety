@@ -71,8 +71,8 @@ public class CellSociety extends Application {
 	private String sugarFile = "sugarinfo.txt";
 	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
-	private String[] shapes = {"Square", "Triangle", "Hexagon"};
-	private String[] boundaryTypes = {"Normal","Toroidal"};
+	private String[] shapes = {"SquareShape", "TriangleShape", "HexagonShape"};
+	private String[] boundaryTypes = {"NormalBoundary","ToroidalBoundary"};
 	private String[] input = {"Read", "Random"};
 	private String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
 							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"},

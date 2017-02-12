@@ -111,7 +111,7 @@ public class SceneSetup {
 		VBox shapeButtons = createBox(root, width, height);
 		shapeButtons.setTranslateX(width/12*5);
 		for (String option:options) {
-			Button btn = new Button(option);
+			Button btn = new Button(resources.getString(option));
 			shapeButtons.getChildren().add(btn);
 			btn.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent arg) {
@@ -132,7 +132,7 @@ public class SceneSetup {
 	}
 	
 	public Button createSizeButton(Group sizeSceneRoot, String label){
-		Button sizeButton = new Button(label);
+		Button sizeButton = new Button(resources.getString(label));
 		sizeSceneRoot.getChildren().add(sizeButton);
 		return sizeButton;
 	}
