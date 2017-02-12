@@ -1,14 +1,14 @@
 package subUnits.sugarScape;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import Unit.Unit;
 import javafx.scene.paint.Color;
 
 public class Agent extends Unit {
-	private int sugarLeft;
-	private int vision;
-	private int metabolism;
+	private int sugarLeft, vision, metabolism;
 	private final int[] STARTING_SUGAR = {5, 10, 15, 20};
 	private final int[] STARTING_VISION = {1, 2, 3, 4, 5, 6};
 	private final int[] STARTING_METABOLISM = {1, 2, 3, 4};
@@ -46,6 +46,17 @@ public class Agent extends Unit {
 	
 	public int agentVision(){
 		return vision;
+	}
+	
+	public List<Integer> getStats(){
+		Integer[] stats = {sugarLeft, vision, metabolism};
+		return Arrays.asList(stats);
+	}
+	
+	public void setStats(Agent a){
+		sugarLeft = a.getStats().get(0);
+		vision = a.getStats().get(1);
+		metabolism = a.getStats().get(2);
 	}
 	
 }
