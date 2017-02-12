@@ -75,7 +75,8 @@ public class CellSociety extends Application {
 	private String[] shapes = {"Square", "Triangle", "Hexagon"};
 	private String[] boundaryTypes = {"Normal","Toroidal"};
 	private String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
-							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"}};
+							  {"PredatorPreySimulation", "watorinfo.txt"},{"SegregationSimulation", "segregationinfo.txt"},
+							  {"SugarSimulation","watorinfo.txt"}};
 
 	private HBox panel = new HBox();
 	private Group root = new Group();
