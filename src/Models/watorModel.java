@@ -254,18 +254,10 @@ public class watorModel extends Model {
 	}
 	
 	/**
-	 * ticks the grid updating the CA simulation
-	 */
-	@Override
-	public void setNextScene() {
-		updateGrid();
-	}
-	
-	/**
 	 * @returns the number of predator units
 	 */
 	@Override
-	public int getType1Units() {
+	public int getUnitA() {
 		return (curGrid.getInstances(new Predator()).size());
 	}
 
@@ -273,7 +265,7 @@ public class watorModel extends Model {
 	 * @returns the number of prey units
 	 */
 	@Override
-	public int getType2Units() {
+	public int getUnitB() {
 		return (curGrid.getInstances(new Prey()).size());
 	}
 }

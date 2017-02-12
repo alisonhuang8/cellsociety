@@ -46,7 +46,6 @@ public class segregationModel extends Model {
 	 * runs through a tick of the CA
 	 * stores the movements of the blank and unhappy tiles in a map
 	 */
-	@Override
 	public void updateGrid(){
 		resetAvailable();
 		if(!myStack.isEmpty()) lastSize = myStack.pop();
@@ -115,18 +114,10 @@ public class segregationModel extends Model {
 	}
 
 	/**
-	 * ticks the CA once
-	 */
-	@Override
-	public void setNextScene() {
-		updateGrid();
-	}
-
-	/**
 	 * returns the number of Type1 units
 	 */
 	@Override
-	public int getType1Units() {
+	public int getUnitA() {
 		return (curGrid.getInstances(new Type1()).size());
 	}
 
@@ -134,7 +125,7 @@ public class segregationModel extends Model {
 	 * returns the number of Type2 units
 	 */
 	@Override
-	public int getType2Units() {
+	public int getUnitB() {
 		return (curGrid.getInstances(new Type2()).size());
 	}
 
