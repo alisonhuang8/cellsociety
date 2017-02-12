@@ -72,7 +72,7 @@ public class CellSociety extends Application {
 	private String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private String[] sizeButtons = {"SmallGrid", "MediumGrid", "LargeGrid"};
 	private String[] shapes = {"SquareShape", "TriangleShape", "HexagonShape"};
-	private String[] neighbors = {"All", "Sides", "Corners", "Verticle", "Horizontal"};
+	private String[] neighbors = {"All", "Sides", "Corners", "Horizontal","Verticle"};
 	private String[] boundaryTypes = {"NormalBoundary","ToroidalBoundary"};
 	private String[] input = {"Read", "Random"};
 	private String[][] simulations = {{"GoLSimulation", "lifeinfo.txt"}, {"SpreadingFireSimulation", "fireinfo.txt"},
