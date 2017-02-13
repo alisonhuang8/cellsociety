@@ -1,3 +1,8 @@
+/**
+ * Written by Alison Huang
+ * One class to make all the levels regardless of parameters chosen
+ */
+
 package cellsociety_team06;
 
 import java.util.ArrayList;
@@ -55,11 +60,13 @@ public class GridGenerator {
 		height = h;
 
 		new ReadXMLFile();
-		triggerEverything();
-
+		start();
 	}
 
-	private void triggerEverything(){
+	/*
+	 * Initial method 
+	 */
+	private void start(){
 		createReads();
 		getAcross();
 		getDown();
@@ -69,6 +76,10 @@ public class GridGenerator {
 		checkPossNeighbors();
 	}
 
+	/*
+	 * methods to use create the grids in the main class
+	 */
+	
 	public Grid returnCurrGrid(){
 		return currGrid;
 	}
@@ -77,6 +88,9 @@ public class GridGenerator {
 		return nextGrid;
 	}
 
+	/*
+	 * make a copy of the first grid read in
+	 */
 	public Grid returnInitialGrid(){
 		for (int i=0; i<currGrid.rows(); i++){
 			for (int j=0; j<currGrid.cols(); j++){
@@ -86,6 +100,9 @@ public class GridGenerator {
 		return initialGrid;
 	}
 
+	/*
+	 * make the read object for each of the simulation types
+	 */
 	private void createReads(){
 		if (simType == 1){
 			reads = new Reads("Life", inputStyle, simType);
@@ -100,8 +117,10 @@ public class GridGenerator {
 		}
 	}
 
+	/*
+	 * different down values if the shape is a hexagon
+	 */
 	private void getDown(){
-
 		if (gridSize == 1){
 			if (unitShape == 3){
 				down = 20;
@@ -121,11 +140,9 @@ public class GridGenerator {
 				down = 30;
 			}
 		}
-
 	}
 
 	private void getAcross(){
-
 		if (gridSize == 1){
 			across = 10;
 		} else if (gridSize == 2){
@@ -133,9 +150,11 @@ public class GridGenerator {
 		} else {
 			across = 30;
 		}
-
 	}
-
+	
+	/*
+	 * make an empty grid depending on the shape of the unit chosen
+	 */
 	private void createEmptyGrids(){
 
 		if (unitShape == 1){
@@ -153,14 +172,12 @@ public class GridGenerator {
 		}
 	}
 
+	/*
+	 * change 
+	 */
 	private void checkPossNeighbors(){
 		if (unitShape == 1){
-			int[] rowMove;
-			int[] colMove;
-			if (neighborConfig == 1){
-				rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
-				colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
-			} else if (neighborConfig == 2){
+			if (neighborConfig == 2){
 				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{0,2,4, 6})));
 			} else if (neighborConfig == 3){
 				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 3, 5, 7})));
@@ -168,6 +185,22 @@ public class GridGenerator {
 				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{2, 6})));
 			} else {
 				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{0, 4})));
+			}
+		} else if (unitShape == 2){
+			if (neighborConfig == 2){
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{2, 6, 10})));
+			} else if (neighborConfig == 3){
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{0, 4, 8})));
+			} else if (neighborConfig == 4){
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{2, 10})));
+			} else if (neighborConfig == 5){
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{0, 6})));
+			}
+		} else {
+			if (neighborConfig == 4){
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 2, 4, 5})));
+			} else if (neighborConfig == 5) {
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{0, 3})));
 			}
 		}
 
