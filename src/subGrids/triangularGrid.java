@@ -30,6 +30,7 @@ public class triangularGrid extends Grid {
 		super(rows, cols);
 		this.length = length;
 		neighborsAvailable = new ArrayList<>(Arrays.asList(DEFAULT_NEIGHBORS));
+		maxNeighbors = 12;
 		fillGrid();
 	}
 	

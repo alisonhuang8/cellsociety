@@ -14,8 +14,8 @@ import Unit.Unit;
 import cellsociety_team06.Grid;
 
 public class hexGrid extends Grid {
-	private static final int[] EVEN_ROW_COL_MOVE = {0, 0, 0, 0, 1,  1};
-	private static final int[] ODD_ROW_COL_MOVE = {0, 0, 0, 0, -1, -1};
+	private static final int[] EVEN_ROW_COL_MOVE = {0, 0, 0, 0, -1, -1};
+	private static final int[] ODD_ROW_COL_MOVE = {0, 1, 1, 0, 0, 0};
 	private static final Integer[] DEFAULT_NEIGHBORS = {0, 1, 2, 3, 4, 5};
 	private double length;
 	
@@ -29,6 +29,7 @@ public class hexGrid extends Grid {
 		super(rows, cols);
 		rowMove = new int[] {-2, -1, 1, 2, 1, -1};
 		neighborsAvailable = new ArrayList<>(Arrays.asList(DEFAULT_NEIGHBORS));
+		maxNeighbors = 6;
 		this.length = length;
 		fillGrid();
 	}
@@ -69,8 +70,7 @@ public class hexGrid extends Grid {
 	 * checks which neighbor type it needs to use
 	 */
 	public Map<Integer[], Unit> getNeighbors(int row, int col) {
-		rowMove = EVEN_ROW_COL_MOVE;
-		if(row % 2 != 0) colMove = EVEN_ROW_COL_MOVE;
+		if(row % 2 == 0) colMove = EVEN_ROW_COL_MOVE;
 		else colMove = ODD_ROW_COL_MOVE;
 		if(!toroidal) return getFiniteNeighbors(row, col);
 		else return getToroidalNeighbors(row, col);

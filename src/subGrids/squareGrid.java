@@ -25,9 +25,10 @@ public class squareGrid extends Grid {
 	 */
 	public squareGrid(int rows, int cols, int heightSquare, int widthSquare) {
 		super(rows, cols);
-		rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
-		colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
+		rowMove = new int[] {-1, -1, 0, 1, 1, 1, 0, -1};
+		colMove = new int[] {0, 1, 1, 1, 0, -1, -1, -1};
 		neighborsAvailable = new ArrayList<Integer>(Arrays.asList(DEFAULT_NEIGHBORS));
+		maxNeighbors = 8;
 		rectWidth = widthSquare;
 		rectHeight = heightSquare;
 		fillGrid();
@@ -39,29 +40,10 @@ public class squareGrid extends Grid {
 	public squareGrid(int rows, int cols, int length) {
 		this(rows, cols, length, length);
 	}
-
-	/**
-	 * Fills the grid with the rectangles
-	 */
-	@Override
-	public void fillGrid() {
-		for (int i = 0; i < rows(); i++) {
-			List<Unit> row = new ArrayList<>();
-			for (int j = 0; j < cols(); j++) {
-				Unit u = new Unit();
-				u.getPoints().addAll(new Double[]{
-						0.0, 0.0,
-			            rectHeight, 0.0,
-			            rectHeight, rectWidth,
-			            0.0, rectWidth});
-				u.setLayoutX(j * rectWidth);
-				u.setLayoutY(i * rectHeight);
-				row.add((Unit) u);
-			}
-			grid.add(row);
-		}
-	}
 	
+	/**
+	 * 
+	 */
 	public void setPoly(Unit u, int row, int col){
 		u.getPoints().addAll(new Double[]{
 				0.0, 0.0,

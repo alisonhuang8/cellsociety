@@ -17,7 +17,8 @@ import java.util.HashMap;
 public abstract class Grid{
 	protected int[] rowMove, colMove;
 	protected List<List<Unit>> grid;
-	protected List<Integer> neighborsAvailable; 
+	protected List<Integer> neighborsAvailable;
+	protected int maxNeighbors;
 	private int rows, cols;
 	protected boolean toroidal;
 	
@@ -132,16 +133,13 @@ public abstract class Grid{
 	
 	/**
 	 * Allows the user to set new
-	 * neighbor arguments
-	 * throws an illegal argument exception if
-	 * the arrays aren't the same length
+	 * neighbor specs
 	 */
-	public void setNeighbors(int[] rowMoves, int[] colMoves){
-		if(rowMoves.length != colMoves.length){
+	public void setNeighbors(List<Integer> list){
+		if(list.size() > maxNeighbors){
 			throw new IllegalArgumentException();
 		}
-		this.rowMove = rowMoves;
-		this.colMove = colMoves;
+		neighborsAvailable = list;
 	}
 	
 	/**
@@ -151,6 +149,9 @@ public abstract class Grid{
 		toroidal = true;
 	}
 	
+	/**
+	 * resets toroidal to false
+	 */
 	public void undoToroidal(){
 		toroidal = false;
 	}
