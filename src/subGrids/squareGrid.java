@@ -6,6 +6,7 @@
 package subGrids;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import cellsociety_team06.Grid;
 
 public class squareGrid extends Grid {
 	private double rectWidth, rectHeight;
+	private static final Integer[] DEFAULT_NEIGHBORS = {0,1,2,3,4,5,6,7};
 	
 	/**
 	 * makes a grid of given rows, cols
@@ -23,8 +25,10 @@ public class squareGrid extends Grid {
 	 */
 	public squareGrid(int rows, int cols, int heightSquare, int widthSquare) {
 		super(rows, cols);
-		rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
-		colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
+		rowMove = new int[] {-1, -1, 0, 1, 1, 1, 0, -1};
+		colMove = new int[] {0, 1, 1, 1, 0, -1, -1, -1};
+		neighborsAvailable = new ArrayList<Integer>(Arrays.asList(DEFAULT_NEIGHBORS));
+		maxNeighbors = 8;
 		rectWidth = widthSquare;
 		rectHeight = heightSquare;
 		fillGrid();
@@ -36,27 +40,18 @@ public class squareGrid extends Grid {
 	public squareGrid(int rows, int cols, int length) {
 		this(rows, cols, length, length);
 	}
-
+	
 	/**
-	 * Fills the grid with the rectangles
+	 * 
 	 */
-	@Override
-	public void fillGrid() {
-		for (int i = 0; i < rows(); i++) {
-			List<Unit> row = new ArrayList<>();
-			for (int j = 0; j < cols(); j++) {
-				Unit u = new Unit();
-				u.getPoints().addAll(new Double[]{
-						0.0, 0.0,
-			            rectHeight, 0.0,
-			            rectHeight, rectWidth,
-			            0.0, rectWidth});
-				u.setLayoutX(j * rectWidth);
-				u.setLayoutY(i * rectHeight);
-				row.add((Unit) u);
-			}
-			grid.add(row);
-		}
+	public void setPoly(Unit u, int row, int col){
+		u.getPoints().addAll(new Double[]{
+				0.0, 0.0,
+	            rectHeight, 0.0,
+	            rectHeight, rectWidth,
+	            0.0, rectWidth});
+		u.setLayoutX(col * rectWidth);
+		u.setLayoutY(row * rectHeight);
 	}
 	
 	/**
@@ -67,49 +62,4 @@ public class squareGrid extends Grid {
 		else return getToroidalNeighbors(row, col);
 	}
 	
-	/**
-	 * @param row
-	 * @param col
-	 * @return A map of the all local neighbor units to a block given the row and col
-	 * <K, V> corresponds to <location, Unit>
-	 */
-	public Map<Integer[], Unit> getFiniteNeighbors(int row, int col) {
-		Map<Integer[], Unit> map = new HashMap<>();
-		Unit u;
-		Integer[] place;
-		for(int i = 0; i < rowMove.length; i++){
-			int newRow = row + rowMove[i];
-			int newCol = col + colMove[i];
-			if(newRow >= 0 && newRow < rows() && newCol >= 0 && newCol < cols()){
-				place = new Integer[] {newRow, newCol};
-				u = grid.get(newRow).get(newCol);
-				map.put(place, u);
-			}
-		}
-		return map;
-	}
-	
-	/**
-	 * returns a map of the neighbors with the
-	 * key being the integer [row,col] and
-	 * the value being the shape
-	 * has a special case
-	 */
-	public Map<Integer[], Unit> getToroidalNeighbors(int row, int col) {
-		Map<Integer[], Unit> map = new HashMap<>();
-		Unit u;
-		Integer[] place;
-		for(int i = 0; i < rowMove.length; i++){
-			int newRow = row + rowMove[i];
-			int newCol = col + colMove[i];
-			if(newRow < 0) newRow = rows() + newRow;
-			if(newCol < 0) newCol = rows() + newCol;
-			if(newRow >= rows()) newRow = newRow - rows();
-			if(newCol >= cols()) newCol = newCol - cols();
-				place = new Integer[] {newRow, newCol};
-				u = grid.get(newRow).get(newCol);
-				map.put(place, u);
-		}
-		return map;
-	}
 }

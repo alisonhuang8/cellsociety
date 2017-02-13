@@ -5,15 +5,20 @@
 package subGrids;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import Unit.Unit;
 import cellsociety_team06.Grid;
 
 public class triangularGrid extends Grid {
 	private double length;
+	private static final int[] UP_TRI_ROW = {-1, -1, 0, 0, 1, 1, 1, 1, 1, 0, 0, -1};
+	private static final int[] UP_TRI_COL = {0, 1, 1, 2, 2, 1, 0, -1, -2, -2, -1, -1};
+	private static final int[] DOWN_TRI_ROW = {1, 1, 0, 0, -1, -1, -1, -1, -1, 0, 0, 1};
+	private static final int[] DOWN_TRI_COL = {0, -1, -1, -2, -2, -1, 0, 1, 2, 2, 1, 1};
+	private static final Integer[] DEFAULT_NEIGHBORS = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 	
 	/**
 	 * @param rows rows of the grid
@@ -23,33 +28,17 @@ public class triangularGrid extends Grid {
 	 */
 	public triangularGrid(int rows, int cols, int length) {
 		super(rows, cols);
-		rowMove = new int[] {-1, 0, 0, 1};
-		colMove = new int[] {0, 1, -1, 0};
 		this.length = length;
+		neighborsAvailable = new ArrayList<>(Arrays.asList(DEFAULT_NEIGHBORS));
+		maxNeighbors = 12;
 		fillGrid();
-	}
-
-	/**
-	 * fills the grid with the triangles
-	 */
-	@Override
-	public void fillGrid() {
-		for (int i = 0; i < rows(); i++) {
-			List<Unit> row = new ArrayList<>();
-			for (int j = 0; j < cols(); j++) {
-				Unit u = new Unit();
-				setPoly(u, i, j);
-				row.add((Unit) u);
-			}
-			grid.add(row);
-		}
 	}
 	
 	/**
 	 * determines whether a triangle needs to be pointing up or down
 	 * and sets the points
 	 */
-	private void setPoly(Unit u, int row, int col){
+	public void setPoly(Unit u, int row, int col){
 		int orientation = 1;
 		if((row + col) % 2 != 0){
 			orientation = -1;
@@ -84,53 +73,15 @@ public class triangularGrid extends Grid {
 	 * checks which neighbor type it needs to look for
 	 */
 	public Map<Integer[], Unit> getNeighbors(int row, int col) {
+		if(row + col % 2 != 0){
+			rowMove = DOWN_TRI_ROW;
+			colMove = DOWN_TRI_COL;
+		}
+		else{
+			rowMove = UP_TRI_ROW;
+			colMove = UP_TRI_COL;
+		}
 		if(!toroidal) return getFiniteNeighbors(row, col);
 		else return getToroidalNeighbors(row, col);
-	}
-	
-	/**
-	 * @param row
-	 * @param col
-	 * @return A map of the all local neighbor units to a block given the row and col
-	 * <K, V> corresponds to <location, Unit>
-	 */
-	public Map<Integer[], Unit> getFiniteNeighbors(int row, int col) {
-		Map<Integer[], Unit> map = new HashMap<>();
-		Unit u;
-		Integer[] place;
-		for(int i = 0; i < rowMove.length; i++){
-			int newRow = row + rowMove[i];
-			int newCol = col + colMove[i];
-			if(newRow >= 0 && newRow < rows() && newCol >= 0 && newCol < cols()){
-				place = new Integer[] {newRow, newCol};
-				u = grid.get(newRow).get(newCol);
-				map.put(place, u);
-			}
-		}
-		return map;
-	}
-	
-	/**
-	 * returns a map of the neighbors with the
-	 * key being the integer [row,col] and
-	 * the value being the shape
-	 * has a special case
-	 */
-	public Map<Integer[], Unit> getToroidalNeighbors(int row, int col) {
-		Map<Integer[], Unit> map = new HashMap<>();
-		Unit u;
-		Integer[] place;
-		for(int i = 0; i < rowMove.length; i++){
-			int newRow = row + rowMove[i];
-			int newCol = col + colMove[i];
-			if(newRow < 0) newRow = rows() + newRow;
-			if(newCol < 0) newCol = rows() + newCol;
-			if(newRow >= rows()) newRow = newRow - rows();
-			if(newCol >= cols()) newCol = newCol - cols();
-				place = new Integer[] {newRow, newCol};
-				u = grid.get(newRow).get(newCol);
-				map.put(place, u);
-		}
-		return map;
 	}
 }

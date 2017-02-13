@@ -17,14 +17,15 @@ import java.util.HashMap;
 public abstract class Grid{
 	protected int[] rowMove, colMove;
 	protected List<List<Unit>> grid;
-	private int rows;
-	private int cols;
+	protected List<Integer> neighborsAvailable;
+	protected int maxNeighbors;
+	private int rows, cols;
 	protected boolean toroidal;
 	
 	/**
 	 * Makes a grid of Units
 	 * @param rows stores the numbers of rows for the grid 
-	 * @param cols cols stroes the number of columns for the grid
+	 * @param cols stores the number of columns for the grid
 	 */
 	public Grid(int rows, int cols){
 		grid = new ArrayList<>();
@@ -35,7 +36,19 @@ public abstract class Grid{
 	/**
 	 * Fills the grids with their respective shapes
 	 */
-	public abstract void fillGrid();
+	public void fillGrid(){
+		for (int i = 0; i < rows(); i++) {
+			List<Unit> row = new ArrayList<>();
+			for (int j = 0; j < cols(); j++) {
+				Unit u = new Unit();
+				setPoly(u, i, j);
+				row.add((Unit) u);
+			}
+			grid.add(row);
+		}
+	}
+	
+	public abstract void setPoly(Unit u, int row, int col);
 	
 	/**
 	 * @param row
@@ -120,16 +133,13 @@ public abstract class Grid{
 	
 	/**
 	 * Allows the user to set new
-	 * neighbor arguments
-	 * throws an illegal argument exception if
-	 * the arrays aren't the same length
+	 * neighbor specs
 	 */
-	public void setNeighbors(int[] rowMoves, int[] colMoves){
-		if(rowMoves.length != colMoves.length){
+	public void setNeighbors(List<Integer> list){
+		if(list.size() > maxNeighbors){
 			throw new IllegalArgumentException();
 		}
-		this.rowMove = rowMoves;
-		this.colMove = colMoves;
+		neighborsAvailable = list;
 	}
 	
 	/**
@@ -139,7 +149,56 @@ public abstract class Grid{
 		toroidal = true;
 	}
 	
+	/**
+	 * resets toroidal to false
+	 */
 	public void undoToroidal(){
 		toroidal = false;
+	}
+	
+	/**
+	 * @param row
+	 * @param col
+	 * @return A map of the all local neighbor units to a block given the row and col
+	 * <K, V> corresponds to <location, Unit>
+	 */
+	public Map<Integer[], Unit> getFiniteNeighbors(int row, int col) {
+		Map<Integer[], Unit> map = new HashMap<>();
+		Unit u;
+		Integer[] place;
+		for(int i:neighborsAvailable){
+			int newRow = row + rowMove[i];
+			int newCol = col + colMove[i];
+			if(newRow >= 0 && newRow < rows() && newCol >= 0 && newCol < cols()){
+				place = new Integer[] {newRow, newCol};
+				u = grid.get(newRow).get(newCol);
+				map.put(place, u);
+			}
+		}
+		return map;
+	}
+	
+	/**
+	 * returns a map of the neighbors with the
+	 * key being the integer [row,col] and
+	 * the value being the shape
+	 * has a special case
+	 */
+	public Map<Integer[], Unit> getToroidalNeighbors(int row, int col) {
+		Map<Integer[], Unit> map = new HashMap<>();
+		Unit u;
+		Integer[] place;
+		for(int i:neighborsAvailable){
+			int newRow = row + rowMove[i];
+			int newCol = col + colMove[i];
+			if(newRow < 0) newRow = rows() + newRow;
+			if(newCol < 0) newCol = rows() + newCol;
+			if(newRow >= rows()) newRow = newRow - rows();
+			if(newCol >= cols()) newCol = newCol - cols();
+				place = new Integer[] {newRow, newCol};
+				u = grid.get(newRow).get(newCol);
+				map.put(place, u);
+		}
+		return map;
 	}
 }

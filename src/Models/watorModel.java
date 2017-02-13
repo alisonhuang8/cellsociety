@@ -81,8 +81,8 @@ public class watorModel extends Model {
 				Integer[] place = new Integer[] {i,j};
 				if(!curGrid.getUnit(i, j).isPredator()) continue;
 				else{
-					List<Integer[]> prey = getPreyNeighbors(i, j);
-					List<Integer[]> blank = getBlankNeighbors(i, j);
+					List<Integer[]> prey = getNeighbors(i, j, new Prey(), takenPrey);
+					List<Integer[]> blank = getNeighbors(i, j, new Blank(), takenBlank);
 					if(prey.size() > 0){
 						Integer[] preyLoc = prey.get(rand.nextInt(prey.size()));
 						takenPrey.add(Arrays.asList(preyLoc));
@@ -107,7 +107,7 @@ public class watorModel extends Model {
 			for(int j = 0; j < curGrid.cols(); j++){
 				Integer[] place = new Integer[] {i,j};
 				if(curGrid.getUnit(i, j).isPrey()){
-					List<Integer[]> blank = getBlankNeighbors(i, j);
+					List<Integer[]> blank = getNeighbors(i, j, new Blank(), takenBlank);
 					if(blank.size() > 0){
 						Integer[] blankLoc = blank.get(rand.nextInt(blank.size()));
 						takenBlank.add(Arrays.asList(blankLoc));
@@ -126,24 +126,7 @@ public class watorModel extends Model {
 	 */
 	private void eatPrey(Map<Integer[], Integer[]> map){
 		for(Integer[] place: map.keySet()){
-			eatPrey(place[0], place[1], map.get(place)[0], map.get(place)[1]);
-		}
-	}
-	
-	/**
-	 * handles all of the changes for eating prey
-	 * making a new predator if applicable
-	 */
-	private void eatPrey(Integer a, Integer b, Integer c, Integer d){
-		Predator p = (Predator) curGrid.getUnit(a, b);
-		if(curGrid.getUnit(c, d).isPredator()) return;
-		curGrid.setUnit(a, b, new Blank(curGrid.getUnit(a, b)));
-		curGrid.setUnit(c, d, new Predator(p.getEnergy() + p.ePerEat() - 1,
-				p.getWalked() + 1, curGrid.getUnit(c, d)));
-		if(p.canBirth()){
-			curGrid.setUnit(a, b, new Predator(STARTING_ENERGY, 0, curGrid.getUnit(a, b)));
-			Predator newPred = (Predator) curGrid.getUnit(c, d);
-			newPred.resetWalked();
+			movePred(place[0], place[1], map.get(place)[0], map.get(place)[1], true);
 		}
 	}
 	
@@ -152,7 +135,7 @@ public class watorModel extends Model {
 	 */
 	private void movePred(Map<Integer[], Integer[]> map){
 		for(Integer[] place: map.keySet()){
-			movePred(place[0], place[1], map.get(place)[0], map.get(place)[1]);
+			movePred(place[0], place[1], map.get(place)[0], map.get(place)[1], false);
 		}
 	}
 	
@@ -193,12 +176,18 @@ public class watorModel extends Model {
 	 * moves the predators giving birth
 	 * or dying if applicable
 	 */
-	private void movePred(Integer a, Integer b, Integer c, Integer d){
+	private void movePred(Integer a, Integer b, Integer c, Integer d, boolean isEating){
 		Predator p = (Predator) curGrid.getUnit(a,b);
 		if(curGrid.getUnit(c, d).isPredator()) return;
 		curGrid.setUnit(a, b, new Blank(curGrid.getUnit(a, b)));
+		if(!isEating){
 		curGrid.setUnit(c, d, new Predator(p.getEnergy() - 1,
 				p.getWalked() + 1, curGrid.getUnit(c, d)));
+		}
+		else{
+			curGrid.setUnit(c, d, new Predator(p.getEnergy() + p.ePerEat() - 1,
+					p.getWalked() + 1, curGrid.getUnit(c, d)));
+		}
 		if(p.canBirth()){
 			curGrid.setUnit(a, b, new Predator(STARTING_ENERGY, 0, curGrid.getUnit(a, b)));
 			Predator newPred = (Predator) curGrid.getUnit(c, d);
@@ -224,30 +213,15 @@ public class watorModel extends Model {
 	}
 	
 	/**
-	 * @returns the blank neighbors that haven't already
+	 * @returns the neighbors that haven't already
 	 * been mapped to be moved on
 	 */
-	private List<Integer[]> getBlankNeighbors(int i, int j){
-		List<Integer[]> blanks = hasNeighbors(i, j, new Blank());
+	private List<Integer[]> getNeighbors(int i, int j, Unit u, List<List<Integer>> list){
+		List<Integer[]> similar = hasNeighbors(i, j, u);
 		List<Integer[]> toReturn = new ArrayList<>();
-		for(Integer[] blank:blanks){
-			if(!takenBlank.contains(Arrays.asList(blank))){
-				toReturn.add(blank);
-			}
-		}
-		return toReturn;
-	}
-	
-	/**
-	 * @returns the prey neighbors that haven't already
-	 * been mapped to be moved on
-	 */
-	private List<Integer[]> getPreyNeighbors(int i, int j){
-		List<Integer[]> preys = hasNeighbors(i, j, new Prey());
-		List<Integer[]> toReturn = new ArrayList<>();
-		for(Integer[] prey:preys){
-			if(!takenPrey.contains(Arrays.asList(prey))){
-				toReturn.add(prey);
+		for(Integer[] sim:similar){
+			if(!list.contains(Arrays.asList(sim))){
+				toReturn.add(sim);
 			}
 		}
 		return toReturn;

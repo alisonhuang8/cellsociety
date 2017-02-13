@@ -1,6 +1,7 @@
 package cellsociety_team06;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cellsociety_team06.Model;
@@ -159,23 +160,14 @@ public class GridGenerator {
 			if (neighborConfig == 1){
 				rowMove = new int[] {-1, 0, 0, 1, 1, -1, 1, -1};
 				colMove = new int[] {0, 1, -1, 0, 1, -1, -1, 1};
-				currGrid.setNeighbors(rowMove, colMove);
 			} else if (neighborConfig == 2){
-				rowMove = new int[] {-1, 0, 0, 1};
-				colMove = new int[] {0, 1, -1, 0};
-				currGrid.setNeighbors(rowMove, colMove);
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{0,2,4, 6})));
 			} else if (neighborConfig == 3){
-				rowMove = new int[] {1, -1, 1, -1};
-				colMove = new int[] {1, -1, -1, 1};
-				currGrid.setNeighbors(rowMove, colMove);
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{1, 3, 5, 7})));
 			} else if (neighborConfig == 4){
-				rowMove = new int[] {0, 0};
-				colMove = new int[] {1, -1};
-				currGrid.setNeighbors(rowMove, colMove);
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{2, 6})));
 			} else {
-				rowMove = new int[] {-1, 1};
-				colMove = new int[] {0, 0};
-				currGrid.setNeighbors(rowMove, colMove);
+				currGrid.setNeighbors(new ArrayList<Integer>(Arrays.asList(new Integer[]{0, 4})));
 			}
 		}
 

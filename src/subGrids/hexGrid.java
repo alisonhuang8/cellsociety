@@ -6,15 +6,17 @@
 package subGrids;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import Unit.Unit;
 import cellsociety_team06.Grid;
 
 public class hexGrid extends Grid {
-	private int[] evenRowColMove, oddRowColMove;
+	private static final int[] EVEN_ROW_COL_MOVE = {0, 0, 0, 0, -1, -1};
+	private static final int[] ODD_ROW_COL_MOVE = {0, 1, 1, 0, 0, 0};
+	private static final Integer[] DEFAULT_NEIGHBORS = {0, 1, 2, 3, 4, 5};
 	private double length;
 	
 	/**
@@ -25,34 +27,18 @@ public class hexGrid extends Grid {
 	 */
 	public hexGrid(int rows, int cols, int length) {
 		super(rows, cols);
-		rowMove = new int[] 	   {-2, -1, 1, 2, 1, -1};
-		evenRowColMove = new int[] {0,   0, 0, 0, 1,  1};
-		oddRowColMove = new int[] {0,   0, 0, 0, -1, -1};
+		rowMove = new int[] {-2, -1, 1, 2, 1, -1};
+		neighborsAvailable = new ArrayList<>(Arrays.asList(DEFAULT_NEIGHBORS));
+		maxNeighbors = 6;
 		this.length = length;
 		fillGrid();
-	}
-
-	/**
-	 * fills the grid of the hexagons
-	 */
-	@Override
-	public void fillGrid() {
-		for (int i = 0; i < rows(); i++) {
-			List<Unit> row = new ArrayList<>();
-			for (int j = 0; j < cols(); j++) {
-				Unit u = new Unit();
-				setPoly(u, i, j);
-				row.add((Unit) u);
-			}
-			grid.add(row);
-		}
 	}
 	
 	/**
 	 * sets the x,y of all the hexagons
 	 * also sets the points
 	 */
-	private void setPoly(Unit u, int row, int col){
+	public void setPoly(Unit u, int row, int col){
 		if(row % 2 == 0) setEvenRow(u, row, col);
 		else setOddRow(u, row, col);
 		u.getPoints().addAll(new Double[]{
@@ -81,71 +67,11 @@ public class hexGrid extends Grid {
 	}
 	
 	/**
-	 * returns a map of the neighbors with the
-	 * key being the integer [row,col] and
-	 * the value being the shape
-	 * has a special case
-	 */
-	public Map<Integer[], Unit> getFiniteNeighbors(int row, int col) {
-		Map<Integer[], Unit> map = new HashMap<>();
-		int[] colMove = oddRowColMove;
-		if(row % 2 != 0) colMove = evenRowColMove;
-		Unit u;
-		Integer[] place;
-		for(int i = 0; i < rowMove.length; i++){
-			int newRow = row + rowMove[i];
-			int newCol = col + colMove[i];
-			if(newRow >= 0 && newRow < rows() && newCol >= 0 && newCol < cols()){
-				place = new Integer[] {newRow, newCol};
-				u = grid.get(newRow).get(newCol);
-				map.put(place, u);
-			}
-		}
-		return map;
-	}
-	
-	/**
-	 * Changes the relative neighbors for the hexagons because
-	 * neighbors are handled differently
-	 */
-	public void setHexNeighbors(int[] oddRowMoves, int[] evenRowMoves){
-		if(oddRowMoves.length != evenRowMoves.length){
-			throw new IllegalArgumentException();
-		}
-		this.oddRowColMove = oddRowMoves;
-		this.evenRowColMove = evenRowMoves;
-	}
-	
-	/**
-	 * returns a map of the neighbors with the
-	 * key being the integer [row,col] and
-	 * the value being the shape
-	 * has a special case
-	 */
-	public Map<Integer[], Unit> getToroidalNeighbors(int row, int col) {
-		Map<Integer[], Unit> map = new HashMap<>();
-		int[] colMove = oddRowColMove;
-		if(row % 2 != 0) colMove = evenRowColMove;
-		Unit u;
-		Integer[] place;
-		for(int i = 0; i < rowMove.length; i++){
-			int newRow = row + rowMove[i];
-			int newCol = col + colMove[i];
-			if(newRow < 0) newRow = rows() + newRow;
-			if(newCol < 0) newCol = rows() + newCol;
-			if(newRow >= rows()) newRow = newRow - rows();
-			if(newCol >= cols()) newCol = newCol - cols();
-				place = new Integer[] {newRow, newCol};
-				u = grid.get(newRow).get(newCol);
-				map.put(place, u);
-		}
-		return map;
-	}
-	
-	/**
 	 * checks which neighbor type it needs to use
 	 */
 	public Map<Integer[], Unit> getNeighbors(int row, int col) {
+		if(row % 2 == 0) colMove = EVEN_ROW_COL_MOVE;
+		else colMove = ODD_ROW_COL_MOVE;
 		if(!toroidal) return getFiniteNeighbors(row, col);
 		else return getToroidalNeighbors(row, col);
 	}
